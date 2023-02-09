@@ -10,7 +10,7 @@ export default function LoginInput({ placeholder, bottom, ...props }) {
     <div className="relative w-[320px] flex flex-col items-center">
       {meta.touched && meta.error && !bottom && (
         <div
-          className="relative text-white py-[15px] px-[10px] w-full bg-[#b94a48] text-[13px] rounded-[5px] mb-[15px]"
+          className="relative text-s py-[15px] px-[10px] w-full bg-red-100 border-[1px] border-red-600 text-[13px] rounded-[5px] mb-[15px]"
           style={{ transform: "translateY(3px)" }}
         >
           {meta.touched && meta.error && <ErrorMessage name={field.name} />}
@@ -32,7 +32,7 @@ export default function LoginInput({ placeholder, bottom, ...props }) {
 
       {meta.touched && meta.error && bottom && (
         <div
-          className="relative text-white py-[15px] px-[10px] w-full bg-[#b94a48] text-[13px] rounded-[5px] mb-[15px]"
+          className="relative text-s  py-[15px] px-[10px] w-full bg-red-100 border-[1px] border-red-600 text-[13px] rounded-[5px] mb-[15px]"
           style={{ transform: "translateY(2px)" }}
         >
           {meta.touched && meta.error && <ErrorMessage name={field.name} />}

@@ -10,7 +10,7 @@ const loginInfos = {
   password: "",
 };
 
-const Login = () => {
+const LoginForm = () => {
   const [login, setLogin] = useState(loginInfos);
   const { email, password } = login;
   // console.log(login);
@@ -30,7 +30,7 @@ const Login = () => {
 
   return (
     <div className="bg-[#f0f2f5] w-full">
-      <div className="h-[70vh] lg:flex lg:items-center lg:max-w-[1000px] lg:my-0 lg:mx-auto ">
+      <div className="h-[70vh] lg:flex lg:items-center lg:pr-2 lg:max-w-[1000px] lg:my-0 lg:mx-auto ">
         <div className="w-[300px] my-0 mx-auto lg:flex lg:flex-col lg:w-1/2 lg:mb-[15vh] ">
           <img
             className="lg:w-[300px] lg:ml-[-1.7rem]"
@@ -87,7 +87,7 @@ const Login = () => {
             />
           </div>
           <Link to="/" className="text-[15px]">
-            <b>Create a Page </b>
+            <b className="no-underline hover:underline">Create a Page </b>
             for a celebrity, brand or business.
           </Link>
         </div>
@@ -97,4 +97,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default LoginForm;

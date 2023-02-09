@@ -5,9 +5,13 @@ module.exports = {
     extend: {
       screens: {
         lg: "850px",
-        // => @media (min-width: 992px) { ... }
       },
     },
   },
-  plugins: [],
+  plugins: [
+    function ({ addVariant }) {
+      addVariant("child", "& > *");
+      addVariant("child-hover", "& > *:hover");
+    },
+  ],
 };
