@@ -30,15 +30,19 @@ const Login = () => {
 
   return (
     <div className="bg-[#f0f2f5] w-full">
-      <div className="h-[70vh] ">
-        <div className="w-[300px] my-0 mx-auto">
-          <img src="../../icons/facebook.svg" alt="" />
-          <span className="text-[20px]">
+      <div className="h-[70vh] lg:flex lg:items-center lg:max-w-[1000px] lg:my-0 lg:mx-auto ">
+        <div className="w-[300px] my-0 mx-auto lg:flex lg:flex-col lg:w-1/2 lg:mb-[15vh] ">
+          <img
+            className="lg:w-[300px] lg:ml-[-1.7rem]"
+            src="../../icons/facebook.svg"
+            alt=""
+          />
+          <span className="text-[20px] lg:text-[28px]">
             Facebook helps you connect and share with the people in your life.
           </span>
         </div>
         <div className="text-center">
-          <div className="flex flex-col items-center gap-[1rem] shadow-sm shadow-black/20 select-none bg-white p-[1rem] pb-[2rem] w-[350px] h-fit my-[1rem] mx-auto rounded-[10px]">
+          <div className="flex flex-col lg:w-[400px] items-center gap-[1rem] shadow-sm shadow-black/20 select-none bg-white p-[1rem] pb-[2rem] w-[350px] h-fit my-[1rem] mx-auto rounded-[10px]">
             <Formik
               enableReinitialize
               initialValues={{
