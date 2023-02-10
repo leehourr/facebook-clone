@@ -30,7 +30,7 @@ export default function RegisterInput({ placeholder, bottom, ...props }) {
       <input
         className={`${
           meta.touched && meta.error && " border-[1px] border-red-600"
-        } outline-none border-[1px] border-[#e4e6eb] w-full h-[50px] text-[17px] rounded-[10px] pl-[5px] mb-[px]`}
+        } outline-none border-[1px] border-[#e4e6eb] bg-white/20 w-full h-[50px] text-[17px] rounded-[10px] pl-[10px] mb-[10px]`}
         type={field.type}
         name={field.name}
         placeholder={placeholder}

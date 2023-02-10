@@ -10,23 +10,41 @@ const userInfos = {
   last_name: "",
   email: "",
   password: "",
-  bYear: "",
-  bMonth: "",
-  bDay: "",
+  bYear: new Date().getFullYear(),
+  bMonth: new Date().getMonth() + 1,
+  bDay: new Date().getDate(),
   gender: "",
 };
 
 export default function RegisterForm() {
   const [user, setUser] = useState(userInfos);
+  const {
+    first_name,
+    last_name,
+    email,
+    password,
+    bYear,
+    bMonth,
+    bDay,
+    gender,
+  } = user;
+  const yearTemp = new Date().getFullYear();
   const handleRegisterChange = (e) => {
     const { name, value } = e.target;
     setUser({ ...user, [name]: value });
   };
+  const years = Array.from(new Array(108), (val, index) => yearTemp - index);
+  const months = Array.from(new Array(12), (val, index) => 1 + index);
+  const getDays = () => {
+    return new Date(bYear, bMonth, 0).getDate();
+  };
+  const days = Array.from(new Array(getDays()), (val, index) => 1 + index);
+  console.log(user);
   return (
     <>
       {ReactDOM.createPortal(<Backdrop />, document.getElementById("backdrop"))}
       {ReactDOM.createPortal(
-        <div className="absolute z-30 w-[350px] h-fit top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white shadow-sm shadow-black/20 rounded-[10px] p-[15px] pb-[1rem]">
+        <div className="absolute z-30 w-[350px] lg:w-[432px] h-fit top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white shadow-sm shadow-black/20 rounded-[10px] p-[15px] pb-[1rem]">
           <div className="relative flex flex-col gap-[10px] pb-[10px] border-b-[1px] border-b-[#e4e6eb]">
             <i className="exit_icon absolute right-0  cursor-pointer"></i>
             <span className="font-[700] text-[32px]">Sign Up</span>
@@ -37,7 +55,7 @@ export default function RegisterForm() {
           <Formik>
             {(formik) => (
               <Form className="w-full flex flex-col items-center">
-                <div className="py-[7px] px-0 flex flex-col gap-[10px]">
+                <div className="py-[7px] px-0 lg:px-2 flex flex-col  gap-[10px]">
                   <RegisterInput
                     type="text"
                     placeholder="First name"
@@ -72,14 +90,38 @@ export default function RegisterForm() {
                     Date of birth <i className="info_icon mt-[3px]"></i>
                   </div>
                   <div className="w-full h-[35px] mt-[5px] grid gap-[10px] grid-cols-3 child:w-[90px] child:text-[16px] child:rounded-[5px] child:bg-white">
-                    <select name="bDay">
-                      <option>15</option>
+                    <select
+                      name="bDay"
+                      value={bDay}
+                      onChange={handleRegisterChange}
+                    >
+                      {days.map((day, i) => (
+                        <option key={i} value={day}>
+                          {day}
+                        </option>
+                      ))}
                     </select>
-                    <select name="bMonth">
-                      <option>15</option>
+                    <select
+                      name="bMonth"
+                      value={bMonth}
+                      onChange={handleRegisterChange}
+                    >
+                      {months.map((month, i) => (
+                        <option value={month} key={i}>
+                          {month}
+                        </option>
+                      ))}
                     </select>
-                    <select name="bYear">
-                      <option>15</option>
+                    <select
+                      name="bYear"
+                      value={bYear}
+                      onChange={handleRegisterChange}
+                    >
+                      {years.map((year, i) => (
+                        <option value={year} key={i}>
+                          {year}
+                        </option>
+                      ))}
                     </select>
                   </div>
                 </div>
