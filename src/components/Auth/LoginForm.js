@@ -5,16 +5,17 @@ import * as yup from "yup";
 import LoginInput from "../Ui/LoginInput";
 import Button from "../Ui/Button";
 
-const loginInfos = {
+const initialInput = {
   email: "",
   password: "",
 };
 
 const LoginForm = () => {
-  const [login, setLogin] = useState(loginInfos);
+  const [login, setLogin] = useState(initialInput);
   const { email, password } = login;
   // console.log(login);
-  const handleLoginChange = (e) => {
+  
+  const inputHandler = (e) => {
     const { name, value } = e.target;
     setLogin({ ...login, [name]: value });
   };
@@ -57,13 +58,13 @@ const LoginForm = () => {
                     type="text"
                     name="email"
                     placeholder="Email address or phone number"
-                    onChange={handleLoginChange}
+                    onChange={inputHandler}
                   />
                   <LoginInput
                     type="password"
                     name="password"
                     placeholder="Password"
-                    onChange={handleLoginChange}
+                    onChange={inputHandler}
                     bottom
                   />
                   <Button

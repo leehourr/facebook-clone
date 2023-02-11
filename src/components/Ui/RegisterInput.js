@@ -3,67 +3,59 @@ import { useMediaQuery } from "react-responsive";
 
 export default function RegisterInput({ placeholder, bottom, ...props }) {
   const [field, meta] = useField(props);
-  const desktopView = useMediaQuery({
+
+  const view1 = useMediaQuery({
+    query: "(min-width: 539px)",
+  });
+  const view2 = useMediaQuery({
     query: "(min-width: 850px)",
   });
-  console.log(desktopView);
+  const view3 = useMediaQuery({
+    query: "(min-width: 1170px)",
+  });
+  // console.log(desktopView);
+
+  const test1 = view3 && field.name === "first_name";
+  const test2 = view3 && field.name === "last_name";
   return (
-    <div className="relative w-[320px] flex flex-col items-center">
-      {meta.touched && meta.error && !bottom && (
-        <div
-          className={`
-            ${
-              desktopView
-                ? "absolute w-[300px] -left-[19.5rem] -top-[3px]"
-                : "relative py-[15px] px-[10px] bg-[#b94a48] w-full text-white text-[13px] rounded-[5px] mb-[15px]"
-            }`}
-          style={{ transform: "translateY(3px)" }}
-        >
-          {meta.touched && meta.error && <ErrorMessage name={field.name} />}
-          {meta.touched && meta.error && (
-            <div
-              className={desktopView ? "error_arrow_left" : "error_arrow_top"}
-            ></div>
-          )}
-        </div>
-      )}
+    <div className="relative w-full flex flex-col items-center">
       <input
         className={`${
           meta.touched && meta.error && " border-[1px] border-red-600"
-        } outline-none border-[1px] border-[#e4e6eb] bg-white/20 w-full h-[50px] text-[17px] rounded-[10px] pl-[10px] mb-[10px]`}
+        } outline-none border-[1px] pl-[10px] bg-[#F5F6F7]  border-[#CCD0D5] bg-white/20 w-full h-[50px] text-[17px] rounded-[10px] mb-[10px]`}
         type={field.type}
         name={field.name}
         placeholder={placeholder}
         {...field}
         {...props}
       />
-      {meta.touched && meta.error && bottom && (
+      {meta.touched && meta.error && (
         <div
           className={`
           ${
-            desktopView
+            view3
               ? "absolute w-[300px] -left-[19.5rem] -top-[3px]"
-              : "relative py-[15px] px-[10px] bg-[#b94a48] w-full text-white text-[13px] rounded-[5px] mb-[15px]"
-          }`}
-          style={{ transform: "translateY(2px)" }}
+              : "relative  py-[15px] px-[10px] bg-[#b94a48] w-full text-white text-[13px] rounded-[5px] mb-[15px]"
+          } ${
+            test1 ? "left-[-107%]" : test2 ? "left-[107%]" : ""
+          } translate-y-[2px] `}
         >
           {meta.touched && meta.error && <ErrorMessage name={field.name} />}
           {meta.touched && meta.error && (
             <div
               className={
-                desktopView ? "error_arrow_left" : "error_arrow_bottom"
+                view3 && field.name !== "last_name"
+                  ? "error_arrow_left"
+                  : view3 && field.name === "last_name"
+                  ? "error_arrow_right"
+                  : !view3 && "error_arrow_bottom"
               }
             ></div>
           )}
         </div>
       )}
 
-      {meta.touched && meta.error && (
-        <i
-          className="error_icon"
-          style={{ top: `${!bottom && !desktopView ? "63%" : "15px"}` }}
-        ></i>
-      )}
+      {meta.touched && meta.error && <i className="error_icon"></i>}
     </div>
   );
 }
