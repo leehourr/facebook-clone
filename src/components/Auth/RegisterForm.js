@@ -59,7 +59,7 @@ export default function RegisterForm() {
           <Formik>
             {(formik) => (
               <Form className="w-full flex flex-col">
-                <div className="pt-[15px] pb-0  lg:px-2 flex justify-between gap-[13px] child:w-full">
+                <div className="pt-[15px] pb-0  flex justify-around gap-[13px] child:w-full">
                   <RegisterInput
                     type="text"
                     placeholder="First name"
