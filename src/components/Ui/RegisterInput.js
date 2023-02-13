@@ -10,7 +10,7 @@ export default function RegisterInput({ placeholder, ...props }) {
     query: "(min-width: 1170px)",
   });
   // console.log(desktopView);
-  console.log("isFocus", isFocus);
+  // console.log("isFocus", isFocus);
   const checkInputFocus = () => {
     if (meta.touched) {
       setIsFocus((prev) => {
@@ -35,6 +35,7 @@ export default function RegisterInput({ placeholder, ...props }) {
         } outline-none border-[1px] pl-[10px] bg-[#F5F6F7] border-[#CCD0D5] w-full h-[50px] text-[17px] rounded-[10px] mb-[10px]`}
         type={field.type}
         name={field.name}
+        required
         placeholder={placeholder}
         {...field}
         {...props}
