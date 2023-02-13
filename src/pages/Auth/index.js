@@ -5,11 +5,10 @@ import Footer from "../../components/Ui/Footer";
 
 const Auth = () => {
   return (
-    <>
+    <div className="h-full">
       <LoginForm />
-      <RegisterForm />
-      <Footer />
-    </>
+      {/* <RegisterForm /> */}
+    </div>
   );
 };
 
