@@ -68,7 +68,7 @@ export default function RegisterInput({ placeholder, ...props }) {
                 desktopView && field.name !== "last_name"
                   ? "absolute top-[14px] right-[-10px] border-l-[10px] border-t-[10px] border-b-[10px] border-transparent border-l-[#b94a48]"
                   : desktopView && field.name === "last_name"
-                  ? "absolute top-[-10px] left-[10px] z-40 border-r-[10px] border-b-[10px] border-l-[10px] border-transparent border-b-[#b94a48]"
+                  ? "absolute top-[-10px] left-[10px]  border-r-[10px] border-b-[10px] border-l-[10px] border-transparent border-b-[#b94a48]"
                   : !desktopView && "absolute top-[-10px] left-[10px] z-40 border-r-[10px] border-b-[10px] border-l-[10px] border-transparent border-b-[#b94a48]"
               }
             ></div>

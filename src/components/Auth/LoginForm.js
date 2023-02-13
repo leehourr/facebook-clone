@@ -26,7 +26,7 @@ const LoginForm = ({ openForm }) => {
   });
 
   return (
-    <div className="bg-[#f0f2f5] w-full h-full">
+    <div className="bg-[#f0f2f5] z-0 w-full h-full">
       <div className="h-[720px] lg:flex lg:items-center lg:pr-2 lg:max-w-[1000px] lg:my-0 lg:mx-auto ">
         <div className="w-[300px] my-0 mx-auto lg:flex lg:flex-col lg:w-1/2 lg:mb-[15vh] ">
           <img
@@ -39,7 +39,7 @@ const LoginForm = ({ openForm }) => {
           </span>
         </div>
         <div className="text-center">
-          <div className="flex flex-col lg:w-[400px] items-center gap-[1rem] shadow-sm shadow-black/20 select-none bg-white p-[1rem] pb-[2rem] w-[350px] h-fit my-[1rem] mx-auto rounded-[10px]">
+          <div className="flex flex-col z-0 lg:w-[400px] items-center gap-[1rem] shadow-sm shadow-black/20 select-none bg-white p-[1rem] pb-[2rem] w-[350px] h-fit my-[1rem] mx-auto rounded-[10px]">
             <Formik
               onSubmit={inputHandler}
               enableReinitialize
