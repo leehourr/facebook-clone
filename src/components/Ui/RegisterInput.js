@@ -1,5 +1,5 @@
 import { useField, ErrorMessage } from "formik";
-import { useEffect, useRef, useState } from "react";
+import {useState } from "react";
 import { useMediaQuery } from "react-responsive";
 
 export default function RegisterInput({ placeholder, ...props }) {
