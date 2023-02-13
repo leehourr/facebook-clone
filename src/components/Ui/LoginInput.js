@@ -1,7 +1,7 @@
-import React, { forwardRef } from "react";
+import React from "react";
 import { ErrorMessage, useField } from "formik";
 
-const LoginInput = forwardRef(({ placeholder, bottom, ...props }, ref) => {
+const LoginInput = ({ placeholder, bottom, ...props }, ref) => {
   const [field, meta] = useField(props);
   // console.log(field.name);
   // console.log(meta.error);
@@ -22,7 +22,7 @@ const LoginInput = forwardRef(({ placeholder, bottom, ...props }, ref) => {
       )}
       <div className="w-full">
         <input
-          ref={ref}
+          //ref={ref}
           className={`${
             meta.touched && meta.error && " border-[1px] border-red-600"
           } outline-none z-0 border-[1px] border-[#e4e6eb] w-full h-[50px] text-[17px] rounded-[10px] pl-[10px] mb-[10px]`}
@@ -51,6 +51,6 @@ const LoginInput = forwardRef(({ placeholder, bottom, ...props }, ref) => {
       )}
     </div>
   );
-});
+};
 
 export default LoginInput;

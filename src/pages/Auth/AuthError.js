@@ -1,28 +1,36 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Formik, Form } from "formik";
-import { Link, useFetcher } from "react-router-dom";
+import { Link } from "react-router-dom";
 import * as yup from "yup";
-import LoginInput from "../Ui/LoginInput";
-import Button from "../Ui/Button";
-import Footer from "../Ui/Footer";
+import LoginInput from "../../components/Ui/LoginInput";
+import Button from "../../components/Ui/Button";
+import Footer from "../../components/Ui/Footer";
+import { login as loginUser } from "../../utils/api-call";
 
 const loginInfos = {
   email: "",
   password: "",
 };
 
-const LoginForm = ({ openForm }) => {
-  // const inputEmail = useRef();
-  // const inputPassword = useRef();
+const AuthError = () => {
+  // const err = useRouteError();
+  const navigate = useNavigate();
+  // console.log(err.data.message);
+  // const errMessage = err.data.message;
+  // const [errMessage, setErrMessage] = useState("");
   const [login, setLogin] = useState(loginInfos);
   const { email, password } = login;
-  //uconsole.log(login);
-  const fetch = useFetcher();
+
+  // useEffect
 
   const inputHandler = (e) => {
+    e.preventDefault();
     const { name, value } = e.target;
     setLogin({ ...login, [name]: value });
   };
+  // console.log("error", err);
+
   const loginValidation = yup.object({
     email: yup
       .string()
@@ -32,26 +40,32 @@ const LoginForm = ({ openForm }) => {
     password: yup.string().required("Password is required"),
   });
 
-  const submitHandler = () => {
-   // console.log(email, password);
-    fetch.submit({ email, password }, { method: "post", action: "/login" });
+  const submitHandler = async (e) => {
+    const data = { email, password };
+    const res = await loginUser(data);
+    console.log(res);
+    if (res.statCode === 200) {
+      return navigate("/");
+    }
   };
 
   return (
     <div className="bg-[#f0f2f5] z-0 w-full h-full">
-      <div className="h-[720px] lg:flex lg:items-center lg:pr-2 lg:max-w-[1000px] lg:my-0 lg:mx-auto ">
-        <div className="w-[300px] my-0 mx-auto lg:flex lg:flex-col lg:w-1/2 lg:mb-[15vh] ">
-          <img
-            className="lg:w-[300px] lg:ml-[-1.7rem]"
-            src="../../icons/facebook.svg"
-            alt=""
-          />
-          <span className="text-[20px] lg:text-[28px]">
-            Facebook helps you connect and share with the people in your life.
-          </span>
+      <div className="h-[582px] lg:max-w-[1000px] pt-10 lg:mx-auto ">
+        <div className="w-[300px] my-0 mx-auto  ">
+          <img className="" src="../../icons/facebook.svg" alt="" />
         </div>
         <div className="text-center">
-          <div className="flex flex-col z-0 lg:w-[400px] items-center gap-[1rem] shadow-sm shadow-black/20 select-none bg-white p-[1rem] pb-[2rem] w-[350px] h-fit my-[1rem] mx-auto rounded-[10px]">
+          <div className="flex  flex-col z-0 lg:w-[400px] items-center gap-[1rem] shadow-sm shadow-black/20 select-none bg-white p-[1rem] pb-[2rem] w-[350px] h-[369px] my-[1rem] mx-auto rounded-[10px]">
+            <p className="font-[600] text-lg text-black/80 font-sanserif">
+              Log Into Facebook
+            </p>
+            <p className=" text-s py-[10px] mx-10 w-[19.9rem] bg-red-100 border-[1px] border-red-600 text-[13px] rounded-[5px]">
+              <span className="w-full font-semibold text-[1rem] block">
+                Wrong Credentials
+              </span>
+              <span className="w-full block">Invalid username or password</span>
+            </p>
             <Formik
               onSubmit={submitHandler}
               enableReinitialize
@@ -90,17 +104,7 @@ const LoginForm = ({ openForm }) => {
             >
               Forgotten password ?
             </Link>
-            <div className="w-full h-[1px] bg-[#e4e6eb]"></div>
-            <Button
-              onClick={openForm}
-              className=" bg-[#42b72a] w-[192px] font-[600] h-[48px] text-[17px] mt-[1rem]"
-              btnName="Create new account"
-            />
           </div>
-          <Link to="/" className="text-[15px]">
-            <b className="no-underline hover:underline">Create a Page </b>
-            for a celebrity, brand or business.
-          </Link>
         </div>
       </div>
       <footer className="h-[231px] w-full p-[1.5rem] bg-white">
@@ -110,4 +114,4 @@ const LoginForm = ({ openForm }) => {
   );
 };
 
-export default LoginForm;
+export default AuthError;
