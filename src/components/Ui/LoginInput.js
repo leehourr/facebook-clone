@@ -43,7 +43,11 @@ export default function LoginInput({ placeholder, bottom, ...props }) {
       )}
 
       {meta.touched && meta.error && (
-        <img src="../../icons/error.svg" style={{ top: `${!bottom && "63%"}` }} alt="" />
+        <img
+          src="../../icons/error.svg"
+          style={{ top: `${!bottom && "63%"}` }}
+          alt=""
+        />
       )}
     </div>
   );
