@@ -49,13 +49,13 @@ export default function RegisterInput({ placeholder, ...props }) {
           className={`
           ${
             desktopView
-              ? "absolute w-[300px] -left-[19.5rem] -top-[3px] py-[15px] bg-[#b94a48] text-white text-[13px] rounded-[5px] mb-[15px]"
+              ? "absolute w-[300px] -left-[19.5rem] text-center -top-[3px] py-[15px] bg-[#b94a48] text-white text-[13px] rounded-[5px] mb-[15px]"
               : "relative  py-[15px] px-[10px] bg-[#b94a48] w-full text-white text-[13px] rounded-[5px] mb-[15px]"
           } ${
             fnameError
-              ? "left-[-79%] top-[1px] w-[139px]  text-center"
+              ? " left-[-82%] top-[1px] w-36 text-center"
               : lnameError
-              ? "left-0 top-[4.5rem] z-30 w-[139px] text-center px-0"
+              ? " left-0 top-[4.5rem] z-30 w-36 text-center px-0"
               : ""
           } `}
         >
@@ -66,10 +66,10 @@ export default function RegisterInput({ placeholder, ...props }) {
             <div
               className={
                 desktopView && field.name !== "last_name"
-                  ? "error_arrow_left"
+                  ? "absolute top-[14px] right-[-10px] border-l-[10px] border-t-[10px] border-b-[10px] border-transparent border-l-[#b94a48]"
                   : desktopView && field.name === "last_name"
-                  ? "error_arrow_right"
-                  : !desktopView && "error_arrow_bottom"
+                  ? "absolute top-[-10px] left-[10px] z-40 border-r-[10px] border-b-[10px] border-l-[10px] border-transparent border-b-[#b94a48]"
+                  : !desktopView && "absolute top-[-10px] left-[10px] z-40 border-r-[10px] border-b-[10px] border-l-[10px] border-transparent border-b-[#b94a48]"
               }
             ></div>
           )}

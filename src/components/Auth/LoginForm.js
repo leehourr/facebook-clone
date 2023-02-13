@@ -6,7 +6,7 @@ import LoginInput from "../Ui/LoginInput";
 import Button from "../Ui/Button";
 import Footer from "../Ui/Footer";
 
-const LoginForm = () => {
+const LoginForm = ({ openForm }) => {
   const inputEmail = useRef();
   const inputPassword = useRef();
   // console.log(login);
@@ -56,7 +56,7 @@ const LoginForm = () => {
                     type="text"
                     name="email"
                     placeholder="Email address or phone number"
-                   // onChange={inputHandler}
+                    // onChange={inputHandler}
                   />
                   <LoginInput
                     ref={inputPassword}
@@ -82,6 +82,7 @@ const LoginForm = () => {
             </Link>
             <div className="w-full h-[1px] bg-[#e4e6eb]"></div>
             <Button
+              onClick={openForm}
               className=" bg-[#42b72a] w-[192px] font-[600] h-[48px] text-[17px] mt-[1rem]"
               btnName="Create new account"
             />
