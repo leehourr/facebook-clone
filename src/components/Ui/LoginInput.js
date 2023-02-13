@@ -1,6 +1,7 @@
+import React, { forwardRef } from "react";
 import { ErrorMessage, useField } from "formik";
 
-export default function LoginInput({ placeholder, bottom, ...props }) {
+const LoginInput = forwardRef(({ placeholder, bottom, ...props }, ref) => {
   const [field, meta] = useField(props);
   // console.log(field.name);
   // console.log(meta.error);
@@ -19,16 +20,24 @@ export default function LoginInput({ placeholder, bottom, ...props }) {
           )}
         </div>
       )}
-      <input
-        className={`${
-          meta.touched && meta.error && " border-[1px] border-red-600"
-        } outline-none border-[1px] border-[#e4e6eb] w-full h-[50px] text-[17px] rounded-[10px] pl-[10px] mb-[10px]`}
-        type={field.type}
-        name={field.name}
-        placeholder={placeholder}
-        {...field}
-        {...props}
-      />
+      <div className="relative w-full">
+        {" "}
+        <input
+          ref={ref}
+          className={`${
+            meta.touched && meta.error && " border-[1px] border-red-600"
+          } outline-none border-[1px] border-[#e4e6eb] w-full h-[50px] text-[17px] rounded-[10px] pl-[10px] mb-[10px]`}
+          type={field.type}
+          name={field.name}
+          required
+          placeholder={placeholder}
+          {...field}
+          {...props}
+        />
+        {meta.touched && meta.error && (
+          <i className="error_icon absolute top-[15px] right-3"></i>
+        )}
+      </div>
 
       {meta.touched && meta.error && bottom && (
         <div
@@ -41,10 +50,8 @@ export default function LoginInput({ placeholder, bottom, ...props }) {
           )}
         </div>
       )}
-
-      {meta.touched && meta.error && (
-        <img src="../../icons/error.svg" style={{ top: `${!bottom && "63%"}` }} alt="" />
-      )}
     </div>
   );
-}
+});
+
+export default LoginInput;
