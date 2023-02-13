@@ -2,8 +2,8 @@ import { Link } from "react-router-dom";
 
 export default function Footer() {
   return (
-    <footer className="h-[22vh] p-[1.5rem] bg-white">
-      <div className="lg:max-w-[900px] lg:my-0 lg:mx-auto flex flex-wrap gap-y-[3px] gap-x-[10px] text-[13px] text-[#65676b] max-w-[350px] my-0 mx-auto child:flex child:items-center child-hover:underline">
+    <>
+      <div className="md:max-w-[90%] lg:max-w-[900px] lg:my-0 lg:mx-auto flex flex-wrap gap-y-[3px] gap-x-[10px] text-[13px] text-[#65676b] my-0 mx-auto child:flex child:items-center child-hover:underline">
         <Link to="/">English(UK)</Link>
         <Link to="/">Français(FR)</Link>
         <Link to="/">العربية</Link>
@@ -22,8 +22,8 @@ export default function Footer() {
           <i className="/plus_icon"></i>
         </Link>
       </div>
-      <div className="w-full h-[1px] bg-[#e4e6eb] my-[10px] mx-auto max-w-[900px]"></div>
-      <div className="lg:max-w-[900px] lg:my-0 lg:mx-auto  flex flex-wrap gap-y-[3px] gap-x-[10px] text-[13px] text-[#65676b] max-w-[350px] my-0 mx-auto child:flex child:items-center child-hover:underline">
+      <div className="md:max-w-[90%] lg:max-w-[900px] h-[1px] bg-[#e4e6eb] my-[10px] mx-auto"></div>
+      <div className="md:max-w-[90%] lg:max-w-[900px] lg:my-0 lg:mx-auto  flex flex-wrap gap-y-[3px] gap-x-[10px] text-[13px] text-[#65676b] my-0 mx-auto child:flex child:items-center child-hover:underline">
         <Link to="/">Sign Up</Link>
         <Link to="/">Log in</Link>
         <Link to="/">Messenger</Link>
@@ -56,11 +56,11 @@ export default function Footer() {
         <Link to="/">Terms</Link>
         <Link to="/">Help</Link>
       </div>
-      <div className="lg:max-w-[900px] lg:my-0 lg:mx-auto  flex flex-wrap gap-y-[3px] gap-x-[10px] text-[13px] text-[#65676b] max-w-[350px] my-0 mx-auto child:flex child:items-center child-hover:underline">
+      <div className="md:max-w-[90%] lg:max-w-[900px] lg:my-0 lg:mx-auto  flex flex-wrap gap-y-[3px] gap-x-[10px] text-[13px] text-[#65676b] my-0 mx-auto child:flex child:items-center child-hover:underline">
         <Link to="/" style={{ fontSize: "12px", marginTop: "10px" }}>
           Meta © 2023
         </Link>
       </div>
-    </footer>
+    </>
   );
 }

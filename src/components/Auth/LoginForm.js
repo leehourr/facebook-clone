@@ -1,25 +1,21 @@
-import React, { useState } from "react";
+import React, { forwardRef, useRef, useState } from "react";
 import { Formik, Form } from "formik";
 import { Link } from "react-router-dom";
 import * as yup from "yup";
 import LoginInput from "../Ui/LoginInput";
 import Button from "../Ui/Button";
-
-const initialInput = {
-  email: "",
-  password: "",
-};
+import Footer from "../Ui/Footer";
 
 const LoginForm = () => {
-  const [login, setLogin] = useState(initialInput);
-  const { email, password } = login;
+  const inputEmail = useRef();
+  const inputPassword = useRef();
   // console.log(login);
-  
-  const inputHandler = (e) => {
-    const { name, value } = e.target;
-    setLogin({ ...login, [name]: value });
-  };
 
+  const inputHandler = (e) => {
+    const email = inputEmail.current.value;
+    const password = inputPassword.current.value;
+    console.log(email, password);
+  };
   const loginValidation = yup.object({
     email: yup
       .string()
@@ -30,8 +26,8 @@ const LoginForm = () => {
   });
 
   return (
-    <div className="bg-[#f0f2f5] w-full">
-      <div className="h-[70vh] lg:flex lg:items-center lg:pr-2 lg:max-w-[1000px] lg:my-0 lg:mx-auto ">
+    <div className="bg-[#f0f2f5] w-full h-full">
+      <div className="h-[720px] lg:flex lg:items-center lg:pr-2 lg:max-w-[1000px] lg:my-0 lg:mx-auto ">
         <div className="w-[300px] my-0 mx-auto lg:flex lg:flex-col lg:w-1/2 lg:mb-[15vh] ">
           <img
             className="lg:w-[300px] lg:ml-[-1.7rem]"
@@ -45,26 +41,29 @@ const LoginForm = () => {
         <div className="text-center">
           <div className="flex flex-col lg:w-[400px] items-center gap-[1rem] shadow-sm shadow-black/20 select-none bg-white p-[1rem] pb-[2rem] w-[350px] h-fit my-[1rem] mx-auto rounded-[10px]">
             <Formik
+              onSubmit={inputHandler}
               enableReinitialize
               initialValues={{
-                email,
-                password,
+                inputEmail,
+                inputPassword,
               }}
               validationSchema={loginValidation}
             >
               {(formik) => (
                 <Form>
                   <LoginInput
+                    ref={inputEmail}
                     type="text"
                     name="email"
                     placeholder="Email address or phone number"
-                    onChange={inputHandler}
+                   // onChange={inputHandler}
                   />
                   <LoginInput
+                    ref={inputPassword}
                     type="password"
                     name="password"
                     placeholder="Password"
-                    onChange={inputHandler}
+                    //onChange={inputHandler}
                     bottom
                   />
                   <Button
@@ -83,8 +82,8 @@ const LoginForm = () => {
             </Link>
             <div className="w-full h-[1px] bg-[#e4e6eb]"></div>
             <Button
-              className=" bg-[#42b72a] w-[70%] font-[600] text-[17px] mt-[1rem]"
-              btnName="Create Account"
+              className=" bg-[#42b72a] w-[192px] font-[600] h-[48px] text-[17px] mt-[1rem]"
+              btnName="Create new account"
             />
           </div>
           <Link to="/" className="text-[15px]">
@@ -93,7 +92,9 @@ const LoginForm = () => {
           </Link>
         </div>
       </div>
-      <div className="register"></div>
+      <footer className="h-[231px] w-full p-[1.5rem] bg-white">
+        <Footer />
+      </footer>
     </div>
   );
 };
