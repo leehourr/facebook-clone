@@ -50,6 +50,17 @@ const LoginInput = forwardRef(({ placeholder, bottom, ...props }, ref) => {
           )}
         </div>
       )}
+<<<<<<< HEAD
+=======
+
+      {meta.touched && meta.error && (
+        <img
+          src="../../icons/error.svg"
+          style={{ top: `${!bottom && "63%"}` }}
+          alt=""
+        />
+      )}
+>>>>>>> 3991c42948b874f97513af26eab035408defe135
     </div>
   );
 });
