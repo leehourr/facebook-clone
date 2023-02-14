@@ -5,7 +5,6 @@ import "./styles/icons/icons.css";
 import App from "./App";
 // import { Provider } from "redux";
 import { Provider } from "react-redux";
-// import { composeWithDevTools } from "redux-devtools-extension";
 // import rootReducer from "./reducers";
 import store from "./store";
 

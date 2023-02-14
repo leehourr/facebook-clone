@@ -5,8 +5,12 @@ import ReactDOM from "react-dom";
 import { Backdrop } from "../Ui/Backdrop";
 import * as yup from "yup";
 import Button from "../Ui/Button";
-
 import { motion, AnimatePresence } from "framer-motion";
+import { register } from "../../utils/api-call";
+import { useDispatch } from "react-redux";
+import { userActions } from "../../store/user-slice";
+import Cookies from "js-cookie";
+import { useNavigate } from "react-router-dom";
 
 const initialInput = {
   first_name: "",
@@ -21,6 +25,10 @@ const initialInput = {
 
 export default function RegisterForm({ isOpen, closeForm }) {
   const [user, setUser] = useState(initialInput);
+  const [errorMessage, setErrorMessage] = useState("");
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
   const {
     first_name,
     last_name,
@@ -74,6 +82,48 @@ export default function RegisterForm({ isOpen, closeForm }) {
       .min(6, "Password must be atleast 6 characters.")
       .max(36, "Password can't be more than 36 characters"),
   });
+
+  // console.log(errorMessage);
+
+  const submitHandler = async () => {
+    setIsLoading(true);
+    let current_date = new Date();
+    let picked_date = new Date(user.bYear, user.bMonth - 1, user.bDay);
+    let atleast14 = new Date(1970 + 14, 0, 1);
+    let noMoreThan70 = new Date(1970 + 70, 0, 1);
+
+    if (current_date - picked_date < atleast14) {
+      setIsLoading(false);
+      setErrorMessage(
+        "It looks like you've enetered the wrong info. Please make sure that you use your real date of birth."
+      );
+      return;
+    }
+    if (current_date - picked_date > noMoreThan70) {
+      setIsLoading(false);
+      setErrorMessage(
+        "It looks like you've enetered the wrong info.Please make sure that you use your real date of birth."
+      );
+      return;
+    }
+    if (user.gender === "") {
+      setIsLoading(false);
+      setErrorMessage(
+        "Please choose a gender. You can change who can see this later."
+      );
+      return;
+    }
+
+    setErrorMessage("");
+    const res = await register(user);
+    dispatch(userActions.login(res));
+    Cookies.set("user", JSON.stringify(res), { sameSite: "None; Secure" });
+    setTimeout(() => {
+      setIsLoading(false);
+      navigate("/");
+    }, [1000]);
+  };
+
   return (
     <>
       {ReactDOM.createPortal(
@@ -86,7 +136,11 @@ export default function RegisterForm({ isOpen, closeForm }) {
               transition={{ duration: 0.2, ease: "linear" }}
             >
               <Backdrop isOpen={isOpen}>
-                <div className=" z-50 w-[420px] sm:w-[432px] h-[580px] bg-white shadow-sm shadow-black/20 rounded-[10px] py-[5px] px-[15px] pb-[1rem]">
+                <div
+                  className={` z-50 w-[420px] sm:w-[432px] ${
+                    errorMessage ? "h-[640px]" : "h-[580px]"
+                  } bg-white shadow-sm shadow-black/20 rounded-[10px] py-[5px] px-[15px] pb-[1rem]`}
+                >
                   <div className="relative flex flex-col pb-[10px] border-b-[1px] border-b-[#e4e6eb]">
                     <i
                       onClick={closeForm}
@@ -97,7 +151,13 @@ export default function RegisterForm({ isOpen, closeForm }) {
                       it's quick and easy
                     </span>
                   </div>
+                  {errorMessage && (
+                    <p className="p-2 w-full text-[#b94a48] font-semibold">
+                      {errorMessage}
+                    </p>
+                  )}
                   <Formik
+                    onSubmit={submitHandler}
                     enableReinitialize
                     initialValues={{
                       first_name,
@@ -235,7 +295,9 @@ export default function RegisterForm({ isOpen, closeForm }) {
                         <div className="w-full flex items-center justify-center mx-0 mt-[4px] mb-[10px]">
                           <Button
                             type="submit"
-                            className="px-16 py-1 font-[600] text-lg mt-[1rem] bg-[#42b72a]  "
+                            className={`${
+                              isLoading && "opacity-50"
+                            } px-16  py-1 font-[600] text-lg mt-[1rem] bg-[#42b72a] `}
                             btnName="Sign up"
                           />
                         </div>

@@ -1,5 +1,5 @@
 import { useField, ErrorMessage } from "formik";
-import {useState } from "react";
+import { useState } from "react";
 import { useMediaQuery } from "react-responsive";
 
 export default function RegisterInput({ placeholder, ...props }) {
@@ -31,7 +31,7 @@ export default function RegisterInput({ placeholder, ...props }) {
           meta.touched &&
           meta.error &&
           !isFocus &&
-          " border-[1px] border-red-600"
+          "border-[1px] border-red-600"
         } outline-none border-[1px] pl-[10px] bg-[#F5F6F7] border-[#CCD0D5] w-full h-[50px] text-[17px] rounded-[10px] mb-[10px]`}
         type={field.type}
         name={field.name}
@@ -53,9 +53,9 @@ export default function RegisterInput({ placeholder, ...props }) {
               : "relative  py-[15px] px-[10px] bg-[#b94a48] w-full text-white text-[13px] rounded-[5px] mb-[15px]"
           } ${
             fnameError
-              ? " left-[-82%] top-[1px] w-36 text-center"
+              ? " left-[-90%] top-[1px] w-[10rem] text-center"
               : lnameError
-              ? " left-0 top-[4.5rem] z-30 w-36 text-center px-0"
+              ? " left-0 top-[4.5rem] z-30 w-[10rem] text-center px-0"
               : ""
           } `}
         >
@@ -69,7 +69,8 @@ export default function RegisterInput({ placeholder, ...props }) {
                   ? "absolute top-[14px] right-[-10px] border-l-[10px] border-t-[10px] border-b-[10px] border-transparent border-l-[#b94a48]"
                   : desktopView && field.name === "last_name"
                   ? "absolute top-[-10px] left-[10px]  border-r-[10px] border-b-[10px] border-l-[10px] border-transparent border-b-[#b94a48]"
-                  : !desktopView && "absolute top-[-10px] left-[10px] z-40 border-r-[10px] border-b-[10px] border-l-[10px] border-transparent border-b-[#b94a48]"
+                  : !desktopView &&
+                    "absolute top-[-10px] left-[10px] z-40 border-r-[10px] border-b-[10px] border-l-[10px] border-transparent border-b-[#b94a48]"
               }
             ></div>
           )}
