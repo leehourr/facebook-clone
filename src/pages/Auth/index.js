@@ -4,6 +4,9 @@ import LoginForm from "../../components/Auth/LoginForm";
 import RegisterForm from "../../components/Auth/RegisterForm";
 import Cookies from "js-cookie";
 import { login } from "../../utils/api-call";
+import { userActions } from "../../store/user-slice";
+import { createAsyncThunk } from "@reduxjs/toolkit";
+import store from "../../store";
 
 const Auth = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -27,16 +30,17 @@ const Auth = () => {
 export default Auth;
 
 export const action = async ({ request }) => {
- // const dispatch = useDispatch();
+  createAsyncThunk();
   const data = await request.formData();
   const email = data.get("email");
   const password = data.get("password");
   const credential = { email: email, password: password };
   // console.log(credential);
   const res = await login(credential);
- // dispatch({ type: "LOGIN", payload: res });
 
-  Cookies.set("user", JSON.stringify(res));
+  //using dispatch outsite component function which is action function in this one
+  store.dispatch(userActions.login(res));
+  Cookies.set("user", JSON.stringify(res), { sameSite: "None; Secure" });
   // console.log(res);
   return redirect("/");
 };
