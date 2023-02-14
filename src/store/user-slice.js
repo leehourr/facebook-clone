@@ -10,7 +10,7 @@ const userSlice = createSlice({
   },
 });
 
-export const useActions = userSlice.actions;
+export const userActions = userSlice.actions;
 
 export default userSlice;
 
