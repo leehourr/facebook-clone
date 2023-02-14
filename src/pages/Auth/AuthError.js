@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useRouteError } from "react-router-dom";
 import { Formik, Form } from "formik";
 import { Link } from "react-router-dom";
 import * as yup from "yup";
@@ -14,9 +14,9 @@ const loginInfos = {
 };
 
 const AuthError = () => {
-  // const err = useRouteError();
+  const err = useRouteError();
   const navigate = useNavigate();
-  // console.log(err.data.message);
+  console.log(err);
   // const errMessage = err.data.message;
   // const [errMessage, setErrMessage] = useState("");
   const [login, setLogin] = useState(loginInfos);

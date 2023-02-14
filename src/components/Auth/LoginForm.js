@@ -33,7 +33,7 @@ const LoginForm = ({ openForm }) => {
   });
 
   const submitHandler = () => {
-   // console.log(email, password);
+    // console.log(email, password);
     fetch.submit({ email, password }, { method: "post", action: "/login" });
   };
 
@@ -47,7 +47,7 @@ const LoginForm = ({ openForm }) => {
             alt=""
           />
           <span className="text-[20px] lg:text-[28px]">
-            Facebook helps you connect and share with the people in your life.
+            Connect with friends and the world around you on Facebook.
           </span>
         </div>
         <div className="text-center">
