@@ -1,8 +1,12 @@
 import React from "react";
-import Header from "../../components/Layout/Header";
+import Navigation from "../../components/Layout/Header/Navigation";
 
 const Home = () => {
-  return <Header />;
+  return (
+    <>
+      <Navigation />
+    </>
+  );
 };
 
 export default Home;
