@@ -1,4 +1,5 @@
 import { useRef } from "react";
+import { Link } from "react-router-dom";
 
 const SearchFacebook = ({ setShowSearchMenu }) => {
   const menu = useRef(null);
@@ -15,7 +16,7 @@ const SearchFacebook = ({ setShowSearchMenu }) => {
       </div>
       <div className="search_history_header">
         <span>Recent searches</span>
-        <a>Edit</a>
+        <Link>Edit</Link>
       </div>
       <div className="search_history"></div>
       <div className="search_results scrollbar"></div>
