@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { Logo, Search, Messenger, Notifications, ArrowDown } from "../../svg";
+import { Logo, Search, Messenger, Notifications } from "../../svg";
 import arrowDown from "../../assets/arrowDown.png";
 
 export default function Header() {
@@ -42,7 +42,11 @@ export default function Header() {
             src={user?.picture}
             alt=""
           />
-          <img className="absolute top-[1.6rem] right-0 outline-2 outline-double outline-black/20 w-[0.8rem] h-[0.8rem]  rounded-full bg-white/20 " src={arrowDown} alt="" />
+          <img
+            className="absolute top-[1.6rem] right-0 outline-2 outline-double outline-black/20 w-[0.8rem] h-[0.8rem]  rounded-full bg-white/20 "
+            src={arrowDown}
+            alt=""
+          />
         </Link>
       </div>
     </header>
