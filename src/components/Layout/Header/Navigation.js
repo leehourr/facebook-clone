@@ -19,7 +19,7 @@ const Navigation = () => {
   };
 
   return (
-    <header className="fixed top-0 h-14 z-50  bg-white w-full shadow-sm py-[5px] px-[1rem] shadow-black/10 flex items-center justify-between">
+    <header className="fixed top-0 h-14 z-50 w-full bg-white shadow-sm py-[5px] px-[1rem] shadow-black/10 flex items-center justify-between">
       <Link to="/" className="header_logo">
         <div className="w-[40px] h-[40px] rounded-[50%] cursor-pointer flex items-center justify-center">
           <Logo />
@@ -35,7 +35,7 @@ const Navigation = () => {
             onClick={openSearch}
             className={` absolute h-10 ${
               showFbSearch
-                ? "w-[312px] rounded-3xl pl-4 pointer-events-none active:cursor-default"
+                ? "w-[312px] rounded-3xl pl-4 active:cursor-default"
                 : "w-10 rounded-[50%] hover:bg-black/20 cursor-pointer"
             } flex items-center justify-center  bg-[#e4e6eb]`}
           >
