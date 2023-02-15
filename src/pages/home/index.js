@@ -1,7 +1,8 @@
 import React from "react";
+import Header from "../../components/Layout/Header";
 
 const Home = () => {
-  return <div className="text-lg text-blue underline-offset-2">Hoasdfasme</div>;
+  return <Header />;
 };
 
 export default Home;
