@@ -53,9 +53,9 @@ export default function RegisterInput({ placeholder, ...props }) {
               : "relative  py-[15px] px-[10px] bg-[#b94a48] w-full text-white text-[13px] rounded-[5px] mb-[15px]"
           } ${
             fnameError
-              ? " left-[-90%] top-[1px] w-[10rem] text-center"
+              ? " left-[-81%] top-[1px] w-[9rem] text-center"
               : lnameError
-              ? " left-0 top-[4.5rem] z-30 w-[10rem] text-center px-0"
+              ? " left-0 top-[4.5rem] z-30 w-[9rem] text-center px-0"
               : ""
           } `}
         >
