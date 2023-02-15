@@ -1,14 +1,5 @@
-import { NavLink } from "react-router-dom";
 import { Link } from "react-router-dom";
-import {
-  Friends,
-  Gaming,
-  HomeActive,
-  Logo,
-  Market,
-  Search,
-  Watch,
-} from "../../svg";
+import { Logo, Search } from "../../svg";
 export default function Header() {
   const color = "#65676b";
   return (
