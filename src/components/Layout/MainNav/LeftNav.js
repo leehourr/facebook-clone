@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { useEffect } from "react";
 import { useMediaQuery } from "react-responsive";
 import { NavLink } from "react-router-dom";
 import { Friends, Gaming, HomeActive, Market, Menu, Watch } from "../../../svg";
