@@ -1,5 +1,4 @@
 import { useRef } from "react";
-// import { getSearchParamsForLocation } from "react-router-dom/dist/dom";
 
 const SearchFacebook = ({ setShowSearchMenu }) => {
   const menu = useRef(null);
