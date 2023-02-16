@@ -1,124 +1,192 @@
 export const menu = [
   {
-    name: "Campus",
-    icon: "campus",
-    description: "A unique, exclusive space for college students on Facebook.",
+    title: "Social",
+    items: [
+      {
+        name: "Events",
+        icon: "events",
+        description:
+          "Organize or find events and other things to do online and nearby.",
+      },
+      {
+        name: "Groups",
+        icon: "groups",
+        description: "Connect with people who share your interests.",
+      },
+      {
+        name: "News Feed",
+        icon: "feed",
+        description: "See relevant posts from people and Pages you follow.",
+      },
+      {
+        name: "Favorites",
+        icon: "fav",
+        description: "View posts by favorites",
+      },
+      {
+        name: "Most Recent",
+        icon: "recent",
+        description:
+          "See the most recent posts from your friends groups, Pages and more.",
+      },
+      {
+        name: "Pages",
+        icon: "pages",
+        description: "Discover and connect with businesses on Facebook.",
+      },
+    ],
   },
   {
-    name: "Events",
-    icon: "events",
-    description:
-      "Organize or find events and other things to do online and nearby.",
+    title: "Entertainment",
+    items: [
+      {
+        name: "Watch",
+        icon: "watch",
+        description:
+          "A video destination personalized to your interests and connections.",
+      },
+      {
+        name: "Gaming Video",
+        icon: "gaming",
+        description:
+          "Watch and connect with your favorite games and streamers.",
+      },
+      {
+        name: "Play Games",
+        icon: "play",
+        description: "Play your favorite games.",
+      },
+      {
+        name: "Live videos",
+        icon: "live",
+        description: "Watch popular live videos from around the world",
+      },
+    ],
   },
   {
-    name: "Find Friends",
-    icon: "friends",
-    description: "Search for friends or people you may know.",
+    title: "Shopping",
+    items: [
+      {
+        name: "Orders and payments",
+        icon: "pay",
+        description:
+          "A seamless, secure way to pay on the apps you already use.",
+      },
+      {
+        name: "Marketplace",
+        icon: "marketplace",
+        description: "Buy and sell in your community.",
+      },
+    ],
   },
   {
-    name: "Groups",
-    icon: "groups",
-    description: "Connect with people who share your interests.",
+    title: "Personal",
+    items: [
+      {
+        name: "Recent ad activity",
+        icon: "recent",
+        description: "See all the ads you interacted with on Facebook.",
+      },
+      {
+        name: "Memories",
+        icon: "memories",
+        description: "Browse your old photos, videos and posts on Facebook.",
+      },
+      {
+        name: "Saved",
+        icon: "saved",
+        description: "Find posts, photos and videos that you saved for later.",
+      },
+    ],
   },
   {
-    name: "News Feed",
-    icon: "feed",
-    description: "See relevant posts from people and Pages you follow.",
+    title: "Professional",
+    items: [
+      {
+        name: "Ads",
+        icon: "ads",
+        description: "Create, manage and track the performance of your ads.",
+      },
+      {
+        name: "Ad center",
+        icon: "ad",
+        description:
+          "Manage all the ads you create in Pages, with stramlined features",
+      },
+    ],
   },
   {
-    name: "Pages",
-    icon: "pages",
-    description: "Discover and connect with businesses on Facebook.",
+    title: "Community Resources",
+    items: [
+      {
+        name: "Climate science center",
+        icon: "climate",
+        description: "Learn about climate change and its effects.",
+      },
+      {
+        name: "Fundraisers",
+        icon: "fundraisers",
+        description:
+          "Donate and raise money for nonprofits and personal causes.",
+      },
+    ],
   },
-  {
-    name: "Gaming Video",
-    icon: "gaming",
-    description: "Watch and connect with your favorite games and streamers.",
-  },
-  {
-    name: "Play Games",
-    icon: "play",
-    description: "Play your favorite games.",
-  },
-  {
-    name: "Watch",
-    icon: "watch",
-    description:
-      "A video destination personalized to your interests and connections.",
-  },
-  {
-    name: "Facebook Pay",
-    icon: "pay",
-    description: "A seamless, secure way to pay on the apps you already use.",
-  },
-  {
-    name: "Marketplace",
-    icon: "marketplace",
-    description: "Buy and sell in your community.",
-  },
-  {
-    name: "Recent Ad Activity",
-    icon: "recent",
-    description: "See all the ads you interacted with on Facebook.",
-  },
-  {
-    name: "Memories",
-    icon: "memories",
-    description: "Browse your old photos, videos and posts on Facebook.",
-  },
-  {
-    name: "Saved",
-    icon: "saved",
-    description: "Find posts, photos and videos that you saved for later.",
-  },
-  {
-    name: "Weather",
-    icon: "weather",
-    description:
-      "Check your local forecast and sign up for daily weather notifications.",
-  },
-  {
-    name: "Ads",
-    icon: "ads",
-    description: "Create, manage and track the performance of your ads.",
-  },
-  {
-    name: "Jobs",
-    icon: "jobs",
-    description: "Find a job that's right for you.",
-  },
-  {
-    name: "Climate science center",
-    icon: "climate",
-    description: "Learn about climate change and its effects.",
-  },
-  {
-    name: "COVID-19 Information Center",
-    icon: "covid",
-    description:
-      "See the latest prevention tips, community resources and updates from health organizations.",
-  },
-  {
-    name: "Community Help",
-    icon: "community",
-    description:
-      "Get involved in your community by creating a drive, requesting or offering help or volunteering.",
-  },
-  {
-    name: "Fundraisers",
-    icon: "fundraisers",
-    description: "Donate and raise money for nonprofits and personal causes.",
-  },
-  {
-    name: "Messenger",
-    icon: "messenger",
-    description: "Chat instantly with your friends and connections.",
-  },
-  {
-    name: "Messenger Kids",
-    icon: "messkids",
-    description: "Let kids message with close friends and family.",
-  },
+  // },
+
+  //
+  // {
+  //   name: "Facebook Pay",
+  //   icon: "pay",
+  //   description: "A seamless, secure way to pay on the apps you already use.",
+  // },
+  // {
+  //   name: "Marketplace",
+  //   icon: "marketplace",
+  //   description: "Buy and sell in your community.",
+  // },
+  // {
+  //   name: "Recent Ad Activity",
+  //   icon: "recent",
+  //   description: "See all the ads you interacted with on Facebook.",
+  // },
+
+  // {
+  //   name: "Weather",
+  //   icon: "weather",
+  //   description:
+  //     "Check your local forecast and sign up for daily weather notifications.",
+  // },
+  // {
+
+  // {
+  //   name: "Jobs",
+  //   icon: "jobs",
+  //   description: "Find a job that's right for you.",
+  // },
+
+  // {
+  //   name: "COVID-19 Information Center",
+  //   icon: "covid",
+  //   description:
+  //     "See the latest prevention tips, community resources and updates from health organizations.",
+  // },
+  // {
+  //   name: "Community Help",
+  //   icon: "community",
+  //   description:
+  //     "Get involved in your community by creating a drive, requesting or offering help or volunteering.",
+  // },
+
+  // {
+  //   name: "Messenger",
+  //   icon: "messenger",
+  //   description: "Chat instantly with your friends and connections.",
+  // },
+  // {
+  //   name: "Messenger Kids",
+  //   icon: "messkids",
+  //   description: "Let kids message with close friends and family.",
+  // },
 ];
 export const create = [
   {
