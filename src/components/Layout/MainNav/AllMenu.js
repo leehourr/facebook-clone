@@ -18,7 +18,7 @@ const AllMenu = () => {
             {headerMenu.map((i) => (
               <div
                 key={i.txt}
-                className="hover:bg-[#F2F2F2] w-full py-[7px] text-center rounded-lg"
+                className="hover:bg-[#F2F2F2] cursor-pointer w-full py-[7px] text-center rounded-lg"
               >
                 <img
                   src={`../../left/${i.img}.png`}
@@ -50,7 +50,7 @@ const AllMenu = () => {
               {i.items.map((x) => (
                 <div
                   key={x.name}
-                  className="flex w-full hover:bg-[#F2F2F2]  mt-3 px-[0.4rem] py-1 rounded-lg items-start gap-[15px]"
+                  className="flex w-full cursor-pointer hover:bg-[#F2F2F2]  mt-3 px-[0.4rem] py-1 rounded-lg items-start gap-[15px]"
                 >
                   <img
                     className="mt-1"
@@ -73,7 +73,7 @@ const AllMenu = () => {
           <div className="flex mt-[13px] flex-col items-center">
             {create.slice(0, 3).map((i) => {
               return (
-                <div className="flex items-center justify-start w-[90%] gap-2 py-2 pl-[0.5rem] rounded-xl hover:bg-[#F2F2F2] ">
+                <div className="cursor-pointer flex items-center justify-start w-[90%] gap-2 py-2 pl-[0.5rem] rounded-xl hover:bg-[#F2F2F2] ">
                   <div className=" bg-[#dcdcdc] flex items-center justify-center w-9 h-9 rounded-full ">
                     <i className={`${i.icon}`} />
                   </div>
@@ -84,7 +84,7 @@ const AllMenu = () => {
             <div className="border-b-[1px] border-b-black/20 w-[85%] my-2"></div>
             {create.slice(4, -1).map((i) => {
               return (
-                <div className="flex items-center justify-start w-[90%] gap-2 py-2 pl-[0.5rem] rounded-xl hover:bg-[#F2F2F2] ">
+                <div className="cursor-pointer flex items-center justify-start w-[90%] gap-2 py-2 pl-[0.5rem] rounded-xl hover:bg-[#F2F2F2] ">
                   <div className=" bg-[#dcdcdc] flex items-center justify-center w-9 h-9 rounded-full ">
                     <i className={`${i.icon}`} />
                   </div>
