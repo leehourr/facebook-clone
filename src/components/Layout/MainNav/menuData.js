@@ -131,63 +131,8 @@ export const menu = [
       },
     ],
   },
-  // },
-
-  //
-  // {
-  //   name: "Facebook Pay",
-  //   icon: "pay",
-  //   description: "A seamless, secure way to pay on the apps you already use.",
-  // },
-  // {
-  //   name: "Marketplace",
-  //   icon: "marketplace",
-  //   description: "Buy and sell in your community.",
-  // },
-  // {
-  //   name: "Recent Ad Activity",
-  //   icon: "recent",
-  //   description: "See all the ads you interacted with on Facebook.",
-  // },
-
-  // {
-  //   name: "Weather",
-  //   icon: "weather",
-  //   description:
-  //     "Check your local forecast and sign up for daily weather notifications.",
-  // },
-  // {
-
-  // {
-  //   name: "Jobs",
-  //   icon: "jobs",
-  //   description: "Find a job that's right for you.",
-  // },
-
-  // {
-  //   name: "COVID-19 Information Center",
-  //   icon: "covid",
-  //   description:
-  //     "See the latest prevention tips, community resources and updates from health organizations.",
-  // },
-  // {
-  //   name: "Community Help",
-  //   icon: "community",
-  //   description:
-  //     "Get involved in your community by creating a drive, requesting or offering help or volunteering.",
-  // },
-
-  // {
-  //   name: "Messenger",
-  //   icon: "messenger",
-  //   description: "Chat instantly with your friends and connections.",
-  // },
-  // {
-  //   name: "Messenger Kids",
-  //   icon: "messkids",
-  //   description: "Let kids message with close friends and family.",
-  // },
 ];
+
 export const create = [
   {
     name: "Post",
@@ -205,7 +150,10 @@ export const create = [
     name: "Page",
     icon: "m_page_icon",
   },
-
+  {
+    name: "Page",
+    icon: "m_page_icon",
+  },
   {
     name: "Ad",
     icon: "m_ad_icon",
