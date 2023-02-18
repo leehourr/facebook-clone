@@ -79,10 +79,7 @@ const Navigation = () => {
             5
           </div>
         </div>
-        <Link
-          to="/profile"
-          className="relative h-10 hover:bg-black/20 w-10 rounded-[50%] flex items-center justify-center  bg-[#e4e6eb] cursor-pointer "
-        >
+        <div className="relative h-10 hover:bg-black/20 w-10 rounded-[50%] flex items-center justify-center  bg-[#e4e6eb] cursor-pointer ">
           <img
             className="w-full h-full rounded-full"
             src={user?.picture}
@@ -93,7 +90,8 @@ const Navigation = () => {
             src={arrowDown}
             alt=""
           />
-        </Link>
+          <div className="absolute top-12">asdasd</div>
+        </div>
       </div>
     </header>
   );
