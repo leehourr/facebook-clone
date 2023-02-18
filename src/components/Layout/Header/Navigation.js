@@ -5,10 +5,12 @@ import arrowDown from "../../../assets/arrowDown.png";
 import { useState } from "react";
 import { useMediaQuery } from "react-responsive";
 import SearchInput from "./SearchInput";
+import AccountMenu from "./AccountMenu";
 
 const Navigation = () => {
   const { user } = useSelector((user) => ({ ...user }));
   const [showFbSearch, setShowFbSearch] = useState(false);
+  const [openAccMenu, setOpenAccMenu] = useState(false);
   const desktopView = useMediaQuery({
     query: "(min-width: 880px)",
   });
@@ -16,6 +18,12 @@ const Navigation = () => {
   const openSearch = () => {
     if (showFbSearch) return;
     setShowFbSearch(true);
+  };
+
+  const openMenu = () => {
+    setOpenAccMenu((prev) => {
+      return !prev;
+    });
   };
 
   return (
@@ -79,7 +87,10 @@ const Navigation = () => {
             5
           </div>
         </div>
-        <div className="relative h-10 hover:bg-black/20 w-10 rounded-[50%] flex items-center justify-center  bg-[#e4e6eb] cursor-pointer ">
+        <div
+          onClick={openMenu}
+          className="relative h-10 hover:bg-black/20 w-10 rounded-[50%] flex items-center justify-center  bg-[#e4e6eb] cursor-pointer "
+        >
           <img
             className="w-full h-full rounded-full"
             src={user?.picture}
@@ -90,7 +101,11 @@ const Navigation = () => {
             src={arrowDown}
             alt=""
           />
-          <div className="absolute top-12">asdasd</div>
+          {openAccMenu && (
+            <div className="absolute top-[2.85rem] right-[3px]">
+              <AccountMenu onOpenMenu={openMenu} />
+            </div>
+          )}
         </div>
       </div>
     </header>

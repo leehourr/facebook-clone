@@ -18,7 +18,7 @@ const SearchFacebook = ({ setShowSearchMenu }) => {
         <span>Recent searches</span>
         <Link>Edit</Link>
       </div>
-      <div className="search_history"></div>
+      <div className=""></div>
       <div className="search_results scrollbar"></div>
     </div>
   );
