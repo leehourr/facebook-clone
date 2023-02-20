@@ -101,12 +101,12 @@ const Navigation = () => {
             src={arrowDown}
             alt=""
           />
-          {openAccMenu && (
-            <div className="absolute top-[2.85rem] right-[3px]">
-              <AccountMenu onOpenMenu={openMenu} />
-            </div>
-          )}
         </div>
+        {openAccMenu && (
+          <div className="absolute top-[3.5rem] right-[3px]">
+            <AccountMenu />
+          </div>
+        )}
       </div>
     </header>
   );
