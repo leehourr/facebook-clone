@@ -137,7 +137,7 @@ export default function RegisterForm({ isOpen, closeForm }) {
             >
               <Backdrop
                 isOpen={isOpen}
-                className=" bg-white/75 flex items-center justify-center"
+                className=" bg-white/75 left-0 flex items-center justify-center"
               >
                 <div
                   className={` z-50 w-[420px] sm:w-[432px] ${

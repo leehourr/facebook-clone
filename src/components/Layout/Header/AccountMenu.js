@@ -33,7 +33,7 @@ const AccountMenu = ({ onClose }) => {
       {ReactDOM.createPortal(
         <Backdrop
           onClick={onClose}
-          className="flex pt-[3.4rem] pr-4 items-start justify-end"
+          className="flex pt-[3.4rem] pr-4 left-16 items-start justify-end"
         ></Backdrop>,
         document.getElementById("backdrop")
       )}

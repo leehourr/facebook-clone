@@ -3,8 +3,11 @@ import { useMediaQuery } from "react-responsive";
 import { NavLink } from "react-router-dom";
 import { HomeActive, Menu } from "../../../svg";
 import AllMenu from "./AllMenu";
+import { modalActions } from "../../../store/modal-slice";
+import { useDispatch, useSelector } from "react-redux";
 
 const LeftNav = () => {
+  const modal = useSelector((state) => state.modal.currentModal);
   const [isHovering, setIsHovering] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const mobileView = useMediaQuery({
@@ -13,6 +16,7 @@ const LeftNav = () => {
   const desktopView = useMediaQuery({
     query: "(min-width: 1120px)",
   });
+  const dispatch = useDispatch();
 
   const mouseHover = () => {
     setIsHovering(true);
@@ -23,13 +27,19 @@ const LeftNav = () => {
   const closeMenu = () => {
     setIsMenuOpen(false);
   };
+  const toggleMenu = () => {
+    setIsMenuOpen((prev) => {
+      return !prev;
+    });
+    dispatch(modalActions.closeModal());
+  };
   return (
     <>
       <nav
         className={`${
           isMenuOpen &&
           desktopView &&
-          "w-[4rem] pl-2 flex items-center bg-white"
+          "w-[4rem] z-50 pl-2 flex items-center bg-white"
         }
         ${mobileView && "w-[4rem] bg-white"}
         ${
@@ -142,11 +152,7 @@ const LeftNav = () => {
         </NavLink>
         <NavLink
           // to="/asd"
-          onClick={() =>
-            setIsMenuOpen((prev) => {
-              return !prev;
-            })
-          }
+          onClick={toggleMenu}
           className={`
          ${
            isMenuOpen
