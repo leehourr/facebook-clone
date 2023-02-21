@@ -1,4 +1,4 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { Logo, Messenger, Notifications, Search } from "../../../svg";
 import arrowDown from "../../../assets/arrowDown.png";
@@ -6,28 +6,60 @@ import { useState } from "react";
 import { useMediaQuery } from "react-responsive";
 import SearchInput from "./SearchInput";
 import AccountMenu from "./AccountMenu";
+import { modalActions } from "../../../store/modal-slice";
 
 const Navigation = () => {
+  const dispatch = useDispatch();
+  const [modal, setModal] = useState(false);
+  const currentModal = useSelector((state) => state.modal.currentModal);
+
   const { user } = useSelector((user) => ({ ...user }));
   const [showFbSearch, setShowFbSearch] = useState(false);
   const [openAccMenu, setOpenAccMenu] = useState(false);
   const desktopView = useMediaQuery({
     query: "(min-width: 880px)",
   });
-
+  console.log(modal);
   const openSearch = () => {
     if (showFbSearch) return;
     setShowFbSearch(true);
   };
 
   const openMenu = () => {
+    dispatch(modalActions.openModal());
+    setModal(true);
     setOpenAccMenu((prev) => {
       return !prev;
     });
   };
 
+  const closeMenu = () => {
+    dispatch(modalActions.closeModal());
+    setModal(false);
+    setOpenAccMenu(false);
+  };
+
+  const openSearchBar = () => {
+    if (currentModal) {
+      dispatch(modalActions.closeModal());
+      setModal(false);
+      setShowFbSearch(true);
+      setOpenAccMenu(false);
+
+      return;
+    }
+    dispatch(modalActions.openModal());
+    setShowFbSearch(true);
+    setOpenAccMenu(false);
+  };
+
+  const closeSeachBar = () => {
+    dispatch(modalActions.closeModal());
+    setShowFbSearch(false);
+  };
+
   return (
-    <header className="fixed top-0 h-14 z-50 w-full bg-white shadow-sm py-[5px] px-[1rem] shadow-black/10 flex items-center justify-between">
+    <header className="fixed z-40 top-0 h-14 w-full bg-white shadow-sm py-[5px] px-[1rem] shadow-black/10 flex items-center justify-between">
       <Link to="/" className="header_logo">
         <div className="w-[40px] h-[40px] rounded-[50%] cursor-pointer flex items-center justify-center">
           <Logo />
@@ -49,16 +81,12 @@ const Navigation = () => {
           >
             <Search color="#65676b" />
             {showFbSearch && (
-              <>
-                <SearchInput
-                  showFbSearch={showFbSearch}
-                  onFocus={() => setShowFbSearch(true)}
-                  onBlurCapture={() => {
-                    setShowFbSearch(false);
-                  }}
-                  className="py-[10px] pr-[32px] pl-2 outline-none w-full rounded-3xl  border-none bg-transparent text-[15px]"
-                />
-              </>
+              <SearchInput
+                showFbSearch={showFbSearch}
+                onFocus={openSearchBar}
+                onBlurCapture={closeSeachBar}
+                className="py-[10px] pr-[32px] pl-2 outline-none w-full rounded-3xl  border-none bg-transparent text-[15px]"
+              />
             )}
           </div>
         ) : (
@@ -68,10 +96,8 @@ const Navigation = () => {
             </div>
             <SearchInput
               showFbSearch={showFbSearch}
-              onFocus={() => setShowFbSearch(true)}
-              onBlurCapture={() => {
-                setShowFbSearch(false);
-              }}
+              onFocus={openSearchBar}
+              onBlurCapture={closeSeachBar}
               className="py-[10px] w-full pr-[32px] pl-[2rem] outline-none rounded-3xl hover:bg-white/40 border-none bg-transparent text-[15px]"
             />
           </>
@@ -102,9 +128,9 @@ const Navigation = () => {
             alt=""
           />
         </div>
-        {openAccMenu && (
+        {openAccMenu && modal && (
           <div className="absolute top-[3.5rem] right-[3px]">
-            <AccountMenu />
+            <AccountMenu onOpenMenu={openMenu} onClose={closeMenu} />
           </div>
         )}
       </div>

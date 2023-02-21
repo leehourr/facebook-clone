@@ -1,11 +1,10 @@
-
-export const Backdrop = ({ isOpen, onClick, children }) => {
+export const Backdrop = ({ isOpen, onClick, children, className }) => {
   return (
-      <div
-        className="fixed flex items-center justify-center top-0 left-0 w-full  h-full z-20 bg-white/75"
-        onClick={onClick}
-      >
-        {children}
-      </div>
+    <div
+      className={`fixed  top-0 left-0 w-full  h-full z-20 ${className}`}
+      onClick={onClick}
+    >
+      {children}
+    </div>
   );
 };

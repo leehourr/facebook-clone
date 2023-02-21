@@ -135,7 +135,10 @@ export default function RegisterForm({ isOpen, closeForm }) {
               exit={{ opacity: 0, zIndex: 50 }}
               transition={{ duration: 0.2, ease: "linear" }}
             >
-              <Backdrop isOpen={isOpen}>
+              <Backdrop
+                isOpen={isOpen}
+                className=" bg-white/75 flex items-center justify-center"
+              >
                 <div
                   className={` z-50 w-[420px] sm:w-[432px] ${
                     errorMessage ? "h-[640px]" : "h-[580px]"

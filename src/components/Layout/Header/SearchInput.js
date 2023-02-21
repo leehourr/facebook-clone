@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import { useEffect } from "react";
 import { useRef } from "react";
 import SearchFacebook from "./SearchFacebook";
+import { useSelector } from "react-redux";
 
 const SearchInput = ({
   isSmallScreen,
@@ -16,6 +17,7 @@ const SearchInput = ({
       searchInput.current.focus();
     }
   }, [showFbSearch]);
+
   return (
     <>
       <input
