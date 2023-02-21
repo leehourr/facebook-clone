@@ -6,12 +6,11 @@ import { useState } from "react";
 import { useMediaQuery } from "react-responsive";
 import SearchInput from "./SearchInput";
 import AccountMenu from "./AccountMenu";
-import { modalActions } from "../../../store/modal-slice";
 
 const Navigation = () => {
-  const dispatch = useDispatch();
+ // const dispatch = useDispatch();
   const [modal, setModal] = useState(false);
-  const currentModal = useSelector((state) => state.modal.currentModal);
+ // const currentModal = useSelector((state) => state.modal.currentModal);
 
   const { user } = useSelector((user) => ({ ...user }));
   const [showFbSearch, setShowFbSearch] = useState(false);
@@ -26,7 +25,7 @@ const Navigation = () => {
   };
 
   const openMenu = () => {
-    dispatch(modalActions.openModal());
+    // dispatch(modalActions.openModal());
     setModal(true);
     setOpenAccMenu((prev) => {
       return !prev;
@@ -34,27 +33,26 @@ const Navigation = () => {
   };
 
   const closeMenu = () => {
-    dispatch(modalActions.closeModal());
+    //  dispatch(modalActions.closeModal());
     setModal(false);
     setOpenAccMenu(false);
   };
 
   const openSearchBar = () => {
-    if (currentModal) {
-      dispatch(modalActions.closeModal());
+    if (openAccMenu) {
+    //  dispatch(modalActions.closeModal());
       setModal(false);
       setShowFbSearch(true);
       setOpenAccMenu(false);
-
       return;
     }
-    dispatch(modalActions.openModal());
+    //dispatch(modalActions.openModal());
     setShowFbSearch(true);
     setOpenAccMenu(false);
   };
 
   const closeSeachBar = () => {
-    dispatch(modalActions.closeModal());
+  //  dispatch(modalActions.closeModal());
     setShowFbSearch(false);
   };
 
