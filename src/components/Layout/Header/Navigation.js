@@ -9,7 +9,7 @@ import AccountMenu from "./AccountMenu";
 
 const Navigation = () => {
  // const dispatch = useDispatch();
-  const [modal, setModal] = useState(false);
+ // const [modal, setModal] = useState(false);
  // const currentModal = useSelector((state) => state.modal.currentModal);
 
   const { user } = useSelector((user) => ({ ...user }));
@@ -18,7 +18,7 @@ const Navigation = () => {
   const desktopView = useMediaQuery({
     query: "(min-width: 880px)",
   });
-  console.log(modal);
+ // console.log(modal);
   const openSearch = () => {
     if (showFbSearch) return;
     setShowFbSearch(true);
@@ -26,7 +26,7 @@ const Navigation = () => {
 
   const openMenu = () => {
     // dispatch(modalActions.openModal());
-    setModal(true);
+  //  setModal(true);
     setOpenAccMenu((prev) => {
       return !prev;
     });
@@ -34,14 +34,14 @@ const Navigation = () => {
 
   const closeMenu = () => {
     //  dispatch(modalActions.closeModal());
-    setModal(false);
+  //  setModal(false);
     setOpenAccMenu(false);
   };
 
   const openSearchBar = () => {
     if (openAccMenu) {
     //  dispatch(modalActions.closeModal());
-      setModal(false);
+   //   setModal(false);
       setShowFbSearch(true);
       setOpenAccMenu(false);
       return;
@@ -126,7 +126,7 @@ const Navigation = () => {
             alt=""
           />
         </div>
-        {openAccMenu && modal && (
+        {openAccMenu  && (
           <div className="absolute top-[3.5rem] right-[3px]">
             <AccountMenu onOpenMenu={openMenu} onClose={closeMenu} />
           </div>
