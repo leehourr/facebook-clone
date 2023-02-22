@@ -2,61 +2,46 @@ import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { Logo, Messenger, Notifications, Search } from "../../../svg";
 import arrowDown from "../../../assets/arrowDown.png";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useMediaQuery } from "react-responsive";
 import SearchInput from "./SearchInput";
 import AccountMenu from "./AccountMenu";
+import useClickOutside from "../../../helpers/clickOutside";
 
 const Navigation = () => {
   // const dispatch = useDispatch();
   // const [modal, setModal] = useState(false);
   // const currentModal = useSelector((state) => state.modal.currentModal);
-
+  const [searchBar, setSearchBar] = useState(false);
   const { user } = useSelector((user) => ({ ...user }));
-  const [showFbSearch, setShowFbSearch] = useState(false);
+  const [showFbSearch, setShowFbSearch] = useState(true);
   const [openAccMenu, setOpenAccMenu] = useState(false);
+  const accMenu = useRef(null);
+  const searchElement = useRef(null);
+  useClickOutside(searchElement, () => {
+    setSearchBar(false);
+  });
+  useClickOutside(accMenu, () => {
+    setOpenAccMenu(false);
+  });
+
   const desktopView = useMediaQuery({
     query: "(min-width: 880px)",
   });
   const desktopView2 = useMediaQuery({
     query: "(max-width: 539px)",
   });
-  console.log(showFbSearch);
 
   const openSearch = () => {
     setShowFbSearch(true);
   };
 
   const openMenu = () => {
-    // dispatch(modalActions.openModal());
-    //  setModal(true);
-    setOpenAccMenu((prev) => {
-      return !prev;
-    });
-  };
-
-  const closeMenu = () => {
-    //  dispatch(modalActions.closeModal());
-    //  setModal(false);
-    setOpenAccMenu(false);
+    setOpenAccMenu((prev) => !prev);
   };
 
   const openSearchBar = () => {
-    if (openAccMenu) {
-      //  dispatch(modalActions.closeModal());
-      //   setModal(false);
-      setShowFbSearch(true);
-      setOpenAccMenu(false);
-      return;
-    }
-    //dispatch(modalActions.openModal());
-    setShowFbSearch(true);
-    setOpenAccMenu(false);
-  };
-
-  const closeSeachBar = () => {
-    //  dispatch(modalActions.closeModal());
-    setShowFbSearch(false);
+    setSearchBar(true);
   };
 
   const breakpoint1 = !showFbSearch && desktopView2;
@@ -76,6 +61,7 @@ const Navigation = () => {
         {!desktopView ? (
           <div
             //aria-disabled={showFbSearch}
+            ref={searchElement}
             onClick={openSearch}
             className={` absolute h-10 ${
               showFbSearch
@@ -86,9 +72,9 @@ const Navigation = () => {
             <Search color="#65676b" />
             {showFbSearch && (
               <SearchInput
-                showFbSearch={showFbSearch}
+                showFbSearch={searchBar}
                 onFocus={openSearchBar}
-                onBlurCapture={closeSeachBar}
+                //  onBlurCapture={closeSeachBar}
                 className="py-[10px] pr-[32px] pl-2 outline-none w-full rounded-3xl  border-none bg-transparent text-[15px]"
               />
             )}
@@ -99,9 +85,9 @@ const Navigation = () => {
               <Search color="#65676b" />
             </div>
             <SearchInput
-              showFbSearch={showFbSearch}
+              showFbSearch={searchBar}
               onFocus={openSearchBar}
-              onBlurCapture={closeSeachBar}
+              //    onBlurCapture={closeSeachBar}
               className="py-[10px] w-full pr-[32px] pl-[2rem] outline-none rounded-3xl hover:bg-white/40 border-none bg-transparent text-[15px]"
             />
           </>
@@ -119,6 +105,7 @@ const Navigation = () => {
             </div>
           </div>
           <div
+            ref={accMenu}
             onClick={openMenu}
             className="relative h-10 hover:bg-black/20 w-10 rounded-[50%] flex items-center justify-center  bg-[#e4e6eb] cursor-pointer "
           >
@@ -133,11 +120,9 @@ const Navigation = () => {
               alt=""
             />
           </div>
-          {openAccMenu && (
-            <div className="absolute top-[3.5rem] right-[3px]">
-              <AccountMenu onOpenMenu={openMenu} onClose={closeMenu} />
-            </div>
-          )}
+          <div className="absolute top-[3.5rem] right-[3px]">
+            <AccountMenu openMenu={openAccMenu} />
+          </div>
         </div>
       )}
     </header>
