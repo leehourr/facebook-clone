@@ -1,4 +1,4 @@
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { Logo, Messenger, Notifications, Search } from "../../../svg";
 import arrowDown from "../../../assets/arrowDown.png";
@@ -13,7 +13,7 @@ const Navigation = () => {
   // const currentModal = useSelector((state) => state.modal.currentModal);
 
   const { user } = useSelector((user) => ({ ...user }));
-  const [showFbSearch, setShowFbSearch] = useState(false);
+  const [showFbSearch, setShowFbSearch] = useState(true);
   const [openAccMenu, setOpenAccMenu] = useState(false);
   const desktopView = useMediaQuery({
     query: "(min-width: 880px)",
@@ -21,18 +21,16 @@ const Navigation = () => {
   const desktopView2 = useMediaQuery({
     query: "(max-width: 539px)",
   });
-  console.log("desktop", desktopView2);
+  console.log(showFbSearch);
+
   const openSearch = () => {
-    if (showFbSearch) return;
     setShowFbSearch(true);
   };
 
   const openMenu = () => {
     // dispatch(modalActions.openModal());
     //  setModal(true);
-    setOpenAccMenu((prev) => {
-      return !prev;
-    });
+    setOpenAccMenu(true);
   };
 
   const closeMenu = () => {
@@ -75,6 +73,7 @@ const Navigation = () => {
       >
         {!desktopView ? (
           <div
+            //aria-disabled={showFbSearch}
             onClick={openSearch}
             className={` absolute h-10 ${
               showFbSearch

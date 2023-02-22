@@ -4,10 +4,10 @@ import { NavLink } from "react-router-dom";
 import { HomeActive, Menu } from "../../../svg";
 import AllMenu from "./AllMenu";
 import { modalActions } from "../../../store/modal-slice";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
 const LeftNav = () => {
-  const modal = useSelector((state) => state.modal.currentModal);
+  // const modal = useSelector((state) => state.modal.currentModal);
   const [isHovering, setIsHovering] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const mobileView = useMediaQuery({

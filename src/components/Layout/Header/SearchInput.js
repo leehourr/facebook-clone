@@ -1,8 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import { useEffect } from "react";
 import { useRef } from "react";
 import SearchFacebook from "./SearchFacebook";
-import { useSelector } from "react-redux";
 
 const SearchInput = ({
   isSmallScreen,
@@ -28,7 +27,7 @@ const SearchInput = ({
         placeholder="Search Facebook"
         className={className}
       />
-      <div className="absolute top-14">
+      <div className="absolute w-full top-[3.03rem]">
         {showFbSearch && <SearchFacebook />}
       </div>
     </>
