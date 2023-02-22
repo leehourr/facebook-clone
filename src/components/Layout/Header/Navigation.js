@@ -2,7 +2,7 @@ import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { Logo, Messenger, Notifications, Search } from "../../../svg";
 import arrowDown from "../../../assets/arrowDown.png";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { useMediaQuery } from "react-responsive";
 import SearchInput from "./SearchInput";
 import AccountMenu from "./AccountMenu";
