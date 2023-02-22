@@ -13,7 +13,7 @@ const Navigation = () => {
   // const currentModal = useSelector((state) => state.modal.currentModal);
 
   const { user } = useSelector((user) => ({ ...user }));
-  const [showFbSearch, setShowFbSearch] = useState(true);
+  const [showFbSearch, setShowFbSearch] = useState(false);
   const [openAccMenu, setOpenAccMenu] = useState(false);
   const desktopView = useMediaQuery({
     query: "(min-width: 880px)",
