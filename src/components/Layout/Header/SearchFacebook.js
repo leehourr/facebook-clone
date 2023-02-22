@@ -2,13 +2,8 @@ import { useRef } from "react";
 import { Link } from "react-router-dom";
 
 const SearchFacebook = ({ setShowSearchMenu }) => {
-  const menu = useRef(null);
-
   return (
-    <div
-      className="-ml-2 flex flex-col  items-center gap-[10px] py-4 w-full bg-white rounded-lg shadow-[0px_1px_20px_5px_rgba(0,0,0,0.1)]"
-      ref={menu}
-    >
+    <div className="-ml-2 flex flex-col  items-center gap-[10px] py-4 w-full bg-white rounded-lg shadow-[0px_1px_20px_5px_rgba(0,0,0,0.1)]">
       <div className="flex px-4 justify-between w-full">
         <span className="text-[17px]  font-bold">Recent searches</span>
         <Link className="text-blue-800">Edit</Link>

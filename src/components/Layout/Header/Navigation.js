@@ -14,12 +14,17 @@ const Navigation = () => {
   // const currentModal = useSelector((state) => state.modal.currentModal);
   const [searchBar, setSearchBar] = useState(false);
   const { user } = useSelector((user) => ({ ...user }));
-  const [showFbSearch, setShowFbSearch] = useState(true);
+  const [showFbSearch, setShowFbSearch] = useState(false);
   const [openAccMenu, setOpenAccMenu] = useState(false);
+  const [settingIsClicked, setSettingIsClicked] = useState(false);
+
   const accMenu = useRef(null);
   const searchElement = useRef(null);
+  const accSettings = useRef(null);
+
   useClickOutside(searchElement, () => {
     setSearchBar(false);
+    setShowFbSearch(false);
   });
   useClickOutside(accMenu, () => {
     setOpenAccMenu(false);
@@ -34,9 +39,17 @@ const Navigation = () => {
 
   const openSearch = () => {
     setShowFbSearch(true);
+    setSearchBar(true);
   };
 
-  const openMenu = () => {
+  // const checkSettingClicks = () => {
+  //   setSettingIsClicked(true);
+  // };
+
+  const openMenu = (e) => {
+    if (settingIsClicked) {
+      return;
+    }
     setOpenAccMenu((prev) => !prev);
   };
 
@@ -54,6 +67,7 @@ const Navigation = () => {
         </div>
       </Link>
       <div
+        ref={searchElement}
         className={`relative flex items-center ${
           desktopView ? "w-[526px] xl:w-[42.25rem]" : "w-[42.25rem]"
         } pl-[0.4rem] rounded-3xl bg-[#f0f2f5] `}
@@ -61,7 +75,6 @@ const Navigation = () => {
         {!desktopView ? (
           <div
             //aria-disabled={showFbSearch}
-            ref={searchElement}
             onClick={openSearch}
             className={` absolute h-10 ${
               showFbSearch
@@ -73,7 +86,7 @@ const Navigation = () => {
             {showFbSearch && (
               <SearchInput
                 showFbSearch={searchBar}
-                onFocus={openSearchBar}
+                // onFocus={openSearchBar}
                 //  onBlurCapture={closeSeachBar}
                 className="py-[10px] pr-[32px] pl-2 outline-none w-full rounded-3xl  border-none bg-transparent text-[15px]"
               />
@@ -87,7 +100,7 @@ const Navigation = () => {
             <SearchInput
               showFbSearch={searchBar}
               onFocus={openSearchBar}
-              //    onBlurCapture={closeSeachBar}
+              // onBlurCapture={closeSeachBar}
               className="py-[10px] w-full pr-[32px] pl-[2rem] outline-none rounded-3xl hover:bg-white/40 border-none bg-transparent text-[15px]"
             />
           </>
@@ -119,9 +132,14 @@ const Navigation = () => {
               src={arrowDown}
               alt=""
             />
-          </div>
-          <div className="absolute top-[3.5rem] right-[3px]">
-            <AccountMenu openMenu={openAccMenu} />
+            {openAccMenu && (
+              <div
+                ref={accSettings}
+                className="absolute top-[3.5rem] right-[3px]"
+              >
+                <AccountMenu />
+              </div>
+            )}
           </div>
         </div>
       )}
