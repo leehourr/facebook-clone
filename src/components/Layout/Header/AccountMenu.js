@@ -1,12 +1,11 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
-const AccountMenu = ({ onSetting }) => {
+const AccountMenu = () => {
   const [setting, setSetting] = useState("");
   const [isSettingOpen, setIsSettingOpen] = useState(false);
 
   const toggleSetting = (i) => {
-    console.log(i);
     if (i === 0) {
       setSetting("setting");
     }

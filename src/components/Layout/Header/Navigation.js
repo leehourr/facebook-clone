@@ -2,7 +2,7 @@ import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { Logo, Messenger, Notifications, Search } from "../../../svg";
 import arrowDown from "../../../assets/arrowDown.png";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useMediaQuery } from "react-responsive";
 import SearchInput from "./SearchInput";
 import AccountMenu from "./AccountMenu";
@@ -16,11 +16,9 @@ const Navigation = () => {
   const { user } = useSelector((user) => ({ ...user }));
   const [showFbSearch, setShowFbSearch] = useState(false);
   const [openAccMenu, setOpenAccMenu] = useState(false);
-  const [settingIsClicked, setSettingIsClicked] = useState(false);
 
   const accMenu = useRef(null);
   const searchElement = useRef(null);
-  const accSettings = useRef(null);
 
   useClickOutside(searchElement, () => {
     setSearchBar(false);
@@ -42,14 +40,7 @@ const Navigation = () => {
     setSearchBar(true);
   };
 
-  // const checkSettingClicks = () => {
-  //   setSettingIsClicked(true);
-  // };
-
   const openMenu = (e) => {
-    if (settingIsClicked) {
-      return;
-    }
     setOpenAccMenu((prev) => !prev);
   };
 
@@ -119,24 +110,22 @@ const Navigation = () => {
           </div>
           <div
             ref={accMenu}
-            onClick={openMenu}
             className="relative h-10 hover:bg-black/20 w-10 rounded-[50%] flex items-center justify-center  bg-[#e4e6eb] cursor-pointer "
           >
             <img
+              onClick={openMenu}
               className="w-full h-full rounded-full"
               src={user?.picture}
               alt=""
             />
             <img
+              onClick={openMenu}
               className="absolute top-[1.6rem] right-0 outline-[2px] outline-double outline-white w-[0.8rem] h-[0.8rem]  rounded-full bg-[#e4e6eb] "
               src={arrowDown}
               alt=""
             />
             {openAccMenu && (
-              <div
-                ref={accSettings}
-                className="absolute top-[3.5rem] right-[3px]"
-              >
+              <div className="absolute top-[3.5rem] right-[3px]">
                 <AccountMenu />
               </div>
             )}
