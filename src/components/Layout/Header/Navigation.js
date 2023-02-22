@@ -30,7 +30,9 @@ const Navigation = () => {
   const openMenu = () => {
     // dispatch(modalActions.openModal());
     //  setModal(true);
-    setOpenAccMenu(true);
+    setOpenAccMenu((prev) => {
+      return !prev;
+    });
   };
 
   const closeMenu = () => {
