@@ -1,12 +1,12 @@
 import { useEffect } from "react";
 
-export default function useClickOutside(ref, fun) {
+export default function useClickOutside(ref, func) {
   useEffect(() => {
     const listener = (e) => {
       if (!ref.current || ref.current.contains(e.target)) {
         return;
       }
-      fun();
+      func();
     };
     document.addEventListener("mousedown", listener);
     document.addEventListener("touchstart", listener);
@@ -15,5 +15,5 @@ export default function useClickOutside(ref, fun) {
       document.removeEventListener("mousedown", listener);
       document.removeEventListener("touchstart", listener);
     };
-  }, [ref]);
+  }, [ref, func]);
 }

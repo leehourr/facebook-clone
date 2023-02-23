@@ -3,8 +3,8 @@ import { useMediaQuery } from "react-responsive";
 import { NavLink } from "react-router-dom";
 import { HomeActive, Menu } from "../../../svg";
 import AllMenu from "./AllMenu";
-import { modalActions } from "../../../store/modal-slice";
-import { useDispatch } from "react-redux";
+// import { modalActions } from "../../../store/modal-slice";
+// import { useDispatch } from "react-redux";
 import useClickOutside from "../../../helpers/clickOutside";
 
 const LeftNav = () => {
