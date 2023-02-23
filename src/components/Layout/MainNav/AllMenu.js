@@ -33,6 +33,7 @@ const AllMenu = () => {
             <div className="absolute top-3 left-6">
               <Search color="#65676b" />
             </div>
+            
             <input
               className="w-[90%] outline-none bg-[#F6F8F9] pl-8 rounded-3xl py-[0.4rem] pb-3 mx-auto"
               type="text"
