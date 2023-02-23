@@ -2,7 +2,7 @@ import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { Logo, Messenger, Notifications, Search } from "../../../svg";
 import arrowDown from "../../../assets/arrowDown.png";
-import { useRef, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import { useMediaQuery } from "react-responsive";
 import SearchInput from "./SearchInput";
 import AccountMenu from "./AccountMenu";
@@ -20,14 +20,19 @@ const Navigation = () => {
   const accMenu = useRef(null);
   const searchElement = useRef(null);
 
-  useClickOutside(searchElement, () => {
-    setSearchBar(false);
-    setShowFbSearch(false);
-  });
-  useClickOutside(accMenu, () => {
-    console.log("clicked");
-    setOpenAccMenu(false);
-  });
+  useClickOutside(
+    searchElement,
+    useCallback(() => {
+      setSearchBar(false);
+      setShowFbSearch(false);
+    }, [])
+  );
+  useClickOutside(
+    accMenu,
+    useCallback(() => {
+      setOpenAccMenu(false);
+    }, [])
+  );
 
   const desktopView = useMediaQuery({
     query: "(min-width: 880px)",
