@@ -152,16 +152,18 @@ const LeftNav = () => {
             <img src={"../../left/gaming.png"} className="w-8" alt="" />
           </div>
         </NavLink>
-        <div ref={menu}>
-          <NavLink
-            // to="/asd"
-            onClick={toggleMenu}
-            className={`
+        <div
+          ref={menu}
+          className={`
          ${
            isMenuOpen
              ? "before:h-[2.2rem] xl:w-full hover:bg-[#F2F2F2] p-2 pl-0 rounded-lg  before:rounded-r-lg before:border-[2px] before:border-[#056ADB] before:absolute before:left-0 "
              : "xl:w-full hover:bg-[#E4E6E9] p-2 pl-0 rounded-lg"
          }`}
+        >
+          <NavLink
+            // to="/asd"
+            onClick={toggleMenu}
           >
             <div
               //onClick={toggleMenu}

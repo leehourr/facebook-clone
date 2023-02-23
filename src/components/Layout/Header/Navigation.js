@@ -25,6 +25,7 @@ const Navigation = () => {
     setShowFbSearch(false);
   });
   useClickOutside(accMenu, () => {
+    console.log("clicked");
     setOpenAccMenu(false);
   });
 

@@ -73,7 +73,7 @@ const AllMenu = () => {
           <div className="flex mt-[13px] flex-col items-center">
             {create.slice(0, 3).map((i) => {
               return (
-                <div className="cursor-pointer flex items-center justify-start w-[90%] gap-2 py-2 pl-[0.5rem] rounded-xl hover:bg-[#F2F2F2] ">
+                <div key={i.name} className="cursor-pointer flex items-center justify-start w-[90%] gap-2 py-2 pl-[0.5rem] rounded-xl hover:bg-[#F2F2F2] ">
                   <div className=" bg-[#dcdcdc] flex items-center justify-center w-9 h-9 rounded-full ">
                     <i className={`${i.icon}`} />
                   </div>
@@ -84,7 +84,7 @@ const AllMenu = () => {
             <div className="border-b-[1px] border-b-black/20 w-[85%] my-2"></div>
             {create.slice(4, -1).map((i) => {
               return (
-                <div className="cursor-pointer flex items-center justify-start w-[90%] gap-2 py-2 pl-[0.5rem] rounded-xl hover:bg-[#F2F2F2] ">
+                <div key={i.name}  className="cursor-pointer flex items-center justify-start w-[90%] gap-2 py-2 pl-[0.5rem] rounded-xl hover:bg-[#F2F2F2] ">
                   <div className=" bg-[#dcdcdc] flex items-center justify-center w-9 h-9 rounded-full ">
                     <i className={`${i.icon}`} />
                   </div>
