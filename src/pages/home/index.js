@@ -8,7 +8,6 @@ const Home = () => {
     <div className="bg-[#F0F2F5] w-full h-screen">
       <Navigation />
       <LeftNav />
-
       <Outlet />
     </div>
   );

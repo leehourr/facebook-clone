@@ -9,35 +9,44 @@ import useClickOutside from "../../../helpers/clickOutside";
 
 const LeftNav = () => {
   // const modal = useSelector((state) => state.modal.currentModal);
-  const [isHovering, setIsHovering] = useState(false);
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
   const menu = useRef(null);
-  const mobileView = useMediaQuery({
-    query: "(max-width: 1120px)",
-  });
-  const desktopView = useMediaQuery({
-    query: "(min-width: 1120px)",
-  });
 
-  useClickOutside(menu, () => {
-    setIsMenuOpen(false);
-  });
+  // useClickOutside(menu, () => {
+  //   setIsMenuOpen(false);
+  // });
 
-  const mouseHover = () => {
-    setIsHovering(true);
-  };
-  const mouseOut = () => {
-    setIsHovering(false);
-  };
-  const closeMenu = () => {
-    setIsMenuOpen(false);
-  };
-  const toggleMenu = () => {
-    setIsMenuOpen((prev) => !prev);
-  };
+  // const closeMenu = () => {
+  //   setIsMenuOpen(false);
+  // };
+  // const toggleMenu = () => {
+  //   setIsMenuOpen((prev) => !prev);
+  // };
   return (
-    <>
-      <nav
+    <nav className="w-[4rem] h-full fixed top-[3.5rem] bg-white">
+      <ul className="w-full">
+        {leftNavigation.slice(0, 2).map((i) => (
+          <Navlink
+            key={i.name}
+            href={i.to}
+            name={i.name}
+            icon={i.icon}
+            hoverText={i.hoverState}
+          />
+        ))}
+        <div className="w-[80%] mx-auto border-b-2 border-b-black/10 "></div>
+        {leftNavigation.slice(2, 7).map((i) => (
+          <Navlink
+            key={i.name}
+            href={i.to}
+            name={i.name}
+            icon={i.icon}
+            hoverText={i.hoverState}
+          />
+        ))}
+        <div className="w-[80%] mx-auto border-b-2 border-b-black/10 "></div>
+      </ul>
+      {/* <nav
         className={`${
           isMenuOpen &&
           desktopView &&
@@ -58,9 +67,6 @@ const LeftNav = () => {
           <NavLink
             to="/"
             onClick={closeMenu}
-            //onClick={}
-            // onMouseOver={mouseHover}
-            // onMouseOut={mouseOut}
             className={({ isActive }) =>
               isActive && !isMenuOpen
                 ? "before:h-[2.2rem] before:rounded-r-lg before:border-[2px] before:border-[#056ADB] before:absolute before:top-5 before:left-0 "
@@ -70,8 +76,7 @@ const LeftNav = () => {
           >
             <div className="pl-[2px] mx-auto relative">
               <HomeActive />
-              {/* <Home color="#000000" /> */}
-              {mobileView && isHovering && (
+\              {mobileView && isHovering && (
                 <span className="absolute rounded-lg w-16 text-white text-[0.9rem] opacity-70 shadow-md shadow-black bg-black p-1 top-0 left-12">
                   Home
                 </span>
@@ -91,11 +96,7 @@ const LeftNav = () => {
           >
             <div className="relative">
               <img src="" alt="" className="w-8 h-8 rounded-full" />
-              {/* {mobileView && isHovering && (
-              <span className="absolute rounded-lg w-20 text-white text-[0.9rem] opacity-70 shadow-md shadow-black bg-black p-1 top-0 left-12">
-                Your profile
-              </span>
-            )} */}
+
             </div>
           </NavLink>
         </div>
@@ -162,11 +163,9 @@ const LeftNav = () => {
          }`}
         >
           <div
-            // to="/asd"
             onClick={toggleMenu}
           >
             <div
-              //onClick={toggleMenu}
               className="w-8 ml-[0.4rem] bg-[#dbe1e8] p-2 rounded-full"
             >
               <Menu />
@@ -174,9 +173,117 @@ const LeftNav = () => {
           </div>
           {isMenuOpen && <AllMenu />}
         </NavLink>
-      </nav>
-    </>
+        <div className="w-[80%] xl:w-full mt-2 border-b-[1px] border-b-black/20"></div>
+      </nav> */}
+    </nav>
   );
 };
 
 export default LeftNav;
+
+const Navlink = ({ href, name, icon, hoverText }) => {
+  const [isHovering, setIsHovering] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const menu = useRef(null);
+  const mobileView = useMediaQuery({
+    query: "(max-width: 1120px)",
+  });
+  const desktopView = useMediaQuery({
+    query: "(min-width: 1120px)",
+  });
+
+  useClickOutside(menu, () => {
+    setIsMenuOpen(false);
+  });
+  const MenuComponent = typeof icon === "object" && icon.type.name === "Menu";
+
+  const mouseHover = (i) => {
+    // console.log(i);
+    setIsHovering(true);
+  };
+  const mouseOut = () => {
+    setIsHovering(false);
+  };
+  const toggleMenu = () => {
+    setIsMenuOpen((prev) => !prev);
+  };
+
+  return (
+    <li key={href} className="my-2 relative">
+      <NavLink
+        to={href}
+        // onClick={closeMenu}
+        className={({ isActive }) =>
+          isActive && !isMenuOpen && MenuComponent
+            ? "before:h-[2.75rem] before:rounded-r-lg before:border-[2px] before:border-[#056ADB] before:absolute before:top-0 before:left-0 "
+            : "xl:w-full"
+        }
+        end
+      >
+        <div
+          onClick={MenuComponent && toggleMenu}
+          onMouseOver={mouseHover}
+          onMouseOut={mouseOut}
+          className="hover:bg-black/20 relative p-2 flex items-center justify-center w-[80%] text-center mx-auto rounded-lg "
+        >
+          {typeof icon === "object" ? (
+            MenuComponent ? (
+              <div className="w-8 flex items-center justify-center mx-auto bg-[#dbe1e8] p-2 rounded-full">
+                <Menu />
+              </div>
+            ) : (
+              icon
+            )
+          ) : (
+            <img src={`${icon}`} alt="" />
+          )}
+          {mobileView && isHovering && (
+            <span className="absolute w-20 rounded-lg text-white text-[0.9rem] opacity-60 shadow-md shadow-black bg-black top-1//2 left-[3.55rem]">
+              {hoverText}
+            </span>
+          )}
+        </div>
+        {MenuComponent && isMenuOpen && <AllMenu />}
+      </NavLink>
+    </li>
+  );
+};
+
+const leftNavigation = [
+  { name: "Home", to: "/", icon: <HomeActive />, hoverState: "Home" },
+  {
+    name: "Profile",
+    to: "/pr0file",
+    icon: <HomeActive />,
+    hoverState: "Your profile",
+  },
+  {
+    name: "watch",
+    to: "/asfd",
+    icon: "../../left/watch.png",
+    hoverState: "Watch",
+  },
+  {
+    name: "Marketplace",
+    to: "/asdfsa",
+    icon: "../../left/marketplace.png",
+    hoverState: "Marketplace",
+  },
+  {
+    name: "Group",
+    to: "/asdfsa",
+    icon: "../../left/groups.png",
+    hoverState: "Group",
+  },
+  {
+    name: "Gaming",
+    to: "/asdfsa",
+    icon: "../../left/gaming.png",
+    hoverState: "Gaming",
+  },
+  {
+    name: "See all",
+    icon: <Menu />,
+    hoverState: "See all",
+  },
+];
