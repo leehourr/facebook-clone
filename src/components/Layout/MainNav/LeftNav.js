@@ -8,10 +8,11 @@ import AllMenu from "./AllMenu";
 import useClickOutside from "../../../helpers/clickOutside";
 
 const LeftNav = () => {
-  // const modal = useSelector((state) => state.modal.currentModal);
-
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
+  const desktopView = useMediaQuery({
+    query: "(min-width: 1120px)",
+  });
   const openMenu = () => {
     console.log("menu opend");
     setIsMenuOpen((prev) => !prev);
@@ -22,7 +23,15 @@ const LeftNav = () => {
   };
 
   return (
-    <nav className="w-[4rem] h-full fixed top-[3.5rem] bg-white">
+    <nav
+      className={`${
+        desktopView
+          ? desktopView && isMenuOpen
+            ? "w-[4rem] bg-white"
+            : "w-[20rem] bg-transparent"
+          : "w-[4rem] bg-white"
+      } h-full fixed top-[3.5rem] `}
+    >
       <ul className="w-full">
         {leftNavigation.slice(0, 2).map((i) => (
           <Navlink
@@ -34,7 +43,15 @@ const LeftNav = () => {
             isMenuOpen={isMenuOpen}
           />
         ))}
-        <div className="w-[50%] mx-auto border-b-[1px] border-b-black/10 "></div>
+        <div
+          className={`${
+            desktopView
+              ? desktopView && isMenuOpen
+                ? "w-[50%]"
+                : "w-[90%]"
+              : "w-[50%]"
+          } mx-auto border-b-[1px] border-b-black/10`}
+        ></div>
         {leftNavigation.slice(2, 7).map((i) => (
           <Navlink
             key={i.name}
@@ -46,7 +63,15 @@ const LeftNav = () => {
           />
         ))}
         <SeeAllButton openMenu={openMenu} closeMenu={closeMenu} />
-        <div className="w-[50%] mx-auto border-b-2 border-b-black/10 "></div>
+        <div
+          className={`${
+            desktopView
+              ? desktopView && isMenuOpen
+                ? "w-[50%]"
+                : "w-[90%]"
+              : "w-[50%]"
+          } mx-auto border-b-[1px] border-b-black/10`}
+        ></div>
       </ul>
     </nav>
   );
@@ -87,9 +112,19 @@ const Navlink = ({ href, name, icon, hoverText, isMenuOpen }) => {
         <div
           onMouseOver={mouseHover}
           onMouseOut={mouseOut}
-          className="hover:bg-black/20 relative p-2 flex items-center justify-center w-[80%] text-center mx-auto rounded-lg "
+          className={`${
+            desktopView
+              ? desktopView && isMenuOpen
+                ? "w-[80%] justify-center"
+                : "w-[97%] justify-start"
+              : "w-[80%] justify-center"
+          } hover:bg-black/20 relative p-2 flex items-center text-center mx-auto rounded-lg `}
         >
-          {typeof icon === "object" ? icon : <img src={`${icon}`} alt="" />}
+          {typeof icon === "object" ? (
+            icon
+          ) : (
+            <img src={`${icon}`} className="w-7 h-7" alt="" />
+          )}
           {mobileView && isHovering && (
             <span className="absolute z-40 px-4 py-1 rounded-lg text-white text-[0.9rem] opacity-70 shadow-md shadow-black bg-black top-[20%] left-[3.55rem] whitespace-nowrap">
               {hoverText}
@@ -110,9 +145,9 @@ const SeeAllButton = ({ openMenu, closeMenu }) => {
   const mobileView = useMediaQuery({
     query: "(max-width: 1120px)",
   });
-  // const desktopView = useMediaQuery({
-  //   query: "(min-width: 1120px)",
-  // });
+  const desktopView = useMediaQuery({
+    query: "(min-width: 1120px)",
+  });
 
   useClickOutside(
     menu,
@@ -136,13 +171,12 @@ const SeeAllButton = ({ openMenu, closeMenu }) => {
   };
 
   return (
-    <li className="my-2 text-center relative">
-      <button
-        ref={menu}
+    <li ref={menu} className="my-2 relative">
+      <NavLink
         // onClick={closeMenu}
         className={
           isMenuOpen
-            ? "before:h-[2.75rem] before:rounded-r-lg before:border-[2px] before:border-[#056ADB] before:absolute before:top-0 before:left-0 "
+            ? "before:h-[2.75rem] before:rounded-r-lg  before:border-[2px] before:border-[#056ADB] before:absolute before:top-0 before:left-0 "
             : "xl:w-full"
         }
       >
@@ -150,9 +184,15 @@ const SeeAllButton = ({ openMenu, closeMenu }) => {
           onClick={toggleMenu}
           onMouseOver={mouseHover}
           onMouseOut={mouseOut}
-          className="hover:bg-black/20 relative p-2 flex items-center justify-center w-full text-center mx-auto rounded-lg "
+          className={`${
+            desktopView
+              ? desktopView && isMenuOpen
+                ? "justify-center w-[80%]"
+                : "w-[97%] justify-start"
+              : "w-[80%] justify-center"
+          } hover:bg-black/20 relative p-2 flex items-center mx-auto rounded-lg`}
         >
-          <div className="w-8 flex items-center justify-center mx-auto bg-[#dbe1e8] p-2 rounded-full">
+          <div className="w-7 flex items-center justify-center bg-[#dbe1e8] p-2 rounded-full">
             <Menu />
           </div>
           {mobileView && isHovering && (
@@ -161,8 +201,8 @@ const SeeAllButton = ({ openMenu, closeMenu }) => {
             </span>
           )}
         </div>
-        {isMenuOpen && <AllMenu />}
-      </button>
+      </NavLink>
+      {isMenuOpen && <AllMenu />}
     </li>
   );
 };
