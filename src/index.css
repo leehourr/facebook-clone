@@ -12,7 +12,7 @@
   }
 
   .page_option {
-    @apply bg-black/20 w-7 h-7 rounded-full;
+    @apply bg-black/20 w-6 h-6 rounded-full;
   }
 
   .promotion_option {

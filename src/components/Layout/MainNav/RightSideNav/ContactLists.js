@@ -1,5 +1,6 @@
 import React from "react";
 import { Dots, NewRoom, Search } from "../../../../svg";
+import ContactItem from "./ContactItem";
 import ContactOptions from "./ContactOptions";
 
 const ContactLists = () => {
@@ -21,6 +22,33 @@ const ContactLists = () => {
           <ContactOptions icon={<Dots color={color} />} hoverText="Options" />
         </div>
       </header>
+      <ContactItem />
+      <ContactItem />
+      <ContactItem />
+      <ContactItem />
+      <ContactItem />
+      <ContactItem />
+      <ContactItem />
+      <ContactItem />
+      <ContactItem />
+      <ContactItem />
+      <ContactItem />
+      <ContactItem />
+      <ContactItem />
+      <ContactItem />
+      <ContactItem />
+      <ContactItem />
+      <ContactItem />
+      <ContactItem />
+      <ContactItem />
+      <ContactItem />
+      <ContactItem />
+      <ContactItem />
+      <ContactItem />
+      <ContactItem />
+      <ContactItem />
+      <ContactItem />
+
     </div>
   );
 };
