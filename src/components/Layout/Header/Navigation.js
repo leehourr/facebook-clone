@@ -35,7 +35,7 @@ const Navigation = () => {
   );
 
   const desktopView = useMediaQuery({
-    query: "(min-width: 880px)",
+    query: "(min-width: 893px)",
   });
   console.log(desktopView);
   const desktopView2 = useMediaQuery({
@@ -66,18 +66,17 @@ const Navigation = () => {
       </Link>
       <div
         ref={searchElement}
-        className="relative flex items-center xl:w-[35%] w-[42.25rem]
-      lg:w-[60%] pl-[0.4rem] rounded-3xl bg-[#f0f2f5]"
+        className="relative flex items-center xl:w-[35%] w-full lg3:w-[60%] pl-[0.4rem] rounded-3xl bg-[#f0f2f5] "
       >
         {!desktopView ? (
           <div
             //aria-disabled={showFbSearch}
             onClick={openSearch}
-            className={` absolute h-10 ${
+            className={`absolute h-10 ${
               showFbSearch
                 ? "w-full sm:w-[312px] rounded-3xl pl-4 active:cursor-default"
                 : "w-10 rounded-[50%] hover:bg-black/20 cursor-pointer"
-            } flex items-center justify-center  bg-[#e4e6eb]`}
+            } flex items-center justify-center bg-[#e4e6eb]`}
           >
             <Search color="#65676b" />
             {showFbSearch && (
