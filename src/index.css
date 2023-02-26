@@ -18,6 +18,10 @@
   .promotion_option {
     @apply ml-3 text-[14px] text-[#5a5c5f];
   }
+
+  .contact_options {
+    @apply cursor-pointer p-2 w-[2rem] h-[2rem] rounded-full flex items-center justify-center hover:bg-black/5;
+  }
 }
 
 body {
