@@ -37,6 +37,7 @@ const Navigation = () => {
   const desktopView = useMediaQuery({
     query: "(min-width: 880px)",
   });
+  console.log(desktopView);
   const desktopView2 = useMediaQuery({
     query: "(max-width: 539px)",
   });
@@ -66,7 +67,7 @@ const Navigation = () => {
       <div
         ref={searchElement}
         className={`relative flex items-center ${
-          desktopView ? "w-[526px] xl:w-[42.25rem]" : "w-[42.25rem]"
+          desktopView ? "w-[35%]" : "w-[42.25rem]"
         } pl-[0.4rem] rounded-3xl bg-[#f0f2f5] `}
       >
         {!desktopView ? (
