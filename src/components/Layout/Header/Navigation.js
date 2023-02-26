@@ -66,7 +66,7 @@ const Navigation = () => {
       </Link>
       <div
         ref={searchElement}
-        className="relative flex items-center xl:w-[35%] w-full lg3:w-[60%] pl-[0.4rem] rounded-3xl bg-[#f0f2f5] "
+        className="relative flex items-center xl:ml-24 xl:w-[36%] w-full lg3:w-[60%] pl-[0.4rem] rounded-3xl bg-[#f0f2f5] "
       >
         {!desktopView ? (
           <div

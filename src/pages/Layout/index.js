@@ -4,7 +4,7 @@ import Navigation from "../../components/Layout/Header/Navigation";
 import LeftNav from "../../components/Layout/MainNav/LeftSideNav/LeftNav";
 import RightNav from "../../components/Layout/MainNav/RightSideNav/RightNav";
 
-const Home = () => {
+const Layout = () => {
   return (
     <div className="bg-[#F0F2F5] w-full h-screen">
       <Navigation />
@@ -15,4 +15,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default Layout;

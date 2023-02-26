@@ -3,6 +3,9 @@
 @tailwind utilities;
 
 @layer base {
+  body {
+    @apply bg-[#F0F2F5];
+  }
   .leftNav_border {
     @apply mx-auto border-b-[1px] border-b-black/10;
   }
