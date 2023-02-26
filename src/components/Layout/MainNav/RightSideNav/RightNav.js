@@ -4,7 +4,7 @@ import Sponsor from "./Sponsor";
 
 const RightNav = () => {
   return (
-    <div className="w-[18rem] xxl:w-[24rem] bg-transparent h-full fixed top-[3.5rem] right-0 overflow-y-auto scrollbar-thin scrollbar-track-neutral-800 scrollbar-corner-rounded-2xl scrollbar-w-3 scrollbar-thumb-rounded-2xl">
+    <div className="hidden lg2:block lg2:w-[18rem] xxl:w-[24rem] bg-transparent h-full fixed top-[3.5rem] right-0 overflow-y-auto scrollbar-thin scrollbar-track-neutral-800 scrollbar-corner-rounded-2xl scrollbar-w-3 scrollbar-thumb-rounded-2xl">
       <h1 className="ml-2 tracking-wide font-semibold mt-7 mb-5 text-[17px] text-[#65676B] ">
         Sponsored
       </h1>
