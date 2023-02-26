@@ -1,11 +1,11 @@
 import React, { useState, useRef, useCallback } from "react";
 import { useMediaQuery } from "react-responsive";
 import { NavLink } from "react-router-dom";
-import { HomeActive, Menu } from "../../../svg";
+import { HomeActive, Menu } from "../../../../svg";
 import AllMenu from "./AllMenu";
 // import { modalActions } from "../../../store/modal-slice";
 // import { useDispatch } from "react-redux";
-import useClickOutside from "../../../helpers/clickOutside";
+import useClickOutside from "../../../../helpers/clickOutside";
 
 const LeftNav = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -30,7 +30,7 @@ const LeftNav = () => {
             ? "w-[4rem] bg-white"
             : "w-[20rem] bg-transparent"
           : "w-[4rem] bg-white"
-      } h-full fixed top-[3.5rem] `}
+      } h-full fixed top-[3.5rem] select-none `}
     >
       <ul className="w-full">
         {leftNavigation.slice(0, 2).map((i) => (
@@ -50,7 +50,7 @@ const LeftNav = () => {
                 ? "w-[50%]"
                 : "w-[90%]"
               : "w-[50%]"
-          } mx-auto border-b-[1px] border-b-black/10`}
+          } leftNav_border`}
         ></div>
         {leftNavigation.slice(2, 7).map((i) => (
           <Navlink
@@ -70,7 +70,7 @@ const LeftNav = () => {
                 ? "w-[50%]"
                 : "w-[90%]"
               : "w-[50%]"
-          } mx-auto border-b-[1px] border-b-black/10`}
+          } leftNav_border`}
         ></div>
       </ul>
     </nav>
@@ -125,11 +125,14 @@ const Navlink = ({ href, name, icon, hoverText, isMenuOpen }) => {
           ) : (
             <img src={`${icon}`} className="w-7 h-7" alt="" />
           )}
-          {mobileView && isHovering && (
+          {mobileView || isMenuOpen ? null : (
+            <span className="ml-2">{name}</span>
+          )}
+          {(isMenuOpen && isHovering) || (mobileView && isHovering) ? (
             <span className="absolute z-40 px-4 py-1 rounded-lg text-white text-[0.9rem] opacity-70 shadow-md shadow-black bg-black top-[20%] left-[3.55rem] whitespace-nowrap">
               {hoverText}
             </span>
-          )}
+          ) : null}
         </div>
         {/* {MenuComponent && isMenuOpen && <AllMenu />} */}
       </NavLink>
@@ -195,11 +198,15 @@ const SeeAllButton = ({ openMenu, closeMenu }) => {
           <div className="w-7 flex items-center justify-center bg-[#dbe1e8] p-2 rounded-full">
             <Menu />
           </div>
-          {mobileView && isHovering && (
+          {mobileView || isMenuOpen ? null : (
+            <span className="ml-2">See all</span>
+          )}
+
+          {(isMenuOpen && isHovering) || (mobileView && isHovering) ? (
             <span className="absolute z-40 px-4 py-1 rounded-lg text-white text-[0.9rem] opacity-70 shadow-md shadow-black bg-black top-[20%] left-[3.55rem] whitespace-nowrap">
               See all
             </span>
-          )}
+          ) : null}
         </div>
       </NavLink>
       {isMenuOpen && <AllMenu />}

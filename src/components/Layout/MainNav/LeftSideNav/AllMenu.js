@@ -1,5 +1,5 @@
 import React from "react";
-import { Search } from "../../../svg";
+import { Search } from "../../../../svg";
 // import { menu, create } from "./menuData";
 import { menu, create } from "./menuData";
 
@@ -33,7 +33,7 @@ const AllMenu = () => {
             <div className="absolute top-3 left-6">
               <Search color="#65676b" />
             </div>
-            
+
             <input
               className="w-[90%] outline-none bg-[#F6F8F9] pl-8 rounded-3xl py-[0.4rem] pb-3 mx-auto"
               type="text"
@@ -74,7 +74,10 @@ const AllMenu = () => {
           <div className="flex mt-[13px] flex-col items-center">
             {create.slice(0, 3).map((i) => {
               return (
-                <div key={i.name} className="cursor-pointer flex items-center justify-start w-[90%] gap-2 py-2 pl-[0.5rem] rounded-xl hover:bg-[#F2F2F2] ">
+                <div
+                  key={i.name}
+                  className="cursor-pointer flex items-center justify-start w-[90%] gap-2 py-2 pl-[0.5rem] rounded-xl hover:bg-[#F2F2F2] "
+                >
                   <div className=" bg-[#dcdcdc] flex items-center justify-center w-9 h-9 rounded-full ">
                     <i className={`${i.icon}`} />
                   </div>
@@ -85,7 +88,10 @@ const AllMenu = () => {
             <div className="border-b-[1px] border-b-black/20 w-[85%] my-2"></div>
             {create.slice(4, -1).map((i) => {
               return (
-                <div key={i.name}  className="cursor-pointer flex items-center justify-start w-[90%] gap-2 py-2 pl-[0.5rem] rounded-xl hover:bg-[#F2F2F2] ">
+                <div
+                  key={i.name}
+                  className="cursor-pointer flex items-center justify-start w-[90%] gap-2 py-2 pl-[0.5rem] rounded-xl hover:bg-[#F2F2F2] "
+                >
                   <div className=" bg-[#dcdcdc] flex items-center justify-center w-9 h-9 rounded-full ">
                     <i className={`${i.icon}`} />
                   </div>
