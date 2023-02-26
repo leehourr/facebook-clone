@@ -7,8 +7,8 @@ const ContactLists = () => {
   const color = "#65676b";
 
   return (
-    <div className="ml-2 mt-5 w-full">
-      <header className="flex items-center justify-between">
+    <div className="mt-5 w-full">
+      <header className=" ml-2 flex items-center mb-3 justify-between">
         <h1 className="text-[17px] tracking-wide font-semibold">Contacts</h1>
         <div className="flex w-[27%] space-x-3 items-center justify-between mr-16 xxl:mr-10">
           <ContactOptions
@@ -48,7 +48,6 @@ const ContactLists = () => {
       <ContactItem />
       <ContactItem />
       <ContactItem />
-
     </div>
   );
 };
