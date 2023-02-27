@@ -13,7 +13,7 @@ const Storie = () => {
   };
 
   return (
-    <div className="w-full hide:w-[78%] hide:ml-2 unhide:w-full undide:mx-auto relative h-full last-child:hidden flex items-center space-x-[0.6rem]">
+    <div className="w-full hide:w-[78%] hide:ml-2 unhide:w-full undide:mx-auto relative h-full last-child:hidden flex items-center gap-x-[0.6rem]">
       <CreateStory />
       {/* <div className="w-[80%] :w-[87%]  flex h-full gap-x-[0.6rem]"> */}
       {stories.map((i) => (

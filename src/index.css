@@ -25,6 +25,14 @@
   .contact_options {
     @apply cursor-pointer p-2 w-[2rem] h-[2rem] rounded-full flex items-center justify-center hover:bg-black/5;
   }
+
+  .feed_section {
+    @apply w-full inline-block mx-auto;
+  }
+
+  .post_options {
+    @apply w-full gap-2 flex items-center justify-center cursor-pointer py-2 hover:bg-black/5 rounded-lg;
+  }
 }
 
 body {
