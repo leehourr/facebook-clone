@@ -1,15 +1,33 @@
-import React from "react";
+import React, { useState } from "react";
+import { ArrowRight } from "../../../svg";
 import CreateStory from "./CreateStory";
 import FriendStories from "./FriendStories";
 
 const Storie = () => {
+  const [isHovering, setIsHovering] = useState(false);
+
   return (
-    <div className="w-full h-full flex items-center space-x-[0.6rem]">
+    <div className="w-full relative h-full flex items-center space-x-[0.6rem]">
       <CreateStory />
-      <FriendStories />
-      <FriendStories />
-      <FriendStories />
-      <FriendStories />
+      {stories.map((i) => (
+        <FriendStories
+          profile={i.profile_picture}
+          image={i.image}
+          name={i.profile_name}
+        />
+      ))}
+      <div
+        onMouseOver={() => setIsHovering(true)}
+        onMouseOut={() => setIsHovering(false)}
+        className="absolute cursor-pointer hover:bg-slate-100 -right-5 w-10 h-10 flex items-center justify-center rounded-full bg-white shadow-md shadow-black/10"
+      >
+        <ArrowRight color="#65676b" />
+      </div>
+      {isHovering && (
+        <span className="absolute shadow-md shadow-black top-[59.5%] text-[14px] bg-black text-white p-[0.4rem] px-3 rounded-lg opacity-80 -right-14">
+          See all stories
+        </span>
+      )}
     </div>
   );
 };
@@ -18,28 +36,23 @@ export default Storie;
 
 const stories = [
   {
-    profile_picture: "../../stories/profile1.jpg",
-    profile_name: "Elon Musk",
-    image: "../../stories/1.jpg",
+    profile_picture: "../../stories/yoru.jpg",
+    profile_name: "Yoru",
+    image: "../../stories/yoru.jpeg",
   },
   {
-    profile_picture: "../../stories/profile2.jpg",
-    profile_name: "South park",
-    image: "../../stories/2.png",
+    profile_picture: "../../stories/johan.jpg",
+    profile_name: "Johan Libert",
+    image: "../../stories/monster.jpg",
   },
   {
-    profile_picture: "../../stories/profile3.png",
-    profile_name: "The Sopranos",
-    image: "../../stories/3.jpg",
+    profile_picture: "../../stories/caat.jpg",
+    profile_name: "Cat",
+    image: "../../stories/cat.jpg",
   },
   {
-    profile_picture: "../../stories/profile4.jfif",
-    profile_name: "Football World",
-    image: "../../stories/4.jpg",
-  },
-  {
-    profile_picture: "../../stories/profile5.png",
-    profile_name: "The Witcher Wild Hunt",
-    image: "../../stories/5.jfif",
+    profile_picture: "../../stories/me.jpg",
+    profile_name: "Hire Me",
+    image: "../../stories/story.jpg",
   },
 ];
