@@ -1,8 +1,11 @@
 import React from "react";
 
-const FriendStories = ({ profile, image, name }) => {
+const FriendStories = ({ profile, image, name, onNav }) => {
   return (
-    <div className=" cursor-pointer group overflow-hidden hover:bg-black/5 group active:scale-95  w-[8.1rem] relative text-center shadow-sm shadow-black/10 h-full rounded-xl bg-white">
+    <div
+      onClick={onNav}
+      className=" cursor-pointer group overflow-hidden hover:bg-black/5 group active:scale-95  w-[8.1rem] relative text-center shadow-sm shadow-black/10 h-full rounded-xl bg-white"
+    >
       <img
         className="absolute top-4 left-4 ring-4 ring-[#166ADA] z-20 w-9 h-9 rounded-full bg-black/20"
         alt=""

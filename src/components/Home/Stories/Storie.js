@@ -1,22 +1,30 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { ArrowRight } from "../../../svg";
 import CreateStory from "./CreateStory";
 import FriendStories from "./FriendStories";
 
 const Storie = () => {
   const [isHovering, setIsHovering] = useState(false);
+  const nav = useNavigate();
+
+  const toStories = () => {
+    nav("/stories");
+  };
 
   return (
     <div className="w-full relative h-full flex items-center space-x-[0.6rem]">
       <CreateStory />
       {stories.map((i) => (
         <FriendStories
+          onNav={toStories}
           profile={i.profile_picture}
           image={i.image}
           name={i.profile_name}
         />
       ))}
       <div
+        onClick={toStories}
         onMouseOver={() => setIsHovering(true)}
         onMouseOut={() => setIsHovering(false)}
         className="absolute cursor-pointer hover:bg-slate-100 -right-5 w-10 h-10 flex items-center justify-center rounded-full bg-white shadow-md shadow-black/10"

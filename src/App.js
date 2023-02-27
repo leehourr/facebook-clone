@@ -5,6 +5,7 @@ import Profile from "./pages/profile";
 import Auth, { action as register } from "./pages/Auth";
 import AuthError from "./pages/Auth/AuthError";
 import Home from "./pages/Home/Home";
+import Story from "./pages/Home/StoryPage";
 
 const router = createBrowserRouter([
   {
@@ -16,6 +17,10 @@ const router = createBrowserRouter([
         element: <Home />,
       },
     ],
+  },
+  {
+    path: "/stories",
+    element: <Story />,
   },
   {
     path: "/login",
