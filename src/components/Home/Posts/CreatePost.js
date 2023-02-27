@@ -1,14 +1,16 @@
 import React from "react";
-import { Feeling, LiveVideo, Photo } from "../../svg";
+import { Feeling, LiveVideo, Photo } from "../../../svg";
+import ReactDOM from "react-dom";
+import Status from "./Status";
 
-const StatusInput = () => {
+const CreatePost = () => {
   return (
     <>
       <div className="w-full shadow-sm shadow-black/20 bg-white rounded-lg overflow-hidden">
         <div className="flex w-[96%] border-b-[1px] border-b-black/10 pb-3 my-3 items-center justify-between mx-3">
           <img className="w-10 h-10 rounded-full bg-black/20" alt="" />
           <input
-            className="bg-[#eaeced] cursor-pointer w-[93.1%] outline-none text-[17px] pl-4 placeholder:text-[#65676B] h-10 rounded-3xl"
+            className="bg-[#eaeced] hover:bg-[#dfe3e4] cursor-pointer w-[93.1%] outline-none text-[17px] pl-4 placeholder:text-[#65676B] h-10 rounded-3xl"
             type="text"
             name="status"
             placeholder="What's on your mind, Name?"
@@ -29,8 +31,9 @@ const StatusInput = () => {
           </div>
         </div>
       </div>
+      <Status />
     </>
   );
 };
 
-export default StatusInput;
+export default CreatePost;
