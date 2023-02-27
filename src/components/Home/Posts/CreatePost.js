@@ -1,6 +1,5 @@
 import React from "react";
 import { Feeling, LiveVideo, Photo } from "../../../svg";
-import ReactDOM from "react-dom";
 import Status from "./Status";
 
 const CreatePost = () => {
