@@ -3,6 +3,12 @@
 @tailwind utilities;
 
 @layer base {
+  :root {
+    @apply bg-white;
+  }
+  html {
+    @apply bg-white;
+  }
   body {
     @apply bg-[#F0F2F5];
   }
