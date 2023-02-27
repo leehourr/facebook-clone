@@ -32,7 +32,7 @@ const LeftNav = () => {
             ? "w-[4rem] bg-white"
             : "w-[20rem] bg-transparent"
           : "w-[4rem] bg-white"
-      } h-full fixed top-[3.5rem] select-none `}
+      } h-full fixed top-[3.5rem] select-none z-40 `}
     >
       <ul className="w-full">
         {leftNavigation.slice(0, 2).map((i) => (
@@ -131,7 +131,7 @@ const Navlink = ({ href, name, icon, hoverText, isMenuOpen }) => {
             <span className="ml-2">{name}</span>
           )}
           {(isMenuOpen && isHovering) || (mobileView && isHovering) ? (
-            <span className="absolute z-40 px-4 py-1 rounded-lg text-white text-[0.9rem] opacity-70 shadow-md shadow-black bg-black top-[20%] left-[3.55rem] whitespace-nowrap">
+            <span className="absolute z-50 px-4 py-1 rounded-lg text-white text-[0.9rem] opacity-70 shadow-md shadow-black bg-black top-[20%] left-[3.55rem] whitespace-nowrap">
               {hoverText}
             </span>
           ) : null}
@@ -215,7 +215,7 @@ const SeeAllButton = ({ openMenu, closeMenu }) => {
         ReactDOM.createPortal(<AllMenu />, document.getElementById("overlay"))}
       {isMenuOpen &&
         ReactDOM.createPortal(
-          <Backdrop className="bg-white/70 z-40 left-12 " />,
+          <Backdrop className="bg-white/70 left-24 " />,
           document.getElementById("backdrop")
         )}
     </li>
