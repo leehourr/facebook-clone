@@ -3,7 +3,7 @@ import { Plus } from "../../../svg";
 
 const CreateStory = () => {
   return (
-    <div className="cursor-pointer hover:bg-black/5 group active:scale-95  w-[8.1rem] relative text-center shadow-sm shadow-black/10 h-full rounded-xl bg-white">
+    <div className=" cursor-pointer hover:bg-black/5 group active:scale-95  w-[8.1rem] relative text-center shadow-sm shadow-black/10 h-full rounded-xl bg-white">
       <img
         src="../../../images/default_pic.png"
         className="h-[11.5rem] w-full object-cover rounded-t-xl bg-black/20"

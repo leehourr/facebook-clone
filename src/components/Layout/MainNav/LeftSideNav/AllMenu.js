@@ -5,7 +5,7 @@ import { menu, create } from "./menuData";
 
 const AllMenu = () => {
   return (
-    <div className="fixed  select-none left-[4rem] h-full top-[3.626rem] w-[38rem] bg-[#F7F8FA]">
+    <div className="fixed block z-50 select-none left-[4rem] h-full top-[3.626rem] w-[38rem] bg-[#F7F8FA]">
       <h1 className="text-[1.5rem] mt-[1rem]  mb-[20px] ml-[17px] font-bold">
         Menu
       </h1>

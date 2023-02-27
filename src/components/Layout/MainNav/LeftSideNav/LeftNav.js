@@ -3,9 +3,11 @@ import { useMediaQuery } from "react-responsive";
 import { NavLink } from "react-router-dom";
 import { HomeActive, Menu } from "../../../../svg";
 import AllMenu from "./AllMenu";
+import ReactDOM from "react-dom";
 // import { modalActions } from "../../../store/modal-slice";
 // import { useDispatch } from "react-redux";
 import useClickOutside from "../../../../helpers/clickOutside";
+import { Backdrop } from "../../../Ui/Backdrop";
 
 const LeftNav = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -174,7 +176,7 @@ const SeeAllButton = ({ openMenu, closeMenu }) => {
   };
 
   return (
-    <li ref={menu} className="my-2 relative">
+    <li ref={menu} className="my-2 z-50 relative">
       <NavLink
         // onClick={closeMenu}
         className={
@@ -209,7 +211,13 @@ const SeeAllButton = ({ openMenu, closeMenu }) => {
           ) : null}
         </div>
       </NavLink>
-      {isMenuOpen && <AllMenu />}
+      {isMenuOpen &&
+        ReactDOM.createPortal(<AllMenu />, document.getElementById("overlay"))}
+      {isMenuOpen &&
+        ReactDOM.createPortal(
+          <Backdrop className="bg-white/70 z-40 left-12 " />,
+          document.getElementById("backdrop")
+        )}
     </li>
   );
 };

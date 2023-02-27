@@ -17,6 +17,7 @@ const Storie = () => {
       <CreateStory />
       {stories.map((i) => (
         <FriendStories
+          key={i.profile_name}
           onNav={toStories}
           profile={i.profile_picture}
           image={i.image}
