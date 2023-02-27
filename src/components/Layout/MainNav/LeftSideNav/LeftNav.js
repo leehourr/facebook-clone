@@ -30,7 +30,7 @@ const LeftNav = () => {
         desktopView
           ? desktopView && isMenuOpen
             ? "w-[4rem] bg-white"
-            : "w-[20rem] bg-transparent"
+            : "4xl:w-[20rem] xl:w-[19rem] bg-transparent"
           : "w-[4rem] bg-white"
       } h-full fixed top-[3.5rem] select-none z-40 `}
     >

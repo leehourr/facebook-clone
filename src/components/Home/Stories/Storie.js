@@ -13,8 +13,9 @@ const Storie = () => {
   };
 
   return (
-    <div className="w-full relative h-full flex items-center space-x-[0.6rem]">
+    <div className="w-full hide:w-[78%] hide:ml-2 unhide:w-full undide:mx-auto relative h-full last-child:hidden flex items-center space-x-[0.6rem]">
       <CreateStory />
+      {/* <div className="w-[80%] :w-[87%]  flex h-full gap-x-[0.6rem]"> */}
       {stories.map((i) => (
         <FriendStories
           key={i.profile_name}
@@ -22,8 +23,10 @@ const Storie = () => {
           profile={i.profile_picture}
           image={i.image}
           name={i.profile_name}
+          last={i.last}
         />
       ))}
+      {/* </div> */}
       <div
         onClick={toStories}
         onMouseOver={() => setIsHovering(true)}
@@ -63,5 +66,6 @@ const stories = [
     profile_picture: "../../stories/me.jpg",
     profile_name: "Hire Me",
     image: "../../stories/story.jpg",
+    last: true,
   },
 ];
