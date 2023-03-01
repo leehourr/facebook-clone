@@ -1,6 +1,6 @@
 import axios from "axios";
 import Cookies from "js-cookie";
-import { LoadingStimulate } from "./LoadingStimulation";
+import { LoadingStimulate } from "./LoadingStimulate";
 
 const api = axios.create({
   baseURL: `${process.env.REACT_APP_BACKEND_URL}`,
