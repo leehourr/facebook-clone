@@ -34,7 +34,7 @@ const LoginForm = ({ openForm }) => {
 
   const submitHandler = () => {
     // console.log(email, password);
-    fetch.submit({ email, password }, { method: "post", action: "/login" });
+    fetch.submit({ email, password }, { method: "post", action: "/" });
   };
 
   return (

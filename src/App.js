@@ -1,27 +1,24 @@
-import React from "react";
-import {
-  createBrowserRouter,
-  Navigate,
-  RouterProvider,
-} from "react-router-dom";
+import React, { useMemo } from "react";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Layout from "./pages/Layout";
 import Profile from "./pages/profile";
 import Auth, { action as login } from "./pages/Auth";
 import AuthError from "./pages/Auth/AuthError";
 import Home from "./pages/Home/Home";
 import Story from "./pages/Home/StoryPage";
-import { useSelector } from "react-redux";
+// import { useSelector } from "react-redux";
+import Cookies from "js-cookie";
 
 function App() {
-  const { user } = useSelector((state) => ({ ...state }));
+  // const { user } = useSelector((state) => ({ ...state }));
 
-  console.log(user.token);
+  const user = useMemo(() => Cookies.get("user"), []);
+  console.log(user);
   const router = createBrowserRouter([
-    user.token
+    user
       ? {
           path: "/",
           element: <Layout />,
-          action: user.token ? null : login,
           children: [
             {
               path: "/",
@@ -41,11 +38,7 @@ function App() {
     },
     { path: "/:name", element: <Profile /> },
   ]);
-  return (
-    <>
-      <RouterProvider router={router} />
-    </>
-  );
+  return <RouterProvider router={router} />;
 }
 
 export default App;

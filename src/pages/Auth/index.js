@@ -30,17 +30,18 @@ const Auth = () => {
 export default Auth;
 
 export const action = async ({ request }) => {
- // createAsyncThunk();
+  createAsyncThunk();
   const data = await request.formData();
   const email = data.get("email");
   const password = data.get("password");
   const credential = { email: email, password: password };
-  console.log("credential", credential);
-  //const res = await login(credential);
+  // console.log("credential", credential);
+  const res = await login(credential);
+  console.log(res);
 
   //using dispatch outsite component function which is action function in this one
-  // store.dispatch(userActions.login(res));
-  // Cookies.set("user", JSON.stringify(res), { sameSite: "None; Secure" });
+  await store.dispatch(userActions.login(res));
+  await Cookies.set("user", JSON.stringify(res), { sameSite: "None; Secure" });
   // console.log(res);
-  //return redirect("/");
+  return redirect("/");
 };
