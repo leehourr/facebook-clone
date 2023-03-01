@@ -1,6 +1,6 @@
-import React, { useMemo, useState, useEffect } from "react";
+import React, { useMemo } from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import Layout, { loader } from "./pages/Layout";
+import Layout, { loader as getUserData } from "./pages/Layout";
 import Profile from "./pages/profile";
 import Auth, { action as login } from "./pages/Auth";
 import AuthError from "./pages/Auth/AuthError";
@@ -18,7 +18,7 @@ function App() {
       ? {
           path: "/",
           element: <Layout />,
-          // loader: loader,
+          loader: getUserData,
           children: [
             {
               path: "/",

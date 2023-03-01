@@ -1,16 +1,18 @@
 import axios from "axios";
 import Cookies from "js-cookie";
+import { LoadingStimulate } from "./LoadingStimulation";
 
 const api = axios.create({
   baseURL: `${process.env.REACT_APP_BACKEND_URL}`,
   //baseURL: "http://localhost:8000",
 });
 
+// const token = Cookies.get("token");
+
 api.interceptors.request.use(
   (config) => {
     const token = Cookies.get("token");
-    // console.log(token);
-    if (token !== null) {
+    if (token) {
       config.headers["Authorization"] = `Bearer ${token}`;
     }
 
@@ -40,6 +42,7 @@ export const register = async (userData) => {
 };
 
 export const getUserData = async () => {
+  await LoadingStimulate(1000);
   const { data } = await api.get(`/auth`).catch((e) => {
     errorHandler(e);
   });

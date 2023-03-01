@@ -1,4 +1,4 @@
-import { Form, Formik, replace } from "formik";
+import { Form, Formik } from "formik";
 import { useState } from "react";
 import RegisterInput from "../Ui/RegisterInput";
 import ReactDOM from "react-dom";
@@ -10,7 +10,7 @@ import { register } from "../../utils/api-call";
 import { useDispatch } from "react-redux";
 import { userActions } from "../../store/user-slice";
 import Cookies from "js-cookie";
-import { redirect, useNavigate } from "react-router-dom";
+import { redirect } from "react-router-dom";
 
 const initialInput = {
   first_name: "",
@@ -117,7 +117,7 @@ export default function RegisterForm({ isOpen, closeForm }) {
     setErrorMessage("");
     const res = await register(user);
     dispatch(userActions.login(res));
-    Cookies.set("token", JSON.stringify(res.token), {
+    Cookies.set("token", res.token, {
       sameSite: "None; Secure",
     });
     console.log(res);

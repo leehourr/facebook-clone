@@ -1,39 +1,57 @@
-import React, { Suspense, useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-import { Outlet, redirect } from "react-router-dom";
+import React, { Suspense, useEffect } from "react";
+// import { useSelector } from "react-redux";
+import { Await, defer, Outlet, useLoaderData } from "react-router-dom";
+import { getUserData } from "../../utils/api-call";
 import Navigation from "../../components/Layout/Header/Navigation";
 import LeftNav from "../../components/Layout/MainNav/LeftSideNav/LeftNav";
 import RightNav from "../../components/Layout/MainNav/RightSideNav/RightNav";
+import Facebook from "../../svg/Facebook";
+// import { createAsyncThunk } from "@reduxjs/toolkit";
+import { userActions } from "../../store/user-slice";
+import store from "../../store";
 
 const Layout = () => {
-  const { user } = useSelector((state) => ({ ...state }));
-  const [userData, setUserData] = useState(null);
-  console.log(userData);
+  const useData = useLoaderData();
   useEffect(() => {
-    if (user) {
-      setUserData(user);
-    }
-  }, [user]);
+    useData.User.then((res) => {
+      // console.log(res);
+      const data = res.user_data;
+      if (data) {
+        store.dispatch(userActions.login(data));
+      }
+    });
+  }, [useData]);
   return (
     <Suspense
       fallback={
-        <div className="h-screen text-white flex flex-col items-center justify-between overflow-hidden">
+        <div className="h-screen mt-0 text-white flex flex-col items-center justify-between overflow-hidden">
           <div className="w-full"></div>
-          <h1 className=" font-mono text-2xl sm:text-4xl font-bold uppercase">
-            Facebook
-          </h1>
-          <footer className="text-[0.9rem] mb-4 text-gray-400 sm:text-[1rem]">
+          <div>
+            <Facebook />
+          </div>
+          <footer className="text-[0.9rem] mb-6 text-gray-800 sm:text-[1rem]">
             © 2023, Facebook clone built by Leang Lyhour
           </footer>
         </div>
       }
     >
-      <div className="bg-[#F0F2F5] w-full h-screen">
-        <Navigation />
-        <LeftNav />
-        <Outlet />
-        <RightNav />
-      </div>
+      <Await
+        resolve={useData.User}
+        errorElement={
+          <p className="text-white font-bold text-s sm:text-lg text-center ">
+            Some errors occured.
+          </p>
+        }
+      >
+        {(useData) => (
+          <div className="bg-[#F0F2F5] w-full h-screen">
+            <Navigation />
+            <LeftNav />
+            <Outlet />
+            <RightNav />
+          </div>
+        )}
+      </Await>
     </Suspense>
   );
 };
@@ -41,5 +59,7 @@ const Layout = () => {
 export default Layout;
 
 export const loader = async () => {
-  return redirect("/");
+  return defer({
+    User: getUserData(),
+  });
 };

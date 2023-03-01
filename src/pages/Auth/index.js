@@ -1,12 +1,9 @@
 import React, { useState } from "react";
-import { Navigate, redirect } from "react-router-dom";
+// import { Navigate, redirect } from "react-router-dom";
 import LoginForm from "../../components/Auth/LoginForm";
 import RegisterForm from "../../components/Auth/RegisterForm";
 import Cookies from "js-cookie";
 import { login } from "../../utils/api-call";
-import { userActions } from "../../store/user-slice";
-import { createAsyncThunk } from "@reduxjs/toolkit";
-import store from "../../store";
 
 const Auth = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -30,7 +27,6 @@ const Auth = () => {
 export default Auth;
 
 export const action = async ({ request, navigate }) => {
-  createAsyncThunk();
   const data = await request.formData();
   const email = data.get("email");
   const password = data.get("password");
@@ -39,9 +35,7 @@ export const action = async ({ request, navigate }) => {
   const res = await login(credential);
   console.log(res);
 
-  //using dispatch outsite component function which is action function in this one
-  await store.dispatch(userActions.login(res));
-  await Cookies.set("token", JSON.stringify(res.token), {
+  await Cookies.set("token", res.token, {
     sameSite: "None; Secure",
   });
   // console.log(res);
