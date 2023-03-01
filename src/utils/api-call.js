@@ -1,14 +1,31 @@
 import axios from "axios";
+import Cookies from "js-cookie";
 
 const api = axios.create({
   baseURL: `${process.env.REACT_APP_BACKEND_URL}`,
   //baseURL: "http://localhost:8000",
 });
 
-export const login = async (userData) => {
-  console.log(process.env.REACT_APP_BACKEND_URL);
+api.interceptors.request.use(
+  (config) => {
+    const token = Cookies.get("token");
+    // console.log(token);
+    if (token !== null) {
+      config.headers["Authorization"] = `Bearer ${token}`;
+    }
 
-  console.log("in api call", userData);
+    return config;
+  },
+
+  (error) => {
+    return Promise.reject(error);
+  }
+);
+
+export const login = async (userData) => {
+  // console.log(process.env.REACT_APP_BACKEND_URL);
+
+  // console.log("in api call", userData);
   const { data } = await api.post(`/login`, userData).catch((e) => {
     errorHandler(e);
   });
@@ -17,6 +34,13 @@ export const login = async (userData) => {
 
 export const register = async (userData) => {
   const { data } = await api.post("/register", userData).catch((e) => {
+    errorHandler(e);
+  });
+  return data;
+};
+
+export const getUserData = async () => {
+  const { data } = await api.get(`/auth`).catch((e) => {
     errorHandler(e);
   });
   return data;

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { redirect } from "react-router-dom";
+import { Navigate, redirect } from "react-router-dom";
 import LoginForm from "../../components/Auth/LoginForm";
 import RegisterForm from "../../components/Auth/RegisterForm";
 import Cookies from "js-cookie";
@@ -29,7 +29,7 @@ const Auth = () => {
 
 export default Auth;
 
-export const action = async ({ request }) => {
+export const action = async ({ request, navigate }) => {
   createAsyncThunk();
   const data = await request.formData();
   const email = data.get("email");
@@ -41,7 +41,11 @@ export const action = async ({ request }) => {
 
   //using dispatch outsite component function which is action function in this one
   await store.dispatch(userActions.login(res));
-  await Cookies.set("user", JSON.stringify(res), { sameSite: "None; Secure" });
+  await Cookies.set("token", JSON.stringify(res.token), {
+    sameSite: "None; Secure",
+  });
   // console.log(res);
-  return redirect("/");
+  //window.location.reload(false)
+  window.location.reload(false);
+  return true;
 };

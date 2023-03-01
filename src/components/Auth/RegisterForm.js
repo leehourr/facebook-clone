@@ -1,4 +1,4 @@
-import { Form, Formik } from "formik";
+import { Form, Formik, replace } from "formik";
 import { useState } from "react";
 import RegisterInput from "../Ui/RegisterInput";
 import ReactDOM from "react-dom";
@@ -10,7 +10,7 @@ import { register } from "../../utils/api-call";
 import { useDispatch } from "react-redux";
 import { userActions } from "../../store/user-slice";
 import Cookies from "js-cookie";
-import { useNavigate } from "react-router-dom";
+import { redirect, useNavigate } from "react-router-dom";
 
 const initialInput = {
   first_name: "",
@@ -27,7 +27,7 @@ export default function RegisterForm({ isOpen, closeForm }) {
   const [user, setUser] = useState(initialInput);
   const [errorMessage, setErrorMessage] = useState("");
   const dispatch = useDispatch();
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const {
     first_name,
@@ -117,11 +117,16 @@ export default function RegisterForm({ isOpen, closeForm }) {
     setErrorMessage("");
     const res = await register(user);
     dispatch(userActions.login(res));
-    Cookies.set("user", JSON.stringify(res), { sameSite: "None; Secure" });
-    setTimeout(() => {
-      setIsLoading(false);
-      navigate("/");
-    }, [1000]);
+    Cookies.set("token", JSON.stringify(res.token), {
+      sameSite: "None; Secure",
+    });
+    console.log(res);
+    if (res.statCode === 200) {
+      setTimeout(() => {
+        setIsLoading(false);
+        return redirect("/");
+      }, [1000]);
+    }
   };
 
   return (

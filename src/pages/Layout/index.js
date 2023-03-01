@@ -1,10 +1,19 @@
-import React, { Suspense } from "react";
-import { Outlet, Await } from "react-router-dom";
+import React, { Suspense, useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { Outlet, redirect } from "react-router-dom";
 import Navigation from "../../components/Layout/Header/Navigation";
 import LeftNav from "../../components/Layout/MainNav/LeftSideNav/LeftNav";
 import RightNav from "../../components/Layout/MainNav/RightSideNav/RightNav";
 
 const Layout = () => {
+  const { user } = useSelector((state) => ({ ...state }));
+  const [userData, setUserData] = useState(null);
+  console.log(userData);
+  useEffect(() => {
+    if (user) {
+      setUserData(user);
+    }
+  }, [user]);
   return (
     <Suspense
       fallback={
@@ -31,4 +40,6 @@ const Layout = () => {
 
 export default Layout;
 
-export const loader = async () => {};
+export const loader = async () => {
+  return redirect("/");
+};

@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { useMemo, useState, useEffect } from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Layout, { loader } from "./pages/Layout";
 import Profile from "./pages/profile";
@@ -10,20 +10,19 @@ import Story from "./pages/Home/StoryPage";
 import Cookies from "js-cookie";
 
 function App() {
-  // const { user } = useSelector((state) => ({ ...state }));
+  // const { user } ((state) => ({ ...state }));
+  const userToken = useMemo(() => Cookies.get("token"), []);
 
-  const user = useMemo(() => Cookies.get("user"), []);
-  console.log(user);
   const router = createBrowserRouter([
-    user
+    userToken
       ? {
           path: "/",
           element: <Layout />,
-          loader:loader,
+          // loader: loader,
           children: [
             {
               path: "/",
-              element: <Home />,
+              element: userToken && <Home />,
             },
           ],
         }
