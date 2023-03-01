@@ -1,6 +1,6 @@
 import React, { useMemo } from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import Layout from "./pages/Layout";
+import Layout, { loader } from "./pages/Layout";
 import Profile from "./pages/profile";
 import Auth, { action as login } from "./pages/Auth";
 import AuthError from "./pages/Auth/AuthError";
@@ -19,6 +19,7 @@ function App() {
       ? {
           path: "/",
           element: <Layout />,
+          loader:loader,
           children: [
             {
               path: "/",
