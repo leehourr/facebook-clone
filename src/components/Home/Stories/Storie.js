@@ -48,9 +48,9 @@ export default Storie;
 
 const stories = [
   {
-    profile_picture: "../../stories/yoru.jpg",
-    profile_name: "Yoru",
-    image: "../../stories/yoru.jpeg",
+    profile_picture: "../../stories/jett2.jpg",
+    profile_name: "Sage",
+    image: "../../stories/jett.jpg",
   },
   {
     profile_picture: "../../stories/johan.jpg",
@@ -63,7 +63,7 @@ const stories = [
     image: "../../stories/cat.jpg",
   },
   {
-    profile_picture: "../../stories/me.jpg",
+    profile_picture: "../../stories/me1.jpg",
     profile_name: "Hire Me",
     image: "../../stories/story.jpg",
     last: true,
