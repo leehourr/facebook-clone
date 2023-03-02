@@ -37,7 +37,7 @@ const Navigation = () => {
   const desktopView = useMediaQuery({
     query: "(min-width: 893px)",
   });
-  console.log(desktopView);
+  // console.log(desktopView);
   const desktopView2 = useMediaQuery({
     query: "(max-width: 539px)",
   });

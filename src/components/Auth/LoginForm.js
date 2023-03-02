@@ -51,7 +51,7 @@ const LoginForm = ({ openForm }) => {
           </span>
         </div>
         <div className="text-center">
-          <div className="flex flex-col z-0 lg:w-[400px] items-center gap-[1rem] shadow-sm shadow-black/20 select-none bg-white p-[1rem] pb-[2rem] w-[350px] h-fit my-[1rem] mx-auto rounded-[10px]">
+          <div className="flex flex-col z-0 lg:w-[370px] items-center gap-[1rem] shadow-sm shadow-black/20 select-none bg-white p-[1rem] pb-[2rem] w-[350px] h-fit my-[1rem] mx-auto rounded-[10px]">
             <Formik
               onSubmit={submitHandler}
               enableReinitialize

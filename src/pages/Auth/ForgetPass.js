@@ -6,7 +6,7 @@ import Footer from "../../components/Ui/Footer";
 
 const ForgetPass = () => {
   return (
-    <div className="w-full h-screen ">
+    <div className="w-full h-screen bg-white">
       <header className="w-full h-14 bg-white flex items-center justify-between">
         <img className="w-36" src="../../icons/facebook.svg" alt="" />
         <Link
@@ -16,10 +16,10 @@ const ForgetPass = () => {
           Log in
         </Link>
       </header>
-      <div className="h-[33.3rem] flex items-center justify-center">
+      <div className="py-[5rem] bg-[#F0F2F5] flex items-center justify-center">
         <ResetPassword />
       </div>
-      <footer className="h-[38.2%] w-full p-[1.5rem] bg-white">
+      <footer className="w-full h-[30.83rem] pt-40 bg-white">
         <Footer />
       </footer>
     </div>

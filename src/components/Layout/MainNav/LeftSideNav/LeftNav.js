@@ -13,12 +13,13 @@ import { useSelector } from "react-redux";
 const LeftNav = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { user } = useSelector((state) => ({ ...state }));
+  const [homeIsActive, setHomeIsActive] = useState(true);
   // console.log("in left nav", user);
   const desktopView = useMediaQuery({
     query: "(min-width: 1120px)",
   });
   const openMenu = () => {
-    console.log("menu opend");
+    // console.log("menu opend");
     setIsMenuOpen((prev) => !prev);
   };
 
@@ -26,8 +27,21 @@ const LeftNav = () => {
     setIsMenuOpen(false);
   };
 
+  const activeHome = (i) => {
+    if (i !== "Home") {
+      setHomeIsActive(false);
+      return;
+    }
+    setHomeIsActive(true);
+    // console.log("name", i);
+  };
   const leftNavigation = [
-    { name: "Home", to: "/", icon: <HomeActive />, hoverState: "Home" },
+    {
+      name: "Home",
+      to: "/",
+      icon: <HomeActive color={homeIsActive ? "#1b74e4" : "black"} />,
+      hoverState: "Home",
+    },
     {
       name: `${user?.first_name} ${user?.last_name}`,
       to: "/profile",
@@ -35,7 +49,7 @@ const LeftNav = () => {
       hoverState: "Your profile",
     },
     {
-      name: "watch",
+      name: "Watch",
       to: "/asfd",
       icon: "../../left/watch.png",
       hoverState: "Watch",
@@ -73,6 +87,7 @@ const LeftNav = () => {
       <ul className="w-full">
         {leftNavigation.slice(0, 2).map((i) => (
           <Navlink
+            onActiveHandler={activeHome.bind(null, i.name)}
             key={i.name}
             profile={i.profile}
             href={i.to}
@@ -93,6 +108,7 @@ const LeftNav = () => {
         ></div>
         {leftNavigation.slice(2, 7).map((i) => (
           <Navlink
+            onActiveHandler={activeHome.bind(null, i.name)}
             key={i.name}
             href={i.to}
             name={i.name}
@@ -101,7 +117,11 @@ const LeftNav = () => {
             isMenuOpen={isMenuOpen}
           />
         ))}
-        <SeeAllButton openMenu={openMenu} closeMenu={closeMenu} />
+        <SeeAllButton
+          onActiveHandler={activeHome}
+          openMenu={openMenu}
+          closeMenu={closeMenu}
+        />
         <div
           className={`${
             desktopView
@@ -118,7 +138,14 @@ const LeftNav = () => {
 
 export default LeftNav;
 
-const Navlink = ({ href, name, icon, hoverText, isMenuOpen }) => {
+const Navlink = ({
+  href,
+  name,
+  icon,
+  hoverText,
+  isMenuOpen,
+  onActiveHandler,
+}) => {
   const [isHovering, setIsHovering] = useState(false);
 
   const mobileView = useMediaQuery({
@@ -138,10 +165,9 @@ const Navlink = ({ href, name, icon, hoverText, isMenuOpen }) => {
   };
 
   return (
-    <li className="my-2 relative">
+    <li onClick={onActiveHandler} className="my-2 relative">
       <NavLink
         to={href}
-        // onClick={closeMenu}
         className={({ isActive }) =>
           isActive && !isMenuOpen
             ? "before:h-[2.75rem] before:rounded-r-lg before:border-[2px] before:border-[#056ADB] before:absolute before:top-0 before:left-0 "
@@ -180,7 +206,7 @@ const Navlink = ({ href, name, icon, hoverText, isMenuOpen }) => {
   );
 };
 
-const SeeAllButton = ({ openMenu, closeMenu }) => {
+const SeeAllButton = ({ openMenu, closeMenu, onActiveHandler }) => {
   const [isHovering, setIsHovering] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const menu = useRef(null);
@@ -214,7 +240,7 @@ const SeeAllButton = ({ openMenu, closeMenu }) => {
   };
 
   return (
-    <li ref={menu} className="my-2 relative">
+    <li onClick={onActiveHandler} ref={menu} className="my-2 relative">
       <NavLink
         // onClick={closeMenu}
         className={

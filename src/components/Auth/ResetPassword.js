@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const ResetPassword = () => {
   return (
@@ -17,12 +18,12 @@ const ResetPassword = () => {
         />
       </div>
       <div className="flex items-center justify-end mt-3 mr-5 space-x-2">
-        <button
-          disable={true}
+        <Link
+          to="/"
           className="rounded-lg p-2 px-4 font-bold bg-black/10 text-black/60"
         >
           Cancel
-        </button>
+        </Link>
         <button className="font-bold text-white bg-[#1A6ED8] rounded-lg p-2 px-4">
           Search
         </button>
