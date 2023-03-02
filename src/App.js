@@ -8,6 +8,7 @@ import Home from "./pages/Home/Home";
 import Story from "./pages/Home/StoryPage";
 // import { useSelector } from "react-redux";
 import Cookies from "js-cookie";
+import ForgetPass from "./pages/Auth/ForgetPass";
 
 function App() {
   // const { user } ((state) => ({ ...state }));
@@ -35,6 +36,10 @@ function App() {
     {
       path: "/stories",
       element: <Story />,
+    },
+    {
+      path: "/forgetpass",
+      element: <ForgetPass />,
     },
     { path: "/:name", element: <Profile /> },
   ]);
