@@ -8,10 +8,12 @@ import ReactDOM from "react-dom";
 // import { useDispatch } from "react-redux";
 import useClickOutside from "../../../../helpers/clickOutside";
 import { Backdrop } from "../../../Ui/Backdrop";
+import { useSelector } from "react-redux";
 
 const LeftNav = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-
+  const { user } = useSelector((state) => ({ ...state }));
+  // console.log("in left nav", user);
   const desktopView = useMediaQuery({
     query: "(min-width: 1120px)",
   });
@@ -23,6 +25,40 @@ const LeftNav = () => {
   const closeMenu = () => {
     setIsMenuOpen(false);
   };
+
+  const leftNavigation = [
+    { name: "Home", to: "/", icon: <HomeActive />, hoverState: "Home" },
+    {
+      name: `${user?.first_name} ${user?.last_name}`,
+      to: "/profile",
+      icon: user?.picture,
+      hoverState: "Your profile",
+    },
+    {
+      name: "watch",
+      to: "/asfd",
+      icon: "../../left/watch.png",
+      hoverState: "Watch",
+    },
+    {
+      name: "Marketplace",
+      to: "/asdfsa",
+      icon: "../../left/marketplace.png",
+      hoverState: "Marketplace",
+    },
+    {
+      name: "Group",
+      to: "/asdfsa",
+      icon: "../../left/groups.png",
+      hoverState: "Group",
+    },
+    {
+      name: "Gaming",
+      to: "/asdfsa",
+      icon: "../../left/gaming.png",
+      hoverState: "Gaming",
+    },
+  ];
 
   return (
     <nav
@@ -38,6 +74,7 @@ const LeftNav = () => {
         {leftNavigation.slice(0, 2).map((i) => (
           <Navlink
             key={i.name}
+            profile={i.profile}
             href={i.to}
             name={i.name}
             icon={i.icon}
@@ -87,6 +124,7 @@ const Navlink = ({ href, name, icon, hoverText, isMenuOpen }) => {
   const mobileView = useMediaQuery({
     query: "(max-width: 1120px)",
   });
+
   const desktopView = useMediaQuery({
     query: "(min-width: 1120px)",
   });
@@ -125,7 +163,7 @@ const Navlink = ({ href, name, icon, hoverText, isMenuOpen }) => {
           {typeof icon === "object" ? (
             icon
           ) : (
-            <img src={`${icon}`} className="w-7 h-7" alt="" />
+            <img src={`${icon}`} className="rounded-full w-7 h-7" alt="" />
           )}
           {mobileView || isMenuOpen ? null : (
             <span className="ml-2">{name}</span>
@@ -220,37 +258,3 @@ const SeeAllButton = ({ openMenu, closeMenu }) => {
     </li>
   );
 };
-
-const leftNavigation = [
-  { name: "Home", to: "/", icon: <HomeActive />, hoverState: "Home" },
-  {
-    name: "Profile",
-    to: "/pr0file",
-    icon: <HomeActive />,
-    hoverState: "Your profile",
-  },
-  {
-    name: "watch",
-    to: "/asfd",
-    icon: "../../left/watch.png",
-    hoverState: "Watch",
-  },
-  {
-    name: "Marketplace",
-    to: "/asdfsa",
-    icon: "../../left/marketplace.png",
-    hoverState: "Marketplace",
-  },
-  {
-    name: "Group",
-    to: "/asdfsa",
-    icon: "../../left/groups.png",
-    hoverState: "Group",
-  },
-  {
-    name: "Gaming",
-    to: "/asdfsa",
-    icon: "../../left/gaming.png",
-    hoverState: "Gaming",
-  },
-];

@@ -1,8 +1,10 @@
 import React, { useState } from "react";
+import { useSelector } from "react-redux";
 import { Feeling, LiveVideo, Photo } from "../../../svg";
 import Status from "./Status";
 
 const CreatePost = () => {
+  const { user } = useSelector((state) => ({ ...state }));
   const [openForm, setOpenForm] = useState(false);
   const togglePostform = () => {
     setOpenForm((prev) => !prev);
@@ -18,7 +20,7 @@ const CreatePost = () => {
             className="bg-[#eaeced] hover:bg-[#dfe3e4] cursor-pointer w-[93.1%] outline-none text-[17px] pl-4 placeholder:text-[#65676B] h-10 rounded-3xl"
             type="text"
             name="status"
-            placeholder="What's on your mind, Name?"
+            placeholder={`What's on your mind, ${user.last_name}?`}
           />
         </div>
         <div className="w-[96%] rounded-lg mb-3 flex  mx-3 text-[#65676B]">
