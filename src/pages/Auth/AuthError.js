@@ -7,6 +7,7 @@ import LoginInput from "../../components/Ui/LoginInput";
 import Button from "../../components/Ui/Button";
 import Footer from "../../components/Ui/Footer";
 import { login as loginUser } from "../../utils/api-call";
+import Cookies from "js-cookie";
 
 const loginInfos = {
   email: "",
@@ -43,9 +44,13 @@ const AuthError = () => {
   const submitHandler = async (e) => {
     const data = { email, password };
     const res = await loginUser(data);
-    console.log(res);
-    if (res.statCode === 200) {
-      return navigate("/");
+    // console.log(res);
+    if (res.token) {
+      Cookies.set("token", res.token, {
+        sameSite: "None; Secure",
+      });
+
+      window.location.reload(false);
     }
   };
 

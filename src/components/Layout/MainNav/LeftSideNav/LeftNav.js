@@ -157,7 +157,7 @@ const SeeAllButton = ({ openMenu, closeMenu }) => {
   useClickOutside(
     menu,
     useCallback(() => {
-      console.log("click in helper");
+      // console.log("click in helper");
       closeMenu();
       setIsMenuOpen(false);
     }, [closeMenu])
@@ -176,7 +176,7 @@ const SeeAllButton = ({ openMenu, closeMenu }) => {
   };
 
   return (
-    <li ref={menu} className="my-2 z-50 relative">
+    <li ref={menu} className="my-2 relative">
       <NavLink
         // onClick={closeMenu}
         className={
@@ -211,8 +211,7 @@ const SeeAllButton = ({ openMenu, closeMenu }) => {
           ) : null}
         </div>
       </NavLink>
-      {isMenuOpen &&
-        ReactDOM.createPortal(<AllMenu />, document.getElementById("overlay"))}
+      {isMenuOpen && <AllMenu />}
       {isMenuOpen &&
         ReactDOM.createPortal(
           <Backdrop className="bg-white/70 left-24 " />,
