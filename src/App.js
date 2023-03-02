@@ -9,6 +9,10 @@ import Story from "./pages/Home/StoryPage";
 // import { useSelector } from "react-redux";
 import Cookies from "js-cookie";
 import ForgetPass from "./pages/Auth/ForgetPass";
+import FindAccount from "./components/Auth/ResetPass/FindAccount";
+import ResetPass from "./components/Auth/ResetPass/ResetPass";
+import { EnterCode } from "./components/Auth/ResetPass/EnterCode";
+import ChooseNewPass from "./components/Auth/ResetPass/ChooseNewPass";
 
 function App() {
   // const { user } ((state) => ({ ...state }));
@@ -38,8 +42,9 @@ function App() {
       element: <Story />,
     },
     {
-      path: "/forgetpass",
+      path: "/recover",
       element: <ForgetPass />,
+      children: [{ path: "/recover/findaccount", element: <FindAccount /> }],
     },
     { path: "/:name", element: <Profile /> },
   ]);

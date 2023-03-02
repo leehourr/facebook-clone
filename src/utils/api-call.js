@@ -47,6 +47,11 @@ export const getUserData = async () => {
   return data;
 };
 
+export const resetPass = async (email) => {
+  const { data } = await api.post(`/resetpass`, email);
+  return data;
+};
+
 //handle all errors
 function errorHandler(error) {
   if (error.response) {
