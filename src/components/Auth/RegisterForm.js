@@ -10,7 +10,7 @@ import { register } from "../../utils/api-call";
 import { useDispatch } from "react-redux";
 import { userActions } from "../../store/user-slice";
 import Cookies from "js-cookie";
-import { redirect } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const initialInput = {
   first_name: "",
@@ -27,6 +27,7 @@ export default function RegisterForm({ isOpen, closeForm }) {
   const [user, setUser] = useState(initialInput);
   const [errorMessage, setErrorMessage] = useState("");
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   // const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const {
@@ -114,18 +115,18 @@ export default function RegisterForm({ isOpen, closeForm }) {
       return;
     }
 
-    setErrorMessage("");
-    const res = await register(user);
-    dispatch(userActions.login(res));
-    Cookies.set("token", res.token, {
-      sameSite: "None; Secure",
-    });
-    console.log(res);
-    if (res.statCode === 200) {
-      setTimeout(() => {
-        setIsLoading(false);
-        return redirect("/");
-      }, [1000]);
+    try {
+      const res = await register(user);
+      Cookies.set("token", res.token, {
+        sameSite: "None; Secure",
+      });
+      console.log(res);
+      setIsLoading(false);
+      window.location.reload(false);
+    } catch (error) {
+      // console.log(error.response.data.message);
+      setIsLoading(false);
+      setErrorMessage(error.response.data.message);
     }
   };
 

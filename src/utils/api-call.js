@@ -35,9 +35,7 @@ export const login = async (userData) => {
 };
 
 export const register = async (userData) => {
-  const { data } = await api.post("/register", userData).catch((e) => {
-    errorHandler(e);
-  });
+  const { data } = await api.post("/register", userData);
   return data;
 };
 

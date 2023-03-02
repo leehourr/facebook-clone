@@ -1,5 +1,8 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { userActions } from "../../../store/user-slice";
+import store from "../../../store";
+import Cookies from "js-cookie";
 
 const AccountMenu = () => {
   const [setting, setSetting] = useState("");
@@ -24,6 +27,11 @@ const AccountMenu = () => {
     setIsSettingOpen(false);
   };
 
+  const logoutHandler = () => {
+    store.dispatch(userActions.logout());
+    Cookies.set("token", "");
+    window.location.reload(false);
+  };
   return (
     <div className="shadow-[1px_1px_20px_5px_rgba(0,0,0,0.1)] w-[22.5rem] select-none rounded-lg bg-white pt-3 pb-4">
       {!isSettingOpen && (
@@ -56,7 +64,7 @@ const AccountMenu = () => {
               <i className="right_icon ml-auto" />
             </div>
           ))}
-          {settings.slice(3, 5).map((i) => (
+          {settings.slice(3, 4).map((i) => (
             <div
               key={i.id}
               className="w-[94%] hover:bg-[#F2F2F2]  flex items-center pl-2 mx-auto h-[3.55rem] rounded-lg"
@@ -67,6 +75,15 @@ const AccountMenu = () => {
               <span className="pl-2">{i.name}</span>
             </div>
           ))}
+          <div
+            onClick={logoutHandler}
+            className="w-[94%] hover:bg-[#F2F2F2]  flex items-center pl-2 mx-auto h-[3.55rem] rounded-lg"
+          >
+            <div className="bg-[#dcdcdc] w-9 h-9 rounded-full flex items-center justify-center">
+              <i className="logout_filled_icon" />
+            </div>
+            <span className="pl-2">Log Out</span>
+          </div>
           <footer className="text-[13px] text-[#65676B] flex gap-x-3 flex-wrap child-after: child-hover:underline w-[88%] mx-auto">
             <Link to="/">Privacy</Link>
             <Link to="/">Term</Link>
