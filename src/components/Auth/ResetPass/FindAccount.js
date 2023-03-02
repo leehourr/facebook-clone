@@ -1,11 +1,14 @@
 import React, { useRef, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import store from "../../../store";
+import { userActions } from "../../../store/user-slice";
 import { resetPass } from "../../../utils/api-call";
 
 const FindAccount = () => {
   const inputEmail = useRef();
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
+  const navigate = useNavigate();
 
   const findAccHandler = async (e) => {
     e.preventDefault();
@@ -13,12 +16,14 @@ const FindAccount = () => {
     // console.log("email", { email });
     try {
       const foundAcc = await resetPass({ email });
-      console.log(foundAcc);
+      // console.log(foundAcc);
       setError("");
       setMessage("");
+      // store.dispatch(userActions.resetPass(foundAcc.data));
+      navigate(`/recover/reset/${email}`);
     } catch (err) {
       // console.log(err.response.data.message);
-      setError(err.response.data.message);
+      setError(err.Status === 400);
       setMessage(
         "Your search did not return any results. Please try again with other information."
       );
@@ -45,6 +50,7 @@ const FindAccount = () => {
           Please enter your email or mobile number to search for your account.
         </span>
         <input
+          //value={inputEmail.current.value}
           ref={inputEmail}
           className="border-[1px] outline-none p-3 pl-4 rounded-lg border-black/20 w-[95%] mx-auto"
           type="text"

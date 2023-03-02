@@ -4,6 +4,9 @@ const userSlice = createSlice({
   name: "user",
   initialState: {},
   reducers: {
+    // resetPass(state, action) {
+    //   return action.payload;
+    // },
     login(state, action) {
       return action.payload;
     },

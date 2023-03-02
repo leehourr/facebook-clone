@@ -13,6 +13,7 @@ import FindAccount from "./components/Auth/ResetPass/FindAccount";
 import ResetPass from "./components/Auth/ResetPass/ResetPass";
 import { EnterCode } from "./components/Auth/ResetPass/EnterCode";
 import ChooseNewPass from "./components/Auth/ResetPass/ChooseNewPass";
+import InvalidLink from "./components/Auth/ResetPass/InvalidLink";
 
 function App() {
   // const { user } ((state) => ({ ...state }));
@@ -44,7 +45,11 @@ function App() {
     {
       path: "/recover",
       element: <ForgetPass />,
-      children: [{ path: "/recover/findaccount", element: <FindAccount /> }],
+      children: [
+        { path: "/recover/findaccount", element: <FindAccount /> },
+        { path: "/recover/reset/:email", element: <ResetPass /> },
+        { path: "/recover/*", element: <InvalidLink /> },
+      ],
     },
     { path: "/:name", element: <Profile /> },
   ]);
