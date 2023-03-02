@@ -1,7 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import ResetPassword from "../../components/Auth/ResetPassword";
-import Button from "../../components/Ui/Button";
+import ChangePass from "../../components/Auth/ResetPass";
 import Footer from "../../components/Ui/Footer";
 
 const ForgetPass = () => {
@@ -17,7 +16,7 @@ const ForgetPass = () => {
         </Link>
       </header>
       <div className="py-[5rem] bg-[#F0F2F5] flex items-center justify-center">
-        <ResetPassword />
+        <ChangePass />
       </div>
       <footer className="w-full h-[30.83rem] pt-40 bg-white">
         <Footer />

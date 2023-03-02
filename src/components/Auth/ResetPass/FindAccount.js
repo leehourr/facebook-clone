@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-const ResetPassword = () => {
+const FindAccount = () => {
   return (
     <div className="w-[31.3rem] py-3 rounded-lg shadow-md shadow-black/10 bg-white">
       <div className="text-[#162643] pb-4 pl-4 border-b-[1px] border-b-black/10 text-[21px] font-semibold">
@@ -32,4 +32,4 @@ const ResetPassword = () => {
   );
 };
 
-export default ResetPassword;
+export default FindAccount;
