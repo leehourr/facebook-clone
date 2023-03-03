@@ -15,7 +15,7 @@ const FindAccount = () => {
     const email = inputEmail.current.value;
     // console.log("email", { email });
     try {
-      await findUser({ email });
+       await findUser({ email });
       // console.log(foundAcc);
       setError("");
       setMessage("");

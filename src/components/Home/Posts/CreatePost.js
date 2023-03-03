@@ -38,7 +38,13 @@ const CreatePost = () => {
           </div>
         </div>
       </div>
-      {openForm && <Status onToggleForm={togglePostform} />}
+      {openForm && (
+        <Status
+          pfPic={user.picture}
+          name={user.last_name}
+          onToggleForm={togglePostform}
+        />
+      )}
     </>
   );
 };
