@@ -83,6 +83,7 @@ const Status = ({ onToggleForm, name, pfPic }) => {
                 theme="light"
                 maxFrequentRows="5"
                 onEmojiSelect={selectEmoji}
+                //  onClickOutside={toggleEmoji}
               />
             </div>
           )}
