@@ -62,6 +62,11 @@ export const validatePassResetCode = async (req) => {
   return data;
 };
 
+export const changePassword = async (req) => {
+  const { data } = await api.post("/newpassword", req);
+  return data;
+};
+
 //handle all errors
 function errorHandler(error) {
   if (error.response) {

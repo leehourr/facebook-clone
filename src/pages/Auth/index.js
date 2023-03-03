@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 // import { Navigate, redirect } from "react-router-dom";
 import LoginForm from "../../components/Auth/LoginForm";
 import RegisterForm from "../../components/Auth/RegisterForm";
@@ -7,6 +7,11 @@ import { login } from "../../utils/api-call";
 
 const Auth = () => {
   const [isOpen, setIsOpen] = useState(false);
+
+  if (Cookies.get("token")) {
+    window.location.reload(false);
+    return;
+  }
 
   const openForm = () => {
     setIsOpen(true);

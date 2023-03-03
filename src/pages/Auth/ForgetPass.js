@@ -1,9 +1,16 @@
-import React from "react";
-import { Link, Outlet } from "react-router-dom";
+import Cookies from "js-cookie";
+import React, { useEffect } from "react";
+import { Link, Outlet, useNavigate } from "react-router-dom";
 // import ChangePass from "../../components/Auth/ResetPass";
 import Footer from "../../components/Ui/Footer";
 
 const ForgetPass = () => {
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (Cookies.get("token")) {
+      navigate("/", { replace: true });
+    }
+  }, []);
   return (
     <div className="w-full h-screen bg-white">
       <header className="w-full h-14 bg-white flex items-center justify-between">

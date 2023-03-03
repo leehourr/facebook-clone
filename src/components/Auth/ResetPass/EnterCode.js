@@ -1,5 +1,5 @@
 import React, { useRef, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import RedAlert from "../../../svg/RedAlert";
 import { validatePassResetCode } from "../../../utils/api-call";
 
@@ -8,13 +8,15 @@ export const EnterCode = () => {
   const inputCode = useRef();
   const [errMessage, setErrMessage] = useState("");
   const [hasErr, setHasErr] = useState(false);
-
+  const navigate = useNavigate();
   const validateCode = async () => {
     const code = inputCode.current.value;
     // console.log(code);
     try {
       const validation = await validatePassResetCode({ email, code });
-      // console.log(validation);
+      if (validation.message === "ok") {
+        navigate(`/recover/newpassword/${email}`, { replace: true });
+      }
     } catch (err) {
       // console.log("err.status", err.response.status);
       if (err.response.status === 403) {

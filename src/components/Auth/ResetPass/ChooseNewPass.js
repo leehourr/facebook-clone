@@ -1,10 +1,29 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import Cookies from "js-cookie";
+import React, { useRef, useState } from "react";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import { changePassword } from "../../../utils/api-call";
 
 const ChooseNewPass = () => {
   const [textVisability, setTextVisability] = useState(false);
+  const inputPassword = useRef();
+  const navigate = useNavigate();
+  const { email } = useParams();
+
   const toggleText = () => {
     setTextVisability((prev) => !prev);
+  };
+
+  const changePassHandler = async () => {
+    const password = inputPassword.current.value;
+    try {
+      const res = await changePassword({ email, password });
+      await Cookies.set("token", res.token, {
+        sameSite: "None; Secure",
+      });
+      navigate("/", { replace: true });
+    } catch (err) {
+      console.log(err);
+    }
   };
   return (
     <div className="w-[31.3rem] py-3 rounded-lg shadow-md shadow-black/10 bg-white">
@@ -20,9 +39,10 @@ const ChooseNewPass = () => {
           <div className="w-full flex items-start space-x-2">
             <div className="flex-grow relative">
               <input
+                ref={inputPassword}
                 className="border-[1px] outline-none p-3 pl-4 rounded-lg border-black/20 w-full"
                 type={textVisability ? "text" : "password"}
-                placeholder="Email code"
+                placeholder="New password"
               />
               <span
                 onClick={toggleText}
@@ -44,7 +64,10 @@ const ChooseNewPass = () => {
         >
           Cancel
         </Link>
-        <button className="font-bold text-white bg-[#1A6ED8] rounded-lg p-2 px-4">
+        <button
+          onClick={changePassHandler}
+          className="font-bold text-white bg-[#1A6ED8] rounded-lg p-2 px-4"
+        >
           Confirm
         </button>
       </div>

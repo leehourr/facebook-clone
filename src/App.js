@@ -17,7 +17,7 @@ import InvalidLink from "./components/Auth/ResetPass/InvalidLink";
 
 function App() {
   // const { user } ((state) => ({ ...state }));
-  const userToken = useMemo(() => Cookies.get("token"), []);
+  const userToken = Cookies.get("token");
 
   const router = createBrowserRouter([
     userToken
@@ -49,6 +49,8 @@ function App() {
         { path: "/recover/findaccount", element: <FindAccount /> },
         { path: "/recover/reset/:email", element: <ResetPass /> },
         { path: "/recover/code/:email", element: <EnterCode /> },
+        { path: "/recover/newpassword/:email", element: <ChooseNewPass /> },
+
         { path: "/recover/*", element: <InvalidLink /> },
       ],
     },
