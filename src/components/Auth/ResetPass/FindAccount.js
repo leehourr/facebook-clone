@@ -1,8 +1,8 @@
 import React, { useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import store from "../../../store";
-import { userActions } from "../../../store/user-slice";
-import { resetPass } from "../../../utils/api-call";
+// import store from "../../../store";
+// import { userActions } from "../../../store/user-slice";
+import { findUser } from "../../../utils/api-call";
 
 const FindAccount = () => {
   const inputEmail = useRef();
@@ -15,7 +15,7 @@ const FindAccount = () => {
     const email = inputEmail.current.value;
     // console.log("email", { email });
     try {
-      const foundAcc = await resetPass({ email });
+      await findUser({ email });
       // console.log(foundAcc);
       setError("");
       setMessage("");

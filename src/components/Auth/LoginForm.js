@@ -85,8 +85,8 @@ const LoginForm = ({ openForm }) => {
               )}
             </Formik>
             <Link
-              to="/forgetpass"
-              className="text-[#1876f2] texxt-[14px] cursor-pointer"
+              to="/recover/findaccount"
+              className="text-[#1876f2] hover:underline texxt-[14px] cursor-pointer"
             >
               Forgotten password ?
             </Link>

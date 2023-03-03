@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { resetPass } from "../../../utils/api-call";
+import { findUser, sendPassResetCode } from "../../../utils/api-call";
 
 const ResetPass = () => {
   const param = useParams();
@@ -12,7 +12,7 @@ const ResetPass = () => {
   useEffect(() => {
     // console.log(firstRender);
     const getUser = async () => {
-      const { data } = await resetPass({ email: param.email });
+      const { data } = await findUser({ email: param.email });
       // console.log(data);
       setName(`${data.first_name} ${data.last_name}`);
       setEmail(data.email);
@@ -26,8 +26,13 @@ const ResetPass = () => {
     });
   }, [param.email, navigate]);
 
-  const sendEmailHandler = () => {
-    // console.log(email.current.value);
+  const sendEmailHandler = async () => {
+    try {
+      await sendPassResetCode({ email });
+    } catch (err) {
+      console.log(err.response.data);
+    }
+    navigate(`/recover/code/${email}`);
   };
   return (
     <div className="w-[31.3rem] py-3 rounded-lg shadow-md shadow-black/10 bg-white">
@@ -72,7 +77,7 @@ const ResetPass = () => {
       </div>
       <div className="flex items-center justify-end mt-3 mr-5 space-x-2">
         <Link
-          to="/"
+          to="/recover/findaccount"
           className="rounded-lg p-2 px-4 font-bold bg-black/10 text-black/60"
         >
           Not you?

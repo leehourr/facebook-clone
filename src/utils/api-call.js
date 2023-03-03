@@ -47,8 +47,18 @@ export const getUserData = async () => {
   return data;
 };
 
-export const resetPass = async (email) => {
-  const { data } = await api.post(`/resetpass`, email);
+export const findUser = async (email) => {
+  const { data } = await api.post(`/findUser`, email);
+  return data;
+};
+
+export const sendPassResetCode = async (email) => {
+  const { data } = await api.post("/sendResetPasswordCode", email);
+  return data;
+};
+
+export const validatePassResetCode = async (req) => {
+  const { data } = await api.post("/validateResetCode", req);
   return data;
 };
 

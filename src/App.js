@@ -48,6 +48,7 @@ function App() {
       children: [
         { path: "/recover/findaccount", element: <FindAccount /> },
         { path: "/recover/reset/:email", element: <ResetPass /> },
+        { path: "/recover/code/:email", element: <EnterCode /> },
         { path: "/recover/*", element: <InvalidLink /> },
       ],
     },
