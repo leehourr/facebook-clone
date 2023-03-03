@@ -6,8 +6,19 @@ import Status from "./Status";
 const CreatePost = () => {
   const { user } = useSelector((state) => ({ ...state }));
   const [openForm, setOpenForm] = useState(false);
+  const [isUpload, setIsUpload] = useState(false);
+
   const togglePostform = () => {
     setOpenForm((prev) => !prev);
+  };
+
+  const openUploadImage = () => {
+    setOpenForm((prev) => !prev);
+    setIsUpload(true);
+  };
+
+  const closeUploadImage = () => {
+    setIsUpload(false);
   };
 
   return (
@@ -28,7 +39,7 @@ const CreatePost = () => {
             <LiveVideo color="#E74862" />
             <span>Live video</span>
           </div>
-          <div className="post_options">
+          <div onClick={openUploadImage} className="post_options">
             <Photo color="#41B35D" />
             <span>Photo/video</span>
           </div>
@@ -40,8 +51,9 @@ const CreatePost = () => {
       </div>
       {openForm && (
         <Status
-          pfPic={user.picture}
-          name={user.last_name}
+          isUpload={isUpload}
+          onClose={closeUploadImage}
+          user={user}
           onToggleForm={togglePostform}
         />
       )}

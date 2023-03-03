@@ -1,16 +1,18 @@
 import React, { useState } from "react";
 import ReactDOM from "react-dom";
-import { Dots, Feeling, Friends, Photo } from "../../../svg";
+import { Dots, Feeling, Photo } from "../../../svg";
 import { Backdrop } from "../../Ui/Backdrop";
 import Emoji from "@emoji-mart/react";
 import { useEffect } from "react";
 import { useRef } from "react";
+import UploadImage from "./UploadImage";
 
-const Status = ({ onToggleForm, name, pfPic }) => {
+const Status = ({ onToggleForm, user, isUpload, onClose }) => {
   const [text, setText] = useState("");
   const [openEmoji, setOpenEmoji] = useState(false);
   const textRef = useRef(null);
   const [cursorPosition, setCursorPosition] = useState();
+  const [uploadImage, setUploadImage] = useState(false);
 
   useEffect(() => {
     textRef.current.selectionEnd = cursorPosition;
@@ -29,6 +31,13 @@ const Status = ({ onToggleForm, name, pfPic }) => {
     const newText = start + emoji + end;
     setText(newText);
     setCursorPosition(start.length + emoji.length);
+  };
+
+  const openUploadImage = () => {
+    setUploadImage(true);
+  };
+  const closeUploadImage = () => {
+    setUploadImage(false);
   };
   return (
     <>
@@ -51,30 +60,63 @@ const Status = ({ onToggleForm, name, pfPic }) => {
           </div>
           <div className="flex ml-4 mt-[0.7rem] h-12 items-center w-full">
             <img
-              src={pfPic}
+              src={user.picture}
               className="bg-black/40 rounded-full self-end w-[2.4rem] h-[2.4rem]"
               alt=""
             />
             <div className="ml-3 h-full">
-              <span className="font-medium self-start  ">Lee Hour</span>
-              <div className="w-36 h-6 rounded-md bg-black/10"></div>
+              <span className="font-medium self-start  ">
+                {user.first_name + " " + user.last_name}
+              </span>
+              <div className="h-6 w-fit px-2 flex items-center space-x-1 rounded-md bg-black/10">
+                <img src="../../../icons/public.png" alt="" />
+                <span className="text-[14px] font-semibold">Public</span>
+                <i className="arrowDown_icon"></i>
+              </div>
             </div>
           </div>
-          <textarea
-            ref={textRef}
-            value={text}
-            onChange={(e) => setText(e.target.value)}
-            className="h-36 resize-none outline-none  w-full placeholder:text-[24px] text-[24px] placeholder:text-[#65676B] pl-4 pt-4 "
-            placeholder={`What's on your mind, ${name}?`}
-          />
-          <div className="w-[95%] mb-2 mx-auto flex items-center justify-between">
-            <div className="w-9 cursor-pointer">
-              <img src="../../../icons/colorful.png" alt="" />
+          <div
+            className={`flex ${
+              uploadImage || isUpload
+                ? "flex-row items-center justify-between"
+                : "flex-col"
+            }`}
+          >
+            <textarea
+              ref={textRef}
+              value={text}
+              onChange={(e) => setText(e.target.value)}
+              className={`${
+                uploadImage || isUpload ? "" : "h-36"
+              } outline-none resize-none  w-full ${
+                uploadImage || isUpload
+                  ? "placeholder:text-[16px] text-[16px] mt-3"
+                  : "placeholder:text-[24px] text-[24px]"
+              } placeholder:text-[#65676B] pl-4 pt-41`}
+              placeholder={`What's on your mind, ${user.last_name}?`}
+            />
+            <div
+              className={`${
+                uploadImage || isUpload ? "w-[10%]" : "w-[95%]"
+              } mb-2 mx-auto flex items-center justify-between`}
+            >
+              <div
+                className={`${
+                  (uploadImage || isUpload) && "hidden"
+                } w-9 cursor-pointer"`}
+              >
+                <img src="../../../icons/colorful.png" alt="" />
+              </div>
+              <i onClick={toggleEmoji} className="emoji_icon_large" />
             </div>
-            <i onClick={toggleEmoji} className="emoji_icon_large" />
           </div>
+
           {openEmoji && (
-            <div className="absolute -top-44 -right-44">
+            <div
+              className={`${
+                uploadImage || isUpload ? "top-44" : "-top-44"
+              } absolute z-40 -right-44`}
+            >
               <Emoji
                 previewPosition="none"
                 searchPosition="none"
@@ -87,23 +129,29 @@ const Status = ({ onToggleForm, name, pfPic }) => {
               />
             </div>
           )}
+          {(uploadImage || isUpload) && (
+            <UploadImage onClose={closeUploadImage} close={onClose} />
+          )}
           <div className="w-[94%] mb-3 mx-auto h-14 flex items-center  justify-between px-4 rounded-lg border-[1px]  border-black/20">
             <h1 className="font-medium ">Add to your post</h1>
-            <div className="flex space-x-3 ">
-              <div>
+            <div className="flex space-x-3 items-baseline ">
+              <div
+                onClick={openUploadImage}
+                className="hover:bg-green-100/50 cursor-pointer flex items-center justify-center w-9 h-9 rounded-full "
+              >
                 <Photo color="#41B35D" />
               </div>
               <div>
-                <Friends color="cyan" />
+                <i className="tag_icon"></i>
               </div>
               <div>
                 <Feeling color="#ECBD4D" />
               </div>
               <div>
-                <Photo color="#41B35D" />
+                <i className="maps_icon"></i>
               </div>
               <div>
-                <Photo color="#41B35D" />
+                <i className="microphone_icon"></i>
               </div>
               <div>
                 <Dots />
