@@ -6,10 +6,10 @@ const UploadImage = ({ onClose, close }) => {
     close();
   };
   return (
-    <div className="w-[94%] relative flex flex-col h-[19rem] mb-3 p-2 space-y-2 rounded-lg  mx-auto border-[1px] ring-black/20">
+    <div className="w-[94%] relative flex flex-col h-[19rem] mb-3 p-2 rounded-lg gap-2 mx-auto border-[1px] ring-black/20">
       <div
         onClick={exit}
-        className="absolute top-6 right-4 cursor-pointer bg-white hover:bg-black/10  w-8 h-8 flex items-center justify-center rounded-full "
+        className="absolute top-6 right-4 cursor-pointer bg-white hover:bg-black/10  w-8 h-9 flex items-center justify-center rounded-full "
       >
         <i className="exit_icon"></i>
       </div>
