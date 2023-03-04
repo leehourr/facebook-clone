@@ -11,8 +11,11 @@ const Status = ({ onToggleForm, user, isUpload, onClose }) => {
   const [text, setText] = useState("");
   const [openEmoji, setOpenEmoji] = useState(false);
   const textRef = useRef(null);
+  const backgroundRef = useRef(null);
   const [cursorPosition, setCursorPosition] = useState();
   const [uploadImage, setUploadImage] = useState(false);
+  const [toggleBg, setToggleBg] = useState(false);
+  const [hasBg, setHasBg] = useState(false);
 
   useEffect(() => {
     textRef.current.selectionEnd = cursorPosition;
@@ -38,6 +41,21 @@ const Status = ({ onToggleForm, user, isUpload, onClose }) => {
   };
   const closeUploadImage = () => {
     setUploadImage(false);
+  };
+
+  const toggleBgHandler = () => {
+    setToggleBg((prev) => !prev);
+  };
+
+  const selectedBg = (i) => {
+    // console.log(i);
+    backgroundRef.current.style.backgroundImage = `url(${i})`;
+    setHasBg(true);
+  };
+
+  const removeBg = () => {
+    backgroundRef.current.style.backgroundImage = "";
+    setHasBg(false);
   };
   return (
     <>
@@ -75,34 +93,83 @@ const Status = ({ onToggleForm, user, isUpload, onClose }) => {
               </div>
             </div>
           </div>
-          <div className="w-[95%] max-h-[55vh] my-3 overflow-y-auto mx-auto scrollbar-thin">
-            <div className="flex w-full justify-between items-center mt-0">
-              <textarea
-                ref={textRef}
-                value={text}
-                onChange={(e) => setText(e.target.value)}
+          <div
+            ref={backgroundRef}
+            className={`${
+              hasBg && "h-[24rem] mb-2"
+            } max-h-[24.6rem] overflow-y-auto scrollbar-thin mb-2 w-[94%] my-3 mx-auto`}
+          >
+            <div className="w-full h-full  ">
+              <div className=" flex w-full justify-between items-center rounded-lg mb-2">
+                <textarea
+                  ref={textRef}
+                  value={text}
+                  onChange={(e) => setText(e.target.value)}
+                  className={`${
+                    uploadImage || isUpload
+                      ? ""
+                      : hasBg
+                      ? "h-[20.8rem]"
+                      : "h-36"
+                  } outline-none resize-none  w-full ${
+                    uploadImage || isUpload
+                      ? "placeholder:text-[16px] text-[16px] "
+                      : hasBg
+                      ? "text-[30px] font-bold placeholder:text-white/80 placeholder:text-center pt-36 text-white "
+                      : "placeholder:text-[24px] text-[24px]"
+                  }
+                  } placeholder:text-[#65676B] bg-transparent h rounded-lg pl-2 pt-41`}
+                  placeholder={`What's on your mind, ${user.last_name}?`}
+                />
+                <div className={`${!uploadImage && "hidden"} self-baseline `}>
+                  <i onClick={toggleEmoji} className="emoji_icon_large" />
+                </div>
+              </div>
+              <div
                 className={`${
-                  uploadImage || isUpload ? "" : "h-36"
-                } outline-none resize-none  w-full ${
-                  uploadImage || isUpload
-                    ? "placeholder:text-[16px] text-[16px] "
-                    : "placeholder:text-[24px] text-[24px]"
-                } placeholder:text-[#65676B] pl-2 pt-41`}
-                placeholder={`What's on your mind, ${user.last_name}?`}
-              />
-              <div className={`${!uploadImage && "hidden"} self-baseline `}>
+                  (uploadImage || isUpload) && "hidden"
+                }  mb-2 w-full flex items-center px-1 justify-between`}
+              >
+                <div className="w-9 cursor-pointer flex items-center gap-2">
+                  {!toggleBg ? (
+                    <img
+                      onClick={toggleBgHandler}
+                      src="../../../icons/colorful.png"
+                      alt=""
+                    />
+                  ) : (
+                    <div
+                      onClick={toggleBgHandler}
+                      className={`${
+                        hasBg ? "bg-white/80" : "bg-black/20"
+                      } p-1 px-[5px] rounded-lg`}
+                    >
+                      <i className="back_icon" />
+                    </div>
+                  )}
+                  {toggleBg && (
+                    <img
+                      onClick={removeBg}
+                      className={`rounded-lg w-8 h-9 px-4 shadow-sm shadow-black/20 border-2 border-white ${
+                        hasBg ? "bg-white/80" : "bg-black/20"
+                      } `}
+                      alt=""
+                    />
+                  )}
+                  {toggleBg &&
+                    postBackgrounds.map((bg, i) => (
+                      <img
+                        onClick={selectedBg.bind(null, bg)}
+                        className="rounded-lg w-8 h-9"
+                        key={i}
+                        src={bg}
+                        alt=""
+                      />
+                    ))}
+                </div>
+
                 <i onClick={toggleEmoji} className="emoji_icon_large" />
               </div>
-            </div>
-            <div
-              className={`${
-                uploadImage && "hidden"
-              }  mb-2 flex items-center justify-between`}
-            >
-              <div className=" w-9 cursor-pointer">
-                <img src="../../../icons/colorful.png" alt="" />
-              </div>
-              <i onClick={toggleEmoji} className="emoji_icon_large" />
             </div>
             {openEmoji && (
               <div
@@ -132,10 +199,11 @@ const Status = ({ onToggleForm, user, isUpload, onClose }) => {
             <h1 className="font-medium ">Add to your post</h1>
             <div className="flex space-x-3 items-baseline ">
               <div
-                onClick={openUploadImage}
-                className="hover:bg-green-100/50 cursor-pointer flex items-center justify-center w-9 h-9 rounded-full "
+                aria-disabled={hasBg}
+                onClick={!hasBg && openUploadImage}
+                className="hover:bg-green-100/50 aria-disabled:hover:bg-transparent aria-disabled:cursor-not-allowed cursor-pointer flex items-center justify-center w-9 h-9 rounded-full "
               >
-                <Photo color="#41B35D" />
+                <Photo color={hasBg ? "#cccccc" : "#41B35D"} />
               </div>
               <div>
                 <i className="tag_icon"></i>
@@ -168,3 +236,15 @@ const Status = ({ onToggleForm, user, isUpload, onClose }) => {
 };
 
 export default Status;
+
+const postBackgrounds = [
+  "../../../images/postbackgrounds/1.jpg",
+  "../../../images/postbackgrounds/2.jpg",
+  "../../../images/postbackgrounds/3.jpg",
+  "../../../images/postbackgrounds/4.jpg",
+  "../../../images/postbackgrounds/5.jpg",
+  "../../../images/postbackgrounds/6.jpg",
+  "../../../images/postbackgrounds/7.jpg",
+  "../../../images/postbackgrounds/8.jpg",
+  "../../../images/postbackgrounds/9.jpg",
+];

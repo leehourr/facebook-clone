@@ -580,6 +580,15 @@
   background-repeat: no-repeat;
   display: inline-block;
 }
+.back_icon {
+  background-image: url(../../../public/icons/icons34.png);
+  background-position: -20px -391px;
+  background-size: auto;
+  width: 20px;
+  height: 20px;
+  background-repeat: no-repeat;
+  display: inline-block;
+}
 
 .plus_icon {
   background-image: url(../../../public/icons/icons22.png);

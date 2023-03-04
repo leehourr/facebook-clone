@@ -51,7 +51,11 @@ const UploadImage = ({ onClose, close }) => {
           </label>
         )}
         {image.length !== 0 && (
-          <div className={`w-full grid grid-cols-2 gap-1`}>
+          <div
+            className={`w-full grid ${
+              image.length === 1 ? "grid-cols-1" : "grid-cols-2"
+            } gap-1`}
+          >
             <div className="absolute bg-white cursor-pointer hover:bg-white/80 top-2 left-2 flex items-center gap-2 justify-center rounded-md px-3 py-[0.4rem]">
               <i className="edit_icon"></i>
               Edit
