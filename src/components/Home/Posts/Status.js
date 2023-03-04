@@ -6,6 +6,9 @@ import Emoji from "@emoji-mart/react";
 import { useEffect } from "react";
 import { useRef } from "react";
 import UploadImage from "./UploadImage";
+import PulseLoader from "react-spinners/PulseLoader";
+import { createPost } from "../../../utils/api-call";
+import { useSelector } from "react-redux";
 
 const Status = ({ onToggleForm, user, isUpload, onClose }) => {
   const [text, setText] = useState("");
@@ -13,9 +16,14 @@ const Status = ({ onToggleForm, user, isUpload, onClose }) => {
   const textRef = useRef(null);
   const backgroundRef = useRef(null);
   const [cursorPosition, setCursorPosition] = useState();
+  const [backgroundImg, setBackgroundImg] = useState("");
   const [uploadImage, setUploadImage] = useState(false);
   const [toggleBg, setToggleBg] = useState(false);
   const [hasBg, setHasBg] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
+  //its already pass from the props why did i bother get the data from redux bruhhhh
+  // const { user } = useSelector((state) => ({ ...state }));
 
   useEffect(() => {
     textRef.current.selectionEnd = cursorPosition;
@@ -50,12 +58,36 @@ const Status = ({ onToggleForm, user, isUpload, onClose }) => {
   const selectedBg = (i) => {
     // console.log(i);
     backgroundRef.current.style.backgroundImage = `url(${i})`;
+    setBackgroundImg(i);
     setHasBg(true);
   };
 
   const removeBg = () => {
     backgroundRef.current.style.backgroundImage = "";
     setHasBg(false);
+  };
+
+  const uploadStatus = async () => {
+    try {
+      console.log(user._id);
+      if (text !== "") {
+        setIsLoading(true);
+        const req = {
+          type: null,
+          background: backgroundImg,
+          text,
+          images: null,
+          user: user._id,
+        };
+
+        const res = await createPost(req);
+        console.log(res);
+        setIsLoading(false);
+      }
+    } catch (err) {
+      setIsLoading(false);
+      console.log(err.response);
+    }
   };
   return (
     <>
@@ -200,7 +232,7 @@ const Status = ({ onToggleForm, user, isUpload, onClose }) => {
             <div className="flex space-x-3 items-baseline ">
               <div
                 aria-disabled={hasBg}
-                onClick={!hasBg && openUploadImage}
+                onClick={!hasBg ? openUploadImage : undefined}
                 className="hover:bg-green-100/50 aria-disabled:hover:bg-transparent aria-disabled:cursor-not-allowed cursor-pointer flex items-center justify-center w-9 h-9 rounded-full "
               >
                 <Photo color={hasBg ? "#cccccc" : "#41B35D"} />
@@ -223,10 +255,11 @@ const Status = ({ onToggleForm, user, isUpload, onClose }) => {
             </div>
           </div>
           <button
+            onClick={uploadStatus}
             disabled={text !== "" ? false : true}
             className="w-[94%] my-1 bg-[#1771E6] text-white disabled:cursor-not-allowed disabled:text-black/50  block mt-2 rounded-lg disabled:bg-black/20 mx-auto text-center h-10"
           >
-            Post
+            {isLoading ? <PulseLoader color="#fff" size={5} /> : "Post"}
           </button>
         </div>,
         document.getElementById("overlay")
