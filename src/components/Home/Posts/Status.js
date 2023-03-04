@@ -42,7 +42,7 @@ const Status = ({ onToggleForm, user, isUpload, onClose }) => {
   return (
     <>
       {ReactDOM.createPortal(
-        <Backdrop onClick={onToggleForm} className="bg-white/50 z-50" />,
+        <Backdrop onClick={onToggleForm} className="bg-white/50 z-40" />,
         document.getElementById("backdrop")
       )}
       {ReactDOM.createPortal(
