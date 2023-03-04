@@ -75,63 +75,59 @@ const Status = ({ onToggleForm, user, isUpload, onClose }) => {
               </div>
             </div>
           </div>
-          <div
-            className={`flex ${
-              uploadImage || isUpload
-                ? "flex-row items-center justify-between"
-                : "flex-col"
-            }`}
-          >
-            <textarea
-              ref={textRef}
-              value={text}
-              onChange={(e) => setText(e.target.value)}
-              className={`${
-                uploadImage || isUpload ? "" : "h-36"
-              } outline-none resize-none  w-full ${
-                uploadImage || isUpload
-                  ? "placeholder:text-[16px] text-[16px] mt-3"
-                  : "placeholder:text-[24px] text-[24px]"
-              } placeholder:text-[#65676B] pl-4 pt-41`}
-              placeholder={`What's on your mind, ${user.last_name}?`}
-            />
+          <div className="w-[95%] max-h-[55vh] my-3 overflow-y-auto mx-auto scrollbar-thin">
+            <div className="flex w-full justify-between items-center mt-0">
+              <textarea
+                ref={textRef}
+                value={text}
+                onChange={(e) => setText(e.target.value)}
+                className={`${
+                  uploadImage || isUpload ? "" : "h-36"
+                } outline-none resize-none  w-full ${
+                  uploadImage || isUpload
+                    ? "placeholder:text-[16px] text-[16px] "
+                    : "placeholder:text-[24px] text-[24px]"
+                } placeholder:text-[#65676B] pl-2 pt-41`}
+                placeholder={`What's on your mind, ${user.last_name}?`}
+              />
+              <div className={`${!uploadImage && "hidden"} self-baseline `}>
+                <i onClick={toggleEmoji} className="emoji_icon_large" />
+              </div>
+            </div>
             <div
               className={`${
-                uploadImage || isUpload ? "w-[10%]" : "w-[95%]"
-              } mb-2 mx-auto flex items-center justify-between`}
+                uploadImage && "hidden"
+              }  mb-2 flex items-center justify-between`}
             >
-              <div
-                className={`${
-                  (uploadImage || isUpload) && "hidden"
-                } w-9 cursor-pointer"`}
-              >
+              <div className=" w-9 cursor-pointer">
                 <img src="../../../icons/colorful.png" alt="" />
               </div>
               <i onClick={toggleEmoji} className="emoji_icon_large" />
             </div>
+            {openEmoji && (
+              <div
+                className={`${
+                  uploadImage || isUpload ? "top-44" : "-top-44"
+                } absolute z-40 -right-44`}
+              >
+                <Emoji
+                  previewPosition="none"
+                  searchPosition="none"
+                  navPosition="bottom"
+                  set="facebook"
+                  theme="light"
+                  maxFrequentRows="5"
+                  onEmojiSelect={selectEmoji}
+                  //  onClickOutside={toggleEmoji}
+                />
+              </div>
+            )}
+            {(uploadImage || isUpload) && (
+              <div className="border-[1px] border-black/10 rounded-lg p-2">
+                <UploadImage onClose={closeUploadImage} close={onClose} />
+              </div>
+            )}
           </div>
-
-          {openEmoji && (
-            <div
-              className={`${
-                uploadImage || isUpload ? "top-44" : "-top-44"
-              } absolute z-40 -right-44`}
-            >
-              <Emoji
-                previewPosition="none"
-                searchPosition="none"
-                navPosition="bottom"
-                set="facebook"
-                theme="light"
-                maxFrequentRows="5"
-                onEmojiSelect={selectEmoji}
-                //  onClickOutside={toggleEmoji}
-              />
-            </div>
-          )}
-          {(uploadImage || isUpload) && (
-            <UploadImage onClose={closeUploadImage} close={onClose} />
-          )}
           <div className="w-[94%] mb-3 mx-auto h-14 flex items-center  justify-between px-4 rounded-lg border-[1px]  border-black/20">
             <h1 className="font-medium ">Add to your post</h1>
             <div className="flex space-x-3 items-baseline ">
