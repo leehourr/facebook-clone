@@ -3,14 +3,8 @@
 @tailwind utilities;
 
 @layer base {
-  :root {
-    @apply bg-white;
-  }
-  html {
-    @apply bg-white;
-  }
   body {
-    @apply bg-[#F0F2F5];
+    @apply bg-[#F0F2F5] bg-no-repeat;
   }
   .leftNav_border {
     @apply mx-auto border-b-[1px] border-b-black/10;
@@ -38,6 +32,10 @@
 
   .post_options {
     @apply w-full gap-2 flex items-center justify-center cursor-pointer py-2 hover:bg-black/5 rounded-lg;
+  }
+
+  .post_interaction {
+    @apply hover:bg-black/10 px-6  mobile:px-20 mobile:py-1 cursor-pointer rounded-lg flex items-center justify-center gap-2;
   }
 }
 

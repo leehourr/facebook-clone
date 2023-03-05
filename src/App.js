@@ -4,7 +4,7 @@ import Layout, { loader as getUserData } from "./pages/Layout";
 import Profile from "./pages/profile";
 import Auth, { action as login } from "./pages/Auth";
 import AuthError from "./pages/Auth/AuthError";
-import Home from "./pages/Home/Home";
+import Home, { loader as getAllPosts } from "./pages/Home/Home";
 import Story from "./pages/Home/StoryPage";
 // import { useSelector } from "react-redux";
 import Cookies from "js-cookie";
@@ -29,6 +29,7 @@ function App() {
             {
               path: "/",
               element: userToken && <Home />,
+              loader: getAllPosts,
             },
           ],
         }

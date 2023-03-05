@@ -81,6 +81,12 @@ export const uploadImages = async (req, path) => {
   return data;
 };
 
+export const getAllPosts = async () => {
+  await LoadingStimulate(3000);
+  const { data } = await api.get("/getAllPosts");
+  return data;
+};
+
 //handle all errors
 function errorHandler(error) {
   if (error.response) {
