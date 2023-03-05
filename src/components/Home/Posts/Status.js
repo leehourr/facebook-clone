@@ -7,8 +7,7 @@ import { useEffect } from "react";
 import { useRef } from "react";
 import UploadImage from "./UploadImage";
 import PulseLoader from "react-spinners/PulseLoader";
-import { createPost } from "../../../utils/api-call";
-import { useSelector } from "react-redux";
+import { createPost, uploadImages } from "../../../utils/api-call";
 
 const Status = ({ onToggleForm, user, isUpload, onClose }) => {
   const [text, setText] = useState("");
@@ -17,7 +16,8 @@ const Status = ({ onToggleForm, user, isUpload, onClose }) => {
   const backgroundRef = useRef(null);
   const [cursorPosition, setCursorPosition] = useState();
   const [backgroundImg, setBackgroundImg] = useState("");
-  const [uploadImage, setUploadImage] = useState(false);
+  const [hasImage, setHasImage] = useState(false);
+  const [uploadImage, setUploadImage] = useState([]);
   const [toggleBg, setToggleBg] = useState(false);
   const [hasBg, setHasBg] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -45,10 +45,10 @@ const Status = ({ onToggleForm, user, isUpload, onClose }) => {
   };
 
   const openUploadImage = () => {
-    setUploadImage(true);
+    setHasImage(true);
   };
   const closeUploadImage = () => {
-    setUploadImage(false);
+    setHasImage(false);
   };
 
   const toggleBgHandler = () => {
@@ -67,10 +67,15 @@ const Status = ({ onToggleForm, user, isUpload, onClose }) => {
     setHasBg(false);
   };
 
+  const getImage = (img) => {
+    setUploadImage((prev) => [...prev, img]);
+  };
+  // console.log("uploadImage", uploadImage);
+
   const uploadStatus = async () => {
     try {
-      console.log(user._id);
-      if (text !== "") {
+      // console.log(user._id);
+      if (backgroundImg !== "") {
         setIsLoading(true);
         const req = {
           type: null,
@@ -80,9 +85,42 @@ const Status = ({ onToggleForm, user, isUpload, onClose }) => {
           user: user._id,
         };
 
-        const res = await createPost(req);
-        console.log(res);
+        await createPost(req);
+        // console.log(res);
         setIsLoading(false);
+        onToggleForm();
+      }
+
+      if (uploadImage.length !== 0) {
+        // console.log("in upload", uploadImage);
+        setIsLoading(true);
+        // const img = URL.createObjectURL(uploadImage[0]);
+        // const postImages = uploadImage.map((img) => {
+        //   return URL.createObjectURL(img);
+        // });
+        // console.log("postImages", postImages);
+
+        const path = `${user.username}/post Images`;
+        let formData = new FormData();
+        formData.append("path", path);
+        uploadImage.map((image) => {
+          return formData.append("file", image);
+        });
+        console.log(formData);
+        const res = await uploadImages(formData, path);
+        console.log("res", res);
+
+        const req = {
+          type: null,
+          background: null,
+          text,
+          images: res,
+          user: user._id,
+        };
+        await createPost(req);
+        // console.log("uploadImage", postRes);
+        setIsLoading(false);
+        onToggleForm();
       }
     } catch (err) {
       setIsLoading(false);
@@ -138,13 +176,9 @@ const Status = ({ onToggleForm, user, isUpload, onClose }) => {
                   value={text}
                   onChange={(e) => setText(e.target.value)}
                   className={`${
-                    uploadImage || isUpload
-                      ? ""
-                      : hasBg
-                      ? "h-[20.8rem]"
-                      : "h-36"
+                    hasImage || isUpload ? "" : hasBg ? "h-[20.8rem]" : "h-36"
                   } outline-none resize-none  w-full ${
-                    uploadImage || isUpload
+                    hasImage || isUpload
                       ? "placeholder:text-[16px] text-[16px] "
                       : hasBg
                       ? "text-[30px] font-bold placeholder:text-white/80 placeholder:text-center pt-36 text-white "
@@ -153,13 +187,13 @@ const Status = ({ onToggleForm, user, isUpload, onClose }) => {
                   } placeholder:text-[#65676B] bg-transparent h rounded-lg pl-2 pt-41`}
                   placeholder={`What's on your mind, ${user.last_name}?`}
                 />
-                <div className={`${!uploadImage && "hidden"} self-baseline `}>
+                <div className={`${!hasImage && "hidden"} self-baseline `}>
                   <i onClick={toggleEmoji} className="emoji_icon_large" />
                 </div>
               </div>
               <div
                 className={`${
-                  (uploadImage || isUpload) && "hidden"
+                  (hasImage || isUpload) && "hidden"
                 }  mb-2 w-full flex items-center px-1 justify-between`}
               >
                 <div className="w-9 cursor-pointer flex items-center gap-2">
@@ -206,7 +240,7 @@ const Status = ({ onToggleForm, user, isUpload, onClose }) => {
             {openEmoji && (
               <div
                 className={`${
-                  uploadImage || isUpload ? "top-44" : "-top-44"
+                  hasImage || isUpload ? "top-44" : "-top-44"
                 } absolute z-40 -right-44`}
               >
                 <Emoji
@@ -221,9 +255,14 @@ const Status = ({ onToggleForm, user, isUpload, onClose }) => {
                 />
               </div>
             )}
-            {(uploadImage || isUpload) && (
+            {(hasImage || isUpload) && (
               <div className="border-[1px] border-black/10 rounded-lg p-2">
-                <UploadImage onClose={closeUploadImage} close={onClose} />
+                <UploadImage
+                  onGetImage={getImage}
+                  onClose={closeUploadImage}
+                  hasImage={openUploadImage}
+                  close={onClose}
+                />
               </div>
             )}
           </div>
@@ -256,7 +295,7 @@ const Status = ({ onToggleForm, user, isUpload, onClose }) => {
           </div>
           <button
             onClick={uploadStatus}
-            disabled={text !== "" ? false : true}
+            disabled={text !== "" || uploadImage.length !== 0 ? false : true}
             className="w-[94%] my-1 bg-[#1771E6] text-white disabled:cursor-not-allowed disabled:text-black/50  block mt-2 rounded-lg disabled:bg-black/20 mx-auto text-center h-10"
           >
             {isLoading ? <PulseLoader color="#fff" size={5} /> : "Post"}

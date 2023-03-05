@@ -72,6 +72,15 @@ export const createPost = async (req) => {
   return data;
 };
 
+export const uploadImages = async (req, path) => {
+  const { data } = await api.post("/uploadImages", req, {
+    headers: {
+      "content-type": "multipart/form-data",
+    },
+  });
+  return data;
+};
+
 //handle all errors
 function errorHandler(error) {
   if (error.response) {

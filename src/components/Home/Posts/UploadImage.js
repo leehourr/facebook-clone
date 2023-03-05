@@ -1,6 +1,6 @@
 import React, { useRef, useState } from "react";
 
-const UploadImage = ({ onClose, close }) => {
+const UploadImage = ({ onClose, close, onGetImage }) => {
   const [image, setImage] = useState([]);
   const imageRef = useRef();
 
@@ -9,9 +9,14 @@ const UploadImage = ({ onClose, close }) => {
     close();
   };
 
+  // useEffect(() => {
+  //   // onGetImage(image);
+  // }, [image, onGetImage]);
+
   const selectImages = (e) => {
     const files = Array.from(e.target.files);
-    // console.log(files);
+    // console.log("files", files[0]);
+    onGetImage(files[0]); // console.log(files);
     files.forEach((img) => {
       const reader = new FileReader();
       reader.readAsDataURL(img);
@@ -42,6 +47,7 @@ const UploadImage = ({ onClose, close }) => {
             <span className="text-[14px] text-black/60">or drag and drop</span>
             <input
               ref={imageRef}
+              accepts="image/*"
               multiple
               hidden
               onChange={selectImages}
@@ -70,10 +76,10 @@ const UploadImage = ({ onClose, close }) => {
                 onChange={selectImages}
                 id="uploadImg"
                 type="file"
-              />{" "}
+              />
             </label>
-            {image.map((i) => (
-              <img key={Math.random()} className="rounded-lg" src={i} alt="" />
+            {image.map((bg, i) => (
+              <img key={i} className="rounded-lg" src={bg} alt="" />
             ))}
           </div>
         )}
