@@ -1,50 +1,60 @@
-import React from "react";
+import React, { useState } from "react";
 
 const reactsArray = [
   {
-    name: "like",
+    name: "Like",
     image: "../../../reacts/like.gif",
   },
   {
-    name: "love",
+    name: "Love",
     image: "../../../reacts/love.gif",
   },
   {
-    name: "haha",
+    name: "Haha",
     image: "../../../reacts/haha.gif",
   },
   {
-    name: "wow",
+    name: "Wow",
     image: "../../../reacts/wow.gif",
   },
   {
-    name: "sad",
+    name: "Sad",
     image: "../../../reacts/sad.gif",
   },
   {
-    name: "angry",
+    name: "Angry",
     image: "../../../reacts/angry.gif",
   },
 ];
 export default function PopUpReaction({ onToggle, closeReaction }) {
   return (
-    <div
-      className="flex gap-1"
-      onMouseOver={() => {
-        onToggle();
-      }}
-    //   onMouseOut={() => {
-    //     closeReaction();
-    //   }}
-    >
+    <div className="flex gap-1">
       {reactsArray.map((react, i) => (
-        <div
-          className="cursor-pointer transition-all duration-100 hover:scale-125"
-          key={i}
-        >
-          <img src={react.image} alt="" />
-        </div>
+        <Reactions key={i} name={react.name} image={react.image} />
       ))}
     </div>
   );
 }
+
+const Reactions = ({ name, image }) => {
+  const [isHover, setIsHover] = useState(false);
+
+  return (
+    <div
+      onMouseOver={() => {
+        setIsHover(true);
+      }}
+      onMouseOut={() => {
+        setIsHover(false);
+      }}
+      className="cursor-pointer relative transition-all duration-100 hover:scale-125 active:scale-150"
+    >
+      {isHover && (
+        <span className="absolute text-white w-12 bg-black opacity-90 p-1 -top-[2.2rem] text-center rounded-lg">
+          {name}
+        </span>
+      )}
+      <img src={image} alt="" />
+    </div>
+  );
+};

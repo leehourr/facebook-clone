@@ -1,12 +1,19 @@
 import React, { useEffect, useRef, useState } from "react";
 import Moment from "react-moment";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { Dots, Public } from "../../../svg";
 import PopUpReaction from "./PopUpReaction";
+import Emoji from "@emoji-mart/react";
 
 const FeedItem = ({ post }) => {
+  const { user } = useSelector((state) => ({ ...state }));
   const [img, setImg] = useState([]);
-  const [popUpReaction, setPopUpReaction] = useState(false);
+  const [openEmoji, setOpenEmoji] = useState(false);
+  const [text, setText] = useState("");
+  const textRef = useRef(null);
+  const [cursorPosition, setCursorPosition] = useState();
+
   const textBg = useRef();
   const uploadedImg = post.images || null;
 
@@ -25,14 +32,23 @@ const FeedItem = ({ post }) => {
     }
   }, [uploadedImg, post.background]);
 
-  const toggleReaction = () => {
-    setPopUpReaction(true);
-  };
+  useEffect(() => {
+    textRef.current.selectionEnd = cursorPosition;
+  }, [cursorPosition]);
 
-  const closeReaction = () => {
-    setTimeout(() => {
-      setPopUpReaction(false);
-    }, 500);
+  const selectEmoji = (e) => {
+    // console.log(e);
+    const emoji = e.native;
+    const ref = textRef.current;
+    ref.focus();
+    const start = text.substring(0, ref.selectionStart);
+    const end = text.substring(ref.selectionStart);
+    const newText = start + emoji + end;
+    setText(newText);
+    setCursorPosition(start.length + emoji.length);
+  };
+  const toggleEmoji = () => {
+    setOpenEmoji((prev) => !prev);
   };
   return (
     <div className="flex flex-col items-center w-full rounded-lg shadow-sm shadow-black/20 bg-white">
@@ -86,13 +102,10 @@ const FeedItem = ({ post }) => {
         className={`w-[96%] h-9 mobile:h-12 relative my-1 border-b-[1px] pb-1 border-b-black/20`}
       ></div>
 
-      <div className="w-[96%]  mb-3 flex items-center justify-around">
+      <div className="w-[96%] border-b-[1px] border-b-black/20 pb-3 mb-3 flex items-center justify-around">
         <div className="post_interaction group relative">
           <div className="absolute left-1 mobile:left-0 transition-all duration-300 group-hover:-translate-y-10 group-hover:z-10 group-hover:opacity-100 group-hover:visible invisible opacity-0 -z-10 bg-white shadow-sm shadow-black/20 p-1 px-2 rounded-3xl w-[40vw]  mobile:w-[17vw]">
-            <PopUpReaction
-              onToggle={toggleReaction}
-              // closeReaction={closeReaction}
-            />
+            <PopUpReaction />
           </div>
           <i className="like_icon"></i>
           <span>Like</span>
@@ -104,6 +117,40 @@ const FeedItem = ({ post }) => {
         <div className="post_interaction">
           <i className="share_icon"></i>
           <span>Share</span>
+        </div>
+      </div>
+      <div className="w-[96%] mb-3 flex items-center justify-center gap-2">
+        <img src={user.picture} alt="" className="w-9 h-9 rounded-full " />
+
+        <div className="flex-grow relative">
+          <input
+            ref={textRef}
+            value={text}
+            onChange={(e) => setText(e.target.value)}
+            className="bg-black/10 w-full outline-none p-1 px-2 rounded-xl"
+            type="text"
+            placeholder="Write a comment..."
+          />
+          <div className="absolute top-2 right-2 flex items-center justify-center gap-2 child:cursor-pointer">
+            <i onClick={toggleEmoji} className="emoji_icon"></i>
+            <i className="camera_icon"></i>
+            <i className="gif_icon"></i>
+            <i className="sticker_icon"></i>
+          </div>
+          {openEmoji && (
+            <div className="absolute z-10 top-0 -translate-y-full -right-32">
+              <Emoji
+                previewPosition="none"
+                searchPosition="none"
+                navPosition="bottom"
+                set="facebook"
+                theme="light"
+                maxFrequentRows="5"
+                onEmojiSelect={selectEmoji}
+                //  onClickOutside={toggleEmoji}
+              />
+            </div>
+          )}
         </div>
       </div>
     </div>
