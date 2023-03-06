@@ -4,7 +4,7 @@
 
 @layer base {
   body {
-    @apply bg-[#F0F2F5] bg-no-repeat;
+    @apply bg-[#F0F2F5] bg-no-repeat overflow-x-hidden;
   }
   .leftNav_border {
     @apply mx-auto border-b-[1px] border-b-black/10;
@@ -39,6 +39,14 @@
 
   .post_interaction {
     @apply hover:bg-black/10 w-1/3 cursor-pointer rounded-lg flex items-center justify-center gap-2 mobile:py-1;
+  }
+
+  .intro_setting {
+    @apply font-semibold text-[17px] text-black/80 bg-black/10 hover:bg-black/20 w-[95%] py-2 rounded-lg cursor-pointer;
+  }
+
+  .profile_section {
+    @apply w-[94%] mx-auto  mt-3;
   }
 }
 

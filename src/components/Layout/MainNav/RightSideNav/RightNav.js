@@ -1,10 +1,21 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import ContactLists from "./ContactLists";
 import Sponsor from "./Sponsor";
 
 const RightNav = () => {
+  const { profile } = useSelector((state) => ({ ...state }));
+  // useEffect(() => {
+  //   console.log("pf", profile);
+  //   console.log("visit", profile?.visit);
+  // }, [profile]);
+
   return (
-    <div className="hidden 4lg:block  lg3:w-[15rem] xl:w-[18rem] 3xl:w-[18rem]  bg-transparent h-full fixed top-[3.5rem] right-0 overflow-y-auto scrollbar-thin scrollbar-track-neutral-300 scrollbar-corner-rounded-2xl scrollbar-w-3 scrollbar-thumb-rounded-2xl">
+    <div
+      className={` hidden ${
+        profile?.visit ? "4lg:hidden" : "4lg:block"
+      }  lg3:w-[15rem] xl:w-[18rem] 3xl:w-[18rem]  bg-transparent h-full fixed top-[3.5rem] right-0 overflow-y-auto scrollbar-thin scrollbar-track-neutral-300 scrollbar-corner-rounded-2xl scrollbar-w-3 scrollbar-thumb-rounded-2xl`}
+    >
       <h1 className="ml-2 tracking-wide font-semibold mt-5 mb-2 text-[17px] text-[#65676B] ">
         Sponsored
       </h1>

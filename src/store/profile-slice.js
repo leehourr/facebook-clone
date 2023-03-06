@@ -4,12 +4,8 @@ const profileSlice = createSlice({
   name: "profile",
   initialState: {},
   reducers: {
-    viewPf(state) {
-      let visit = { ...state, visit: true };
-      return visit;
-    },
     userProfile(state, action) {
-      return action.payload;
+      return { ...action.payload };
     },
   },
 });

@@ -16,6 +16,7 @@ const Navigation = () => {
   const { user } = useSelector((user) => ({ ...user }));
   const [showFbSearch, setShowFbSearch] = useState(false);
   const [openAccMenu, setOpenAccMenu] = useState(false);
+  const { profile } = useSelector((state) => ({ ...state }));
 
   const accMenu = useRef(null);
   const searchElement = useRef(null);
@@ -66,9 +67,13 @@ const Navigation = () => {
       </Link>
       <div
         ref={searchElement}
-        className="relative flex items-center xl:ml-24 xl:w-[47%] 3xl:w-[46.5%] 4xl:w-[39%] 4xl:ml-28 lg3:ml-20 w-full lg3:w-[50%] pl-[0.4rem] rounded-3xl bg-[#f0f2f5] "
+        className={`relative flex items-center ${
+          profile?.visit
+            ? "w-full ml-2"
+            : "xl:ml-24 xl:w-[47%] 3xl:w-[46.5%] 4xl:w-[39%] 4xl:ml-28 lg3:ml-20 w-full lg3:w-[50%] pl-[0.4rem]"
+        } rounded-3xl bg-[#f0f2f5]`}
       >
-        {!desktopView ? (
+        {!desktopView || profile?.visit ? (
           <div
             //aria-disabled={showFbSearch}
             onClick={openSearch}

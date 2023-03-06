@@ -15,8 +15,7 @@ const LeftNav = () => {
   const { user, profile } = useSelector((state) => ({ ...state }));
   // const { user } = useSelector((state) => ({ ...state }));
 
-  // console.log("pf", profile);
-  // console.log("visit", profile?.visit);
+
   const [homeIsActive, setHomeIsActive] = useState(true);
   // console.log("in left nav", user);
   const desktopView = useMediaQuery({
@@ -60,19 +59,19 @@ const LeftNav = () => {
     },
     {
       name: "Marketplace",
-      to: "/asdfsa",
+      to: "/asdfsdsa",
       icon: "../../left/marketplace.png",
       hoverState: "Marketplace",
     },
     {
       name: "Group",
-      to: "/asdfsa",
+      to: "/asdfsdsa",
       icon: "../../left/groups.png",
       hoverState: "Group",
     },
     {
       name: "Gaming",
-      to: "/asdfsa",
+      to: "/asddfsa",
       icon: "../../left/gaming.png",
       hoverState: "Gaming",
     },
@@ -82,7 +81,7 @@ const LeftNav = () => {
     <nav
       className={`${
         desktopView
-          ? desktopView && isMenuOpen
+          ? desktopView && (isMenuOpen || profile?.visit)
             ? "w-[4rem] bg-white"
             : "4xl:w-[20rem] xl:w-[19rem] bg-transparent"
           : "w-[4rem] bg-white"
@@ -104,7 +103,7 @@ const LeftNav = () => {
         <div
           className={`${
             desktopView
-              ? desktopView && isMenuOpen
+              ? desktopView && (isMenuOpen || profile?.visit)
                 ? "w-[50%]"
                 : "w-[90%]"
               : "w-[50%]"
@@ -129,7 +128,7 @@ const LeftNav = () => {
         <div
           className={`${
             desktopView
-              ? desktopView && isMenuOpen
+              ? desktopView && (isMenuOpen || profile?.visit)
                 ? "w-[50%]"
                 : "w-[90%]"
               : "w-[50%]"
@@ -151,6 +150,7 @@ const Navlink = ({
   onActiveHandler,
 }) => {
   const [isHovering, setIsHovering] = useState(false);
+  const { profile } = useSelector((state) => ({ ...state }));
 
   const mobileView = useMediaQuery({
     query: "(max-width: 1120px)",
@@ -184,7 +184,7 @@ const Navlink = ({
           onMouseOut={mouseOut}
           className={`${
             desktopView
-              ? desktopView && isMenuOpen
+              ? desktopView && (isMenuOpen || profile?.visit)
                 ? "w-[80%] justify-center"
                 : "w-[97%] justify-start"
               : "w-[80%] justify-center"
@@ -195,10 +195,11 @@ const Navlink = ({
           ) : (
             <img src={`${icon}`} className="rounded-full w-7 h-7" alt="" />
           )}
-          {mobileView || isMenuOpen ? null : (
+          {mobileView || isMenuOpen || profile?.visit ? null : (
             <span className="ml-2">{name}</span>
           )}
-          {(isMenuOpen && isHovering) || (mobileView && isHovering) ? (
+          {((isMenuOpen || profile?.visit) && isHovering) ||
+          (mobileView && isHovering) ? (
             <span className="absolute z-50 px-4 py-1 rounded-lg text-white text-[0.9rem] opacity-70 shadow-md shadow-black bg-black top-[20%] left-[3.55rem] whitespace-nowrap">
               {hoverText}
             </span>
@@ -214,6 +215,7 @@ const SeeAllButton = ({ openMenu, closeMenu, onActiveHandler }) => {
   const [isHovering, setIsHovering] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const menu = useRef(null);
+  const { profile } = useSelector((state) => ({ ...state }));
 
   const mobileView = useMediaQuery({
     query: "(max-width: 1120px)",
@@ -259,7 +261,7 @@ const SeeAllButton = ({ openMenu, closeMenu, onActiveHandler }) => {
           onMouseOut={mouseOut}
           className={`${
             desktopView
-              ? desktopView && isMenuOpen
+              ? desktopView && (isMenuOpen || profile?.visit)
                 ? "justify-center w-[80%]"
                 : "w-[97%] justify-start"
               : "w-[80%] justify-center"
@@ -268,11 +270,12 @@ const SeeAllButton = ({ openMenu, closeMenu, onActiveHandler }) => {
           <div className="w-7 flex items-center justify-center bg-[#dbe1e8] p-2 rounded-full">
             <Menu />
           </div>
-          {mobileView || isMenuOpen ? null : (
+          {mobileView || isMenuOpen || profile?.visit ? null : (
             <span className="ml-2">See all</span>
           )}
 
-          {(isMenuOpen && isHovering) || (mobileView && isHovering) ? (
+          {((isMenuOpen || profile?.visit) && isHovering) ||
+          (mobileView && isHovering) ? (
             <span className="absolute z-40 px-4 py-1 rounded-lg text-white text-[0.9rem] opacity-70 shadow-md shadow-black bg-black top-[20%] left-[3.55rem] whitespace-nowrap">
               See all
             </span>

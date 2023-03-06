@@ -20,7 +20,7 @@ import { profileActions } from "../../store/profile-slice";
 const Layout = () => {
   const useData = useLoaderData();
   const { name } = useParams();
-  // console.log(name !== "");
+  // console.log(name);
   useEffect(() => {
     useData.User.then((res) => {
       // console.log(res);
@@ -28,17 +28,16 @@ const Layout = () => {
       const posts = res.posts;
       if (data) {
         store.dispatch(userActions.login(data));
-        store.dispatch(profileActions.userProfile(posts));
         // console.log(posts);
       }
+      if (!name) {
+        store.dispatch(profileActions.userProfile({ ...posts, visit: false }));
+      } else {
+        store.dispatch(profileActions.userProfile({ ...posts, visit: true }));
+      }
     });
-  }, [useData]);
+  }, [useData, name]);
 
-  useEffect(() => {
-    if (name !== "") {
-      store.dispatch(profileActions.viewPf());
-    }
-  });
   return (
     <Suspense
       fallback={

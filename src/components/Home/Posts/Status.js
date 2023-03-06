@@ -8,10 +8,12 @@ import { useRef } from "react";
 import UploadImage from "./UploadImage";
 import PulseLoader from "react-spinners/PulseLoader";
 import { createPost, uploadImages } from "../../../utils/api-call";
+import { useNavigate } from "react-router-dom";
 
 const Status = ({ onToggleForm, user, isUpload, onClose }) => {
   const [text, setText] = useState("");
   const [openEmoji, setOpenEmoji] = useState(false);
+  const navigate = useNavigate();
   const textRef = useRef(null);
   const backgroundRef = useRef(null);
   const [cursorPosition, setCursorPosition] = useState();
@@ -89,6 +91,7 @@ const Status = ({ onToggleForm, user, isUpload, onClose }) => {
         // console.log(res);
         setIsLoading(false);
         onToggleForm();
+        navigate("/");
       }
 
       if (uploadImage.length !== 0) {
@@ -121,6 +124,7 @@ const Status = ({ onToggleForm, user, isUpload, onClose }) => {
         // console.log("uploadImage", postRes);
         setIsLoading(false);
         onToggleForm();
+        navigate("/");
       }
     } catch (err) {
       setIsLoading(false);
