@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Layout, { loader as getUserData } from "./pages/Layout";
 import Profile from "./pages/profile";
@@ -31,6 +31,7 @@ function App() {
               element: userToken && <Home />,
               loader: getAllPosts,
             },
+            { path: "/:name", element: <Profile /> },
           ],
         }
       : {
@@ -51,11 +52,9 @@ function App() {
         { path: "/recover/reset/:email", element: <ResetPass /> },
         { path: "/recover/code/:email", element: <EnterCode /> },
         { path: "/recover/newpassword/:email", element: <ChooseNewPass /> },
-
         { path: "/recover/*", element: <InvalidLink /> },
       ],
     },
-    { path: "/:name", element: <Profile /> },
   ]);
   return <RouterProvider router={router} />;
 }

@@ -12,7 +12,11 @@ import { useSelector } from "react-redux";
 
 const LeftNav = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const { user } = useSelector((state) => ({ ...state }));
+  const { user, profile } = useSelector((state) => ({ ...state }));
+  // const { user } = useSelector((state) => ({ ...state }));
+
+  // console.log("pf", profile);
+  // console.log("visit", profile?.visit);
   const [homeIsActive, setHomeIsActive] = useState(true);
   // console.log("in left nav", user);
   const desktopView = useMediaQuery({
@@ -44,7 +48,7 @@ const LeftNav = () => {
     },
     {
       name: `${user?.first_name} ${user?.last_name}`,
-      to: "/profile",
+      to: `${user.username}`,
       icon: user?.picture,
       hoverState: "Your profile",
     },

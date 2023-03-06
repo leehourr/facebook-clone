@@ -3,10 +3,15 @@ import { createSlice } from "@reduxjs/toolkit";
 const userSlice = createSlice({
   name: "user",
   initialState: {},
+  visitProfile: false,
   reducers: {
     // resetPass(state, action) {
     //   return action.payload;
     // },
+    viewPf(state) {
+      let visit = state.visitProfile;
+      return (visit = true);
+    },
     login(state, action) {
       return action.payload;
     },

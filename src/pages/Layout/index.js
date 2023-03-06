@@ -1,26 +1,44 @@
 import React, { Suspense, useEffect } from "react";
 // import { useSelector } from "react-redux";
-import { Await, defer, Outlet, useLoaderData } from "react-router-dom";
+import {
+  Await,
+  defer,
+  Outlet,
+  useLoaderData,
+  useParams,
+} from "react-router-dom";
 import { getUserData } from "../../utils/api-call";
 import Navigation from "../../components/Layout/Header/Navigation";
 import LeftNav from "../../components/Layout/MainNav/LeftSideNav/LeftNav";
 import RightNav from "../../components/Layout/MainNav/RightSideNav/RightNav";
 import Facebook from "../../svg/Facebook";
 // import { createAsyncThunk } from "@reduxjs/toolkit";
-import { userActions } from "../../store/user-slice";
+import userSlice, { userActions } from "../../store/user-slice";
 import store from "../../store";
+import { profileActions } from "../../store/profile-slice";
 
 const Layout = () => {
   const useData = useLoaderData();
+  const { name } = useParams();
+  // console.log(name !== "");
   useEffect(() => {
     useData.User.then((res) => {
       // console.log(res);
       const data = res.user_data;
+      const posts = res.posts;
       if (data) {
         store.dispatch(userActions.login(data));
+        store.dispatch(profileActions.userProfile(posts));
+        // console.log(posts);
       }
     });
   }, [useData]);
+
+  useEffect(() => {
+    if (name !== "") {
+      store.dispatch(profileActions.viewPf());
+    }
+  });
   return (
     <Suspense
       fallback={

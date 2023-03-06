@@ -87,6 +87,10 @@ export const getAllPosts = async () => {
   return data;
 };
 
+export const userProfile = async (param) => {
+  const { data } = await api.get(`/${param}`);
+  return data;
+};
 //handle all errors
 function errorHandler(error) {
   if (error.response) {

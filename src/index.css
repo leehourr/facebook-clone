@@ -10,6 +10,9 @@
     @apply mx-auto border-b-[1px] border-b-black/10;
   }
 
+  .home_page {
+    @apply top-12 w-[85%] sm:w-[90%] ml-[4rem] md:w-[90%]  md:ml-16 md2:w-[80%] md2:ml-[7rem] xl:w-[47%] 3xl:w-[45rem] mt-14 4lg:w-[60%] 5lg:w-[65%] lg3:ml-24 xl:mx-auto h-full;
+  }
   .acc_option {
     @apply w-full cursor-pointer hover:bg-black/5 rounded-lg pl-4 py-2 flex items-center;
   }
