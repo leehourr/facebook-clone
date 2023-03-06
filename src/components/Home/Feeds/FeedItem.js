@@ -1,10 +1,12 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import Moment from "react-moment";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { Dots, Public } from "../../../svg";
 import PopUpReaction from "./PopUpReaction";
 import Emoji from "@emoji-mart/react";
+import useClickOutside from "../../../helpers/clickOutside";
+import Menulist from "./PostMenu/Menulist";
 
 const FeedItem = ({ post }) => {
   const { user } = useSelector((state) => ({ ...state }));
@@ -13,6 +15,9 @@ const FeedItem = ({ post }) => {
   const [text, setText] = useState("");
   const textRef = useRef(null);
   const [cursorPosition, setCursorPosition] = useState();
+  const emoji = useRef();
+  const menu = useRef();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const textBg = useRef();
   const uploadedImg = post.images || null;
@@ -36,6 +41,24 @@ const FeedItem = ({ post }) => {
     textRef.current.selectionEnd = cursorPosition;
   }, [cursorPosition]);
 
+  useClickOutside(
+    emoji,
+    useCallback(() => {
+      // console.log("click in helper");
+      toggleEmoji();
+      setOpenEmoji(false);
+    }, [])
+  );
+
+  useClickOutside(
+    menu,
+    useCallback(() => {
+      // console.log("click in helper");
+      closeMenu();
+      setIsMenuOpen(false);
+    }, [])
+  );
+
   const selectEmoji = (e) => {
     // console.log(e);
     const emoji = e.native;
@@ -49,6 +72,13 @@ const FeedItem = ({ post }) => {
   };
   const toggleEmoji = () => {
     setOpenEmoji((prev) => !prev);
+  };
+
+  const openMenu = () => {
+    setIsMenuOpen(true);
+  };
+  const closeMenu = () => {
+    setIsMenuOpen(false);
   };
   return (
     <div className="flex flex-col items-center w-full rounded-lg shadow-sm shadow-black/20 bg-white">
@@ -77,7 +107,23 @@ const FeedItem = ({ post }) => {
             </div>
           </div>
         </div>
-        <Dots />
+        <div
+          ref={menu}
+          onClick={openMenu}
+          className="relative cursor-pointer w-8 h-8 rounded-full hover:bg-black/5 flex items-center justify-center"
+        >
+          <Dots />
+
+          <div className="absolute z-30 top-7 w-[19.5rem] bg-white shadow-md -right-0 shadow-black/20 rounded-lg ">
+            {isMenuOpen && (
+              <Menulist
+                postUserId={post.user._id}
+                userId={user._id}
+                imagesLength={post.images !== null}
+              />
+            )}
+          </div>
+        </div>
       </header>
       <p
         ref={post.background ? textBg : undefined}
@@ -104,7 +150,7 @@ const FeedItem = ({ post }) => {
 
       <div className="w-[96%] border-b-[1px] border-b-black/20 pb-3 mb-3 flex items-center justify-around">
         <div className="post_interaction group relative">
-          <div className="absolute left-1 mobile:left-0 transition-all duration-300 group-hover:-translate-y-10 group-hover:z-10 group-hover:opacity-100 group-hover:visible invisible opacity-0 -z-10 bg-white shadow-sm shadow-black/20 p-1 px-2 rounded-3xl w-[40vw]  mobile:w-[17vw]">
+          <div className="absolute left-1 mobile:left-0 transition-all duration-300 group-hover:-translate-y-10 group-hover:z-10 group-hover:opacity-100 group-hover:visible invisible opacity-0 -z-10 bg-white shadow-sm shadow-black/20 p-1 px-2 rounded-3xl w-[40vw]  mobile:w-[14rem] lg:w-[17rem]">
             <PopUpReaction />
           </div>
           <i className="like_icon"></i>
@@ -122,23 +168,23 @@ const FeedItem = ({ post }) => {
       <div className="w-[96%] mb-3 flex items-center justify-center gap-2">
         <img src={user.picture} alt="" className="w-9 h-9 rounded-full " />
 
-        <div className="flex-grow relative">
+        <div ref={emoji} className="flex-grow relative">
           <input
             ref={textRef}
             value={text}
             onChange={(e) => setText(e.target.value)}
-            className="bg-black/10 w-full outline-none p-1 px-2 rounded-xl"
+            className="bg-black/10 w-full outline-none p-2 px-2 rounded-xl"
             type="text"
             placeholder="Write a comment..."
           />
-          <div className="absolute top-2 right-2 flex items-center justify-center gap-2 child:cursor-pointer">
+          <div className="absolute top-3 right-2 flex items-center justify-center gap-2 child:cursor-pointer">
             <i onClick={toggleEmoji} className="emoji_icon"></i>
             <i className="camera_icon"></i>
             <i className="gif_icon"></i>
             <i className="sticker_icon"></i>
           </div>
           {openEmoji && (
-            <div className="absolute z-10 top-0 -translate-y-full -right-32">
+            <div className="absolute z-10 -top-2 md:top-0 -translate-y-full right-0 lg:-right-32">
               <Emoji
                 previewPosition="none"
                 searchPosition="none"
