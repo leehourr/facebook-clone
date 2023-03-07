@@ -5,7 +5,10 @@ module.exports = {
     extend: {
       screens: {
         mobile: "500px",
+        mobile2: "526px",
         sm: "539px",
+        imgBreakpoint: "586px",
+        hideVideo: "612px",
         md: "700px",
         md2: "820px",
         lg: "850px",

@@ -1,10 +1,9 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import link from "../../assets/link.png";
 
 const Intro = () => {
   return (
-    <div className="bg-white w-full pb-4 pt-3 rounded-lg  flex flex-col gap-4 items-center text-center justify-center">
+    <div className="bg-white shadow-sm shadow-black/20 w-full pb-4 pt-3 rounded-lg  flex flex-col gap-4 items-center text-center justify-center">
       <h1 className="text-[20px] pl-2 font-bold self-start">Intro</h1>
       <span className="intro_setting">Add bio</span>
       <div className="flex gap-3">

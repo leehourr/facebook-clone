@@ -48,6 +48,10 @@
   .profile_section {
     @apply w-[94%] mx-auto  mt-3;
   }
+
+  .pf_menus {
+    @apply w-[5rem] hover:bg-black/5 text-center py-2 px-1 rounded-lg;
+  }
 }
 
 body {
