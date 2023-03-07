@@ -10,7 +10,7 @@ const ForgetPass = () => {
     if (Cookies.get("token")) {
       navigate("/", { replace: true });
     }
-  }, []);
+  }, [navigate]);
   return (
     <div className="w-full h-screen bg-white">
       <header className="w-full h-14 bg-white flex items-center justify-between">

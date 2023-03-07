@@ -1,8 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import MenuItems from "./MenuItems";
 
 const Menulist = ({ postUserId, userId, imagesLength, setShowMenu }) => {
-  const [test, setTest] = useState(postUserId === userId ? true : false);
+  const [test, setTest] = useState(false);
+  useEffect(() => {
+    setTest(postUserId === userId ? true : false);
+  }, [postUserId, userId]);
 
   return (
     <ul className="w-full">

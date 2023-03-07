@@ -13,7 +13,7 @@ import LeftNav from "../../components/Layout/MainNav/LeftSideNav/LeftNav";
 import RightNav from "../../components/Layout/MainNav/RightSideNav/RightNav";
 import Facebook from "../../svg/Facebook";
 // import { createAsyncThunk } from "@reduxjs/toolkit";
-import userSlice, { userActions } from "../../store/user-slice";
+import { userActions } from "../../store/user-slice";
 import store from "../../store";
 import { profileActions } from "../../store/profile-slice";
 

@@ -7,10 +7,10 @@ import * as yup from "yup";
 import Button from "../Ui/Button";
 import { motion, AnimatePresence } from "framer-motion";
 import { register } from "../../utils/api-call";
-import { useDispatch } from "react-redux";
-import { userActions } from "../../store/user-slice";
+// import { useDispatch } from "react-redux";
+// import { userActions } from "../../store/user-slice";
 import Cookies from "js-cookie";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 
 const initialInput = {
   first_name: "",
@@ -26,8 +26,8 @@ const initialInput = {
 export default function RegisterForm({ isOpen, closeForm }) {
   const [user, setUser] = useState(initialInput);
   const [errorMessage, setErrorMessage] = useState("");
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
+  // const dispatch = useDispatch();
+  // const navigate = useNavigate();
   // const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const {
