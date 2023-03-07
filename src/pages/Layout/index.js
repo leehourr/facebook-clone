@@ -31,9 +31,13 @@ const Layout = () => {
         // console.log(posts);
       }
       if (!name) {
-        store.dispatch(profileActions.userProfile({ ...posts, visit: false }));
+        store.dispatch(
+          profileActions.userProfile({ userPost: [...posts], visit: false })
+        );
       } else {
-        store.dispatch(profileActions.userProfile({ ...posts, visit: true }));
+        store.dispatch(
+          profileActions.userProfile({ userPost: [...posts], visit: true })
+        );
       }
     });
   }, [useData, name]);

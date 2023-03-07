@@ -84,7 +84,11 @@ const FeedItem = ({ post }) => {
     <div className="flex flex-col items-center w-full rounded-lg shadow-sm shadow-black/20 bg-white">
       <header className="w-[95%] h-[3.5rem] mt-2 flex items-center justify-between">
         <div className="flex items-center justify-center gap-2">
-          <Link to={`/${post.user.username}`} className="w-10 h-10 ">
+          <Link
+            to={`/${post.user.username}`}
+            relative={`#${post.user.username}`}
+            className="w-10 h-10 "
+          >
             <img
               src={post.user.picture}
               className="w-full rounded-full"

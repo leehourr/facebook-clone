@@ -9,10 +9,11 @@ const Photo = () => {
       </div>
 
       <div className=" transition-all duration-100 w-[92%] h-[17.5rem] sm:h-[22rem] md:h-[25rem] imgBreakpoint:h-[29rem] xl:h-[23rem] mx-auto grid grid-cols-3  gap-1 rounded-xl  overflow-hidden  ">
-        {image.map((i) => (
+        {image.map((x, i) => (
           <img
+            key={i}
             className="bg-black/20 w-full h-full "
-            src={i.src}
+            src={x.src}
             alt=""
           />
         ))}

@@ -9,10 +9,11 @@ const FriendList = () => {
       </div>
       {/* images can be map here  */}
       <div className="transition-all duration-100 w-[92%] h-[19.5rem] sm:h-[22rem] md:h-[25rem] imgBreakpoint:h-[29rem] xl:h-[23rem] mx-auto grid grid-cols-3  gap-1  rounded-xl  overflow-hidden  ">
-        {friendLists.map((i) => (
+        {friendLists.map((x, i) => (
           <img
+            key={i}
             className="w-full h-full transition-all hover:blur-sm cursor-pointer"
-            src={i.src}
+            src={x.src}
             alt=""
           />
 
@@ -30,7 +31,7 @@ const friendLists = [
   { src: "../../../stories/jay.jpg", name: "Jay" },
   { src: "../../../stories/owen.jpg", name: "Owen" },
   { src: "../../../stories/mia.jpg", name: "Sunny" },
-  { src: "../../../stories/2b.jpg", name: "2b" },
+  { src: "../../../stories/2bs.jpg", name: "2b" },
   { src: "../../../stories/cb.jpg", name: "You want to play lets play" },
   { src: "../../../stories/joker.jpg", name: "Joker" },
   { src: "../../../stories/jay.jpg", name: "Jay" },
