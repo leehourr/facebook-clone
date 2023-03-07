@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React from "react";
 import { NavLink, useParams } from "react-router-dom";
 import { ArrowDown, Dots } from "../../svg";
 import FriendList from "./FriendList";
