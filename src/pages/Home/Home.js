@@ -33,7 +33,7 @@ const Home = () => {
             </p>
           }
         >
-          {(postData) => <Feed feedData={postData} />}
+          {(postData) => <Feed home feedData={postData} />}
         </Await>
       </Suspense>
     </div>

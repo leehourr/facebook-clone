@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { NavLink, useParams } from "react-router-dom";
 import { ArrowDown, Dots } from "../../svg";
 import FriendList from "./FriendList";
@@ -11,25 +11,86 @@ import CreatePost from "../Home/Posts/CreatePost";
 import { useSelector } from "react-redux";
 import { useScrollTo } from "../../Hooks/ScrollTo";
 import Feed from "../Home/Feeds/Feed";
+import { createPortal } from "react-dom";
+import { Backdrop } from "../Ui/Backdrop";
+import Cropper from "./PhotoCropper";
+import PhotoCropper from "./PhotoCropper";
 
 const UserProfile = ({ userData, children }) => {
   const { name } = useParams();
   // // const top = useRef();
   const { user } = useSelector((state) => ({ ...state }));
+  const [image, setImage] = useState([]);
+  const imageRef = useRef();
   // const [feedContent, setFeedContent] = useState([]);
   // // console.log("feedData", feedData);
   // useEffect(() => {
   //   setFeedContent([...profile.userPost]);
   // }, [profile]);
-  console.log(user.username);
+  // console.log(user.posts);
 
+  const [photo, setPhoto] = useState([]);
+  const [isUpdateOpen, setIsUpdateOpen] = useState(false);
+  const [isCroppeOpen, setIsCropperOpen] = useState(false);
+
+  const isVisitor = user.username !== name;
+  // console.log("post", user.posts);
+
+  useEffect(() => {
+    // isVisitor ? setPhoto(userData.posts) : profile.userPost;
+    // console.log(userData.posts);
+    if (isVisitor) {
+      // console.log("in effect");
+
+      userData.posts.map((i) => {
+        if (i.images) {
+          // console.log(i.images);
+
+          i.images.map((j) => setPhoto((prev) => [...prev, { src: j.url }]));
+        }
+      });
+    } else {
+      if (user.posts?.length > 0) {
+        user.posts?.map((i) => {
+          if (i.images) {
+            i.images.map((j) => setPhoto((prev) => [...prev, { src: j.url }]));
+          }
+        });
+      } else {
+        setPhoto([]);
+      }
+    }
+  }, [isVisitor, user, userData]);
+  // console.log(photo);
   // const refToTop = useRef < HTMLInputElement > null;
   // console.log("profile", name);
   useScrollTo(0, 0);
   // useEffect(() => {
   //   refToTop.current && refToTop.current.scrollIntoView();
   // });
-  const isVisitor = user.username !== name;
+
+  const selectImages = (e) => {
+    const files = Array.from(e.target.files);
+    // console.log("files", files[0]);
+    files.forEach((img) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(img);
+      reader.onload = (readEvent) => {
+        setImage((imgs) => [...imgs, readEvent.target.result]);
+      };
+    });
+  };
+  const openUpdatePf = () => {
+    setIsUpdateOpen((prev) => !prev);
+  };
+
+  const toggleCropper = () => {
+    // console.log("clicked");
+    if (image.length > 0) {
+      setImage([]);
+    }
+    // setIsCropperOpen((prev) => !prev);
+  };
   return (
     <>
       <header
@@ -54,11 +115,15 @@ const UserProfile = ({ userData, children }) => {
                     src={userData.profile.picture}
                     alt=""
                   />
-                  <div className="cursor-pointer absolute flex items-center justify-center right-1 bottom-2 bg-[#D8DADF] w-9 h-9 rounded-full ">
-                    <i className="camera_filled_icon"></i>
-                  </div>
+                  {!isVisitor && (
+                    <div
+                      onClick={openUpdatePf}
+                      className="cursor-pointer absolute flex items-center justify-center right-1 bottom-2 bg-[#D8DADF] w-9 h-9 rounded-full "
+                    >
+                      <i className="camera_filled_icon"></i>
+                    </div>
+                  )}
                 </div>
-
                 <div className="flex flex-col items-center lg:items-start justify-center">
                   <h1 className="text-[32px] font-bold">{`${userData.profile.first_name} ${userData.profile.last_name}`}</h1>
                   <span className="text-[18px] font-bold text-black/50">
@@ -82,28 +147,25 @@ const UserProfile = ({ userData, children }) => {
             <div className="w-[96%] mx-auto max-w-[77rem] flex items-center justify-between xl:pr-1 gap-3">
               <div className="w-fit flex  items-center font-semibold text-black/60">
                 <div className="b-black/50 h-full flex items-start">
-                  <NavLink to="post" className="pf_menus">
-                    Posts
+                  <NavLink
+                    to={`/${name}`}
+                    className={(isActive) =>
+                      isActive
+                        ? "text-[#1A6ED8] border-b-[3px] border-b-[#1A6ED8] rounded-b-none pf_menus"
+                        : "pf_menus"
+                    }
+                  >
+                    Post
                   </NavLink>
-                  <NavLink to="about" className="pf_menus">
-                    About
-                  </NavLink>
-                  <NavLink to="about" className="pf_menus hidden mobile2:block">
+                  <NavLink className="pf_menus">About</NavLink>
+                  <NavLink className="pf_menus hidden mobile2:block">
                     Friends
                   </NavLink>
-                  <NavLink to="about" className="pf_menus hidden sm:block">
-                    Photos
-                  </NavLink>
-                  <NavLink
-                    to="about"
-                    className="pf_menus hidden hideVideo:block"
-                  >
+                  <NavLink className="pf_menus hidden sm:block">Photos</NavLink>
+                  <NavLink className="pf_menus hidden hideVideo:block">
                     Videos
                   </NavLink>
-                  <NavLink
-                    to="about"
-                    className="pf_menus w-[6rem] hidden md:block whitespace-nowrap px-3"
-                  >
+                  <NavLink className="pf_menus w-[6rem] hidden md:block whitespace-nowrap px-3">
                     Check-ins
                   </NavLink>
                 </div>
@@ -128,7 +190,7 @@ const UserProfile = ({ userData, children }) => {
               <Intro />
             </div>
             <div className="profile_section">
-              <Photo />
+              <Photo photos={photo} />
             </div>
             <div className="profile_section">
               <FriendList />
@@ -145,6 +207,57 @@ const UserProfile = ({ userData, children }) => {
           <Feed feedData={userData.posts} />
         </div>
       </div>
+      {isUpdateOpen &&
+        createPortal(
+          <Backdrop
+            onClick={openUpdatePf}
+            className="fixed bg-gray-300/30 top-0 z-40 left-0 flex items-center justify-center"
+          />,
+          document.getElementById("backdrop")
+        )}
+      {isUpdateOpen &&
+        createPortal(
+          <div className="w-[43.8rem] absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-50 mx-2 text-center bg-white shadow-sm shadow-black/20 rounded-lg">
+            <div className="w-full  pb-6 border-b-[1px] border-b-black/20 relative">
+              <h1 className="text-[20px] mt-5 font-bold">
+                Update profile picture
+              </h1>
+              <div
+                onClick={openUpdatePf}
+                className="absolute cursor-pointer top-0 right-4 w-9 h-9 bg-black/10 flex items-center justify-center rounded-full"
+              >
+                <i className="exit_icon" alt="" />
+              </div>
+            </div>
+
+            {image.length > 0 ? (
+              <PhotoCropper
+                image={image}
+                setImage={setImage}
+                onCancel={toggleCropper}
+              />
+            ) : (
+              <label htmlFor="uploadImg" className="cursor-pointer">
+                <div
+                  htmlFor="uploadImg"
+                  onClick={toggleCropper}
+                  className="w-[97%] cursor-pointer mx-auto my-3 bg-[#DBE7F2] rounded-lg px-3 text-[#1A6ED8] text-[16px] font-medium p-[0.3rem] "
+                >
+                  + Upload photo
+                  <input
+                    ref={imageRef}
+                    multiple
+                    hidden
+                    onChange={selectImages}
+                    id="uploadImg"
+                    type="file"
+                  />
+                </div>
+              </label>
+            )}
+          </div>,
+          document.getElementById("overlay")
+        )}
     </>
   );
 };

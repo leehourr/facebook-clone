@@ -21,7 +21,7 @@ import FeedItem from "./FeedItem";
 //   }
 // }
 
-const Feed = ({ feedData, profile }) => {
+const Feed = ({ feedData, profile, home }) => {
   // const [{ loading, error, posts }, dispatch] = useReducer(reducer, {
   //   loading: false,
   //   posts: [],
@@ -31,7 +31,7 @@ const Feed = ({ feedData, profile }) => {
   return (
     <div
       className={`w-full mx-auto ${
-        profile ? "ml-0" : "ml-2"
+        profile || home ? "ml-0" : "ml-2"
       } mt-3 mb-8 flex flex-col gap-5`}
     >
       {feedData.map((i) => (

@@ -90,7 +90,7 @@ const LeftNav = () => {
             ? "w-[4rem] bg-white"
             : "4xl:w-[20rem] xl:w-[19rem] bg-transparent"
           : "w-[4rem] bg-white"
-      } h-full fixed top-[3.5rem] select-none z-40 `}
+      } h-full fixed top-[3.5rem] select-none z-30 `}
     >
       <ul className="w-full">
         {leftNavigation.slice(0, 2).map((i) => (

@@ -59,7 +59,7 @@ const Navigation = () => {
   const breakpoint1 = !showFbSearch && desktopView2;
   const breakpoint2 = (!showFbSearch || showFbSearch) && !desktopView2;
   return (
-    <header className="fixed z-40 top-0 h-14 w-full bg-white shadow-sm py-[5px] px-[1rem] shadow-black/10 flex items-center justify-between">
+    <header className="fixed z-30 top-0 h-14 w-full bg-white shadow-sm py-[5px] px-[1rem] shadow-black/10 flex items-center justify-between">
       <Link to="/" className="header_logo">
         <div className="w-[40px] h-[40px] rounded-[50%] cursor-pointer flex items-center justify-center">
           <Logo />
