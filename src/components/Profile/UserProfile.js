@@ -13,7 +13,7 @@ import { useScrollTo } from "../../Hooks/ScrollTo";
 import Feed from "../Home/Feeds/Feed";
 import { createPortal } from "react-dom";
 import { Backdrop } from "../Ui/Backdrop";
-import Cropper from "./PhotoCropper";
+// import Cropper from "./PhotoCropper";
 import PhotoCropper from "./PhotoCropper";
 
 const UserProfile = ({ userData, children }) => {
@@ -22,6 +22,8 @@ const UserProfile = ({ userData, children }) => {
   const { user } = useSelector((state) => ({ ...state }));
   const [image, setImage] = useState([]);
   const imageRef = useRef();
+  const [discard, setDiscard] = useState(false);
+
   // const [feedContent, setFeedContent] = useState([]);
   // // console.log("feedData", feedData);
   // useEffect(() => {
@@ -86,10 +88,20 @@ const UserProfile = ({ userData, children }) => {
 
   const toggleCropper = () => {
     // console.log("clicked");
+
+    // setIsCropperOpen(toggle);
     if (image.length > 0) {
-      setImage([]);
+      setDiscard(true);
     }
-    // setIsCropperOpen((prev) => !prev);
+  };
+
+  const closeCropper = () => {
+    // console.log("clicked");
+
+    // setIsCropperOpen(toggle);
+
+    setDiscard(false);
+    setImage([]);
   };
   return (
     <>
@@ -108,7 +120,7 @@ const UserProfile = ({ userData, children }) => {
 
           <div className="w-full absolute -bottom-[16.3rem] lg:-bottom-[12rem] transition-all duration-100 mx-auto max-w-[77rem] flex flex-col">
             <div className="w-full pb-5 mb-3 border-b-[1px] border-b-black/20 flex flex-col lg2:flex-row items-center lg2:items-end justify-center lg2:justify-between lg2:pr-10 xl:pr-8">
-              <div className=" cursor-pointer w-[97%] lg2:w-[50%] flex flex-col lg2:flex-row items-center lg2:items-end justify-center gap-1 lg2:gap-2 ">
+              <div className=" w-[97%] lg2:w-[50%] flex flex-col lg2:flex-row items-center lg2:items-end justify-center gap-1 lg2:gap-2 ">
                 <div className="relative w-[9.4rem] h-[9.4rem] rounded-full ring-4 ring-white bg-black/40 ">
                   <img
                     className="w-full rounded-full"
@@ -210,7 +222,7 @@ const UserProfile = ({ userData, children }) => {
       {isUpdateOpen &&
         createPortal(
           <Backdrop
-            onClick={openUpdatePf}
+            onClick={image.length > 0 ? toggleCropper : openUpdatePf}
             className="fixed bg-gray-300/30 top-0 z-40 left-0 flex items-center justify-center"
           />,
           document.getElementById("backdrop")
@@ -223,7 +235,7 @@ const UserProfile = ({ userData, children }) => {
                 Update profile picture
               </h1>
               <div
-                onClick={openUpdatePf}
+                onClick={image.length > 0 ? toggleCropper : openUpdatePf}
                 className="absolute cursor-pointer top-0 right-4 w-9 h-9 bg-black/10 flex items-center justify-center rounded-full"
               >
                 <i className="exit_icon" alt="" />
@@ -235,6 +247,9 @@ const UserProfile = ({ userData, children }) => {
                 image={image}
                 setImage={setImage}
                 onCancel={toggleCropper}
+                onClose={closeCropper}
+                discard={discard}
+                setDiscard={setDiscard}
               />
             ) : (
               <label htmlFor="uploadImg" className="cursor-pointer">
