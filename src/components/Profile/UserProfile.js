@@ -33,14 +33,15 @@ const UserProfile = ({ userData, children }) => {
 
   const [photo, setPhoto] = useState([]);
   const [isUpdateOpen, setIsUpdateOpen] = useState(false);
-  const [isCroppeOpen, setIsCropperOpen] = useState(false);
+  // const [isCroppeOpen, setIsCropperOpen] = useState(false);
 
-  const isVisitor = user.username !== name;
+  const isVisitor = user.data.username !== name;
   // console.log("post", user.posts);
+  console.log(user.data.username, name);
 
   useEffect(() => {
     // isVisitor ? setPhoto(userData.posts) : profile.userPost;
-    // console.log(userData.posts);
+    // console.log(user);
     if (isVisitor) {
       // console.log("in effect");
 
@@ -50,6 +51,7 @@ const UserProfile = ({ userData, children }) => {
 
           i.images.map((j) => setPhoto((prev) => [...prev, { src: j.url }]));
         }
+        // return photo;
       });
     } else {
       if (user.posts?.length > 0) {
@@ -57,6 +59,7 @@ const UserProfile = ({ userData, children }) => {
           if (i.images) {
             i.images.map((j) => setPhoto((prev) => [...prev, { src: j.url }]));
           }
+          // return photo;
         });
       } else {
         setPhoto([]);
@@ -84,6 +87,9 @@ const UserProfile = ({ userData, children }) => {
   };
   const openUpdatePf = () => {
     setIsUpdateOpen((prev) => !prev);
+  };
+  const closeBackdrop = () => {
+    setIsUpdateOpen(false);
   };
 
   const toggleCropper = () => {
@@ -248,6 +254,7 @@ const UserProfile = ({ userData, children }) => {
                 setImage={setImage}
                 onCancel={toggleCropper}
                 onClose={closeCropper}
+                closeBackdrop={closeBackdrop}
                 discard={discard}
                 setDiscard={setDiscard}
               />

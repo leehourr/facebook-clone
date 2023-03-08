@@ -15,8 +15,8 @@ const UploadImage = ({ onClose, close, onGetImage }) => {
 
   const selectImages = (e) => {
     const files = Array.from(e.target.files);
-    // console.log("files", files[0]);
-    onGetImage(files[0]); // console.log(files);
+    console.log("files", files);
+    onGetImage(files); // console.log(files);
     files.forEach((img) => {
       const reader = new FileReader();
       reader.readAsDataURL(img);

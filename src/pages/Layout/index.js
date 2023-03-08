@@ -27,7 +27,7 @@ const Layout = () => {
       const data = res.user_data;
       const posts = res.posts;
       if (data) {
-        store.dispatch(userActions.login(data));
+        store.dispatch(userActions.login({ data, posts }));
         // console.log(posts);
       }
       if (!name) {

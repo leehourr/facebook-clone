@@ -7,7 +7,7 @@ import PopUpReaction from "./PopUpReaction";
 import Emoji from "@emoji-mart/react";
 import useClickOutside from "../../../helpers/clickOutside";
 import Menulist from "./PostMenu/Menulist";
-import ReactDOM from "react-dom";
+// import ReactDOM from "react-dom";
 
 const FeedItem = ({ post }) => {
   const { user } = useSelector((state) => ({ ...state }));
@@ -86,22 +86,29 @@ const FeedItem = ({ post }) => {
       <header className="w-[95%] h-[3.5rem] mt-2 flex items-center justify-between">
         <div className="flex items-center justify-center gap-2">
           <Link
-            to={`/${post.user.username}`}
-            relative={`#${post.user.username}`}
+            to={`/${post.user?.username}`}
+            relative={`#${post.user?.username}`}
             className="w-10 h-10 "
           >
             <img
-              src={post.user.picture}
+              src={post.user?.picture}
               className="w-full rounded-full"
               alt="profile"
             />
           </Link>
-
           <div className="flex flex-col items-start pb-2">
-            <Link to={`/${post.user.username}`}>
+            <Link
+              to={`/${post.user?.username}`}
+              className="flex items-center justify-center gap-2"
+            >
               <h1 className="text-[16px]">
-                {post.user.first_name + " " + post.user.last_name}
+                {post.user?.first_name + " " + post.user?.last_name}
               </h1>
+              {post.type === "profilePicture" && (
+                <span className="text-[13px] text-black/80">{`Updated ${
+                  user.data?.gender === "male" ? "his" : "her"
+                } profile picture`}</span>
+              )}
             </Link>
 
             <div className="flex items-center text-[14px] leading-4 justify-center gap-1">
@@ -122,8 +129,8 @@ const FeedItem = ({ post }) => {
           <div className="absolute z-30 top-7 w-[19.5rem] bg-white shadow-md -right-0 shadow-black/20 rounded-lg ">
             {isMenuOpen && (
               <Menulist
-                postUserId={post.user._id}
-                userId={user._id}
+                postUserId={post.user?._id}
+                userId={user.data._id}
                 imagesLength={post.images !== null}
               />
             )}
@@ -179,7 +186,7 @@ const FeedItem = ({ post }) => {
         </div>
       </div>
       <div className="w-[96%] mb-3 flex items-center justify-center gap-2">
-        <img src={user.picture} alt="" className="w-9 h-9 rounded-full " />
+        <img src={user.data.picture} alt="" className="w-9 h-9 rounded-full " />
 
         <div ref={emoji} className="flex-grow relative">
           <input

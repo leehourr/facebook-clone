@@ -98,6 +98,12 @@ export const userProfile = async (param) => {
   const { data } = await api.get(`/${param}`);
   return data;
 };
+
+export const updateProfilePic = async (url) => {
+  const { data } = await api.put("/updateProfilePicture", url);
+  return data;
+};
+
 //handle all errors
 function errorHandler(error) {
   if (error.response) {

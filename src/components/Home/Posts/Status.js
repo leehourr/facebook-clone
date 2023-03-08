@@ -71,7 +71,7 @@ const Status = ({ onToggleForm, user, isUpload, onClose }) => {
   };
 
   const getImage = (img) => {
-    setUploadImage((prev) => [...prev, img]);
+    img.map((i) => setUploadImage((prev) => [...prev, i]));
   };
   // console.log("uploadImage", uploadImage);
 
@@ -93,7 +93,7 @@ const Status = ({ onToggleForm, user, isUpload, onClose }) => {
         setIsLoading(false);
         onToggleForm();
 
-        console.log(!name);
+        // console.log(!name);
 
         !name ? navigate("/") : navigate(`/${name}`);
       }

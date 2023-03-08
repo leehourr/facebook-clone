@@ -51,9 +51,9 @@ const LeftNav = () => {
       hoverState: "Home",
     },
     {
-      name: `${user?.first_name} ${user?.last_name}`,
-      to: `${user.username}`,
-      icon: user?.picture,
+      name: `${user.data?.first_name} ${user.data?.last_name}`,
+      to: `${user.data.username}`,
+      icon: user.data?.picture,
       hoverState: "Your profile",
     },
     {

@@ -125,7 +125,7 @@ const Navigation = () => {
             <img
               onClick={openMenu}
               className="w-full h-full rounded-full"
-              src={user?.picture}
+              src={user.data?.picture}
               alt=""
             />
             <img

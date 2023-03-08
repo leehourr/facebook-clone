@@ -2,6 +2,15 @@ import React, { useCallback, useRef, useState } from "react";
 import Cropper from "react-easy-crop";
 import { Backdrop } from "../Ui/Backdrop";
 import { createPortal } from "react-dom";
+import getCroppedImg from "../../helpers/getCroppedImg";
+import { useNavigate, useParams } from "react-router-dom";
+import PulseLoader from "react-spinners/PulseLoader";
+import { useSelector } from "react-redux";
+import {
+  createPost,
+  updateProfilePic,
+  uploadImages,
+} from "../../utils/api-call";
 
 const PhotoCropper = ({
   setImage,
@@ -10,13 +19,21 @@ const PhotoCropper = ({
   onClose,
   discard,
   setDiscard,
+  closeBackdrop,
 }) => {
+  const [description, setDescription] = useState("");
   const [zoom, setZoom] = useState(1);
   const [crop, setCrop] = useState({ x: 0, y: 0 });
   const slider = useRef(null);
+  const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
+  const { name } = useParams();
+  const { user } = useSelector((state) => ({ ...state }));
+  const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
 
   const onCropComplete = useCallback((croppedArea, croppedAreaPixels) => {
     // console.log(croppedArea, croppedAreaPixels);
+    setCroppedAreaPixels(croppedAreaPixels);
   }, []);
   const zoomIn = () => {
     slider.current.stepUp();
@@ -31,10 +48,74 @@ const PhotoCropper = ({
     onCancel();
   };
 
+  const getCroppedImage = useCallback(
+    async (show) => {
+      try {
+        const img = await getCroppedImg(image, croppedAreaPixels);
+        if (show) {
+          setZoom(1);
+          setCrop({ x: 0, y: 0 });
+          setImage(img);
+          // console.log("just show");
+          // console.log(img);
+        } else {
+          // console.log("not show");
+          // console.log(img);
+          return img;
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    [croppedAreaPixels, image, setImage]
+  );
+
+  const updateProfielPicture = async () => {
+    try {
+      setIsLoading(true);
+
+      let img = await getCroppedImage();
+      let blob = await fetch(img).then((b) => b.blob());
+      // console.log("img", img);
+
+      // console.log(blob);
+
+      const path = `${name}/profile_pictures`;
+      let formData = new FormData();
+      formData.append("file", blob);
+      formData.append("path", path);
+      const res = await uploadImages(formData, path);
+      // console.log("res", res[0].url);
+      const updatedPic = await updateProfilePic({ url: res[0].url });
+
+      const req = {
+        type: "profilePicture",
+        background: null,
+        text: description,
+        images: res,
+        user: user.data._id,
+      };
+      // console.log("updatedPic", updatedPic);
+      if (updatedPic) {
+        await createPost(req);
+        // console.log("new_post", new_post);
+        setIsLoading(false);
+        onClose();
+        closeBackdrop();
+        navigate(`/${name}`);
+      }
+    } catch (error) {
+      setIsLoading(false);
+      console.log(error.response.data.message);
+    }
+  };
+
   // console.log(zoom);
   return (
     <div className="w-[96%] mx-auto my-4">
       <textarea
+        value={description}
+        onChange={(e) => setDescription(e.target.value)}
         className="resize-none outline-none pl-3 pt-3 rounded-lg border-[1px] border-black/20 w-full"
         type="text"
         placeholder="Description"
@@ -99,8 +180,11 @@ const PhotoCropper = ({
         <button onClick={closeForm} className="text-[#1A6ED8]">
           Cancel
         </button>
-        <button className="bg-[#1A6ED8] text-white px-10 py-2 rounded-lg">
-          Save
+        <button
+          onClick={updateProfielPicture}
+          className="bg-[#1A6ED8] text-white px-10 py-2 rounded-lg"
+        >
+          {isLoading ? <PulseLoader color="#fff" size={5} /> : "Save"}
         </button>
       </div>
       {discard &&
