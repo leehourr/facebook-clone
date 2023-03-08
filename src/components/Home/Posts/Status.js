@@ -109,9 +109,9 @@ const Status = ({ onToggleForm, user, isUpload, onClose }) => {
         uploadImage.map((image) => {
           return formData.append("file", image);
         });
-        console.log(formData);
+        // console.log(formData);
         const res = await uploadImages(formData, path);
-        console.log("res", res);
+        // console.log("res", res);
 
         const req = {
           type: null,

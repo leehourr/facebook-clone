@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { NavLink, useParams } from "react-router-dom";
 import { ArrowDown, Dots } from "../../svg";
 import FriendList from "./FriendList";
@@ -15,6 +15,12 @@ const UserProfile = () => {
   const { name } = useParams();
   // const top = useRef();
   const { user, profile } = useSelector((state) => ({ ...state }));
+  const [feedContent, setFeedContent] = useState([]);
+  // console.log("feedData", feedData);
+  useEffect(() => {
+    setFeedContent([...profile.userPost]);
+  }, [profile]);
+
   // const refToTop = useRef < HTMLInputElement > null;
   // console.log("profile", name);
   useScrollTo(0, 0);
@@ -128,7 +134,7 @@ const UserProfile = () => {
         </div>
         <div className="flex-grow xl:w-[60%] mx-3 xl:mt-3 xl:mx-auto">
           <CreatePost />
-          <Feed feedData={profile.userPost} profile />
+          <Feed feedData={feedContent} profile />
         </div>
       </div>
     </>

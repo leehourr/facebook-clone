@@ -31,7 +31,7 @@ const friendLists = [
   { src: "../../../stories/jay.jpg", name: "Jay" },
   { src: "../../../stories/owen.jpg", name: "Owen" },
   { src: "../../../stories/mia.jpg", name: "Sunny" },
-  { src: "../../../stories/2bs.jpg", name: "2b" },
+  { src: "../../../stories/2b.jpg", name: "2b" },
   { src: "../../../stories/cb.jpg", name: "You want to play lets play" },
   { src: "../../../stories/joker.jpg", name: "Joker" },
   { src: "../../../stories/jay.jpg", name: "Jay" },

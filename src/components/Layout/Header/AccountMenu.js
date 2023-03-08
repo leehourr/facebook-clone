@@ -39,12 +39,15 @@ const AccountMenu = () => {
       {!isSettingOpen && (
         <>
           <div className="mb-4 shadow-[2px_1px_10px_3px_rgba(0,0,0,0.15)] rounded-xl w-[90%] h-[116px] mx-auto ">
-            <div className="w-[92%] flex items-center mx-auto pt-4">
+            <Link
+              to={`/${user.username}`}
+              className="w-[92%] flex items-center mx-auto pt-4"
+            >
               <div className="bg-black/50 w-10 h-10 flex items-center justify-center overflow-hidden rounded-full">
                 <img className="w-full h-full" src={user?.picture} alt="" />
               </div>
               <span className="font-semibold ml-2">{`${user?.first_name} ${user?.last_name}`}</span>
-            </div>
+            </Link>
             <div className="w-[92%] mt-4 mx-auto border-b-[1px] border-b-black/20"></div>
             <div className="w-[97%] flex items-center   justify-between pb-1 px-2 rounded-lg hover:bg-black/[0.05] h-[30%] mt-1 mx-auto">
               <span className=" text-blue-500">See all profiles</span>

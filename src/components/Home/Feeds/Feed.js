@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 // import { useReducer } from "react";
 import FeedItem from "./FeedItem";
 
@@ -27,7 +27,7 @@ const Feed = ({ feedData, profile }) => {
   //   posts: [],
   //   error: "",
   // });
-  // console.log("feedData", feedData);
+
   return (
     <div
       className={`w-full mx-auto ${

@@ -1,4 +1,4 @@
-import React, { useState, useRef, useCallback } from "react";
+import React, { useState, useRef, useCallback, useEffect } from "react";
 import { useMediaQuery } from "react-responsive";
 import { NavLink } from "react-router-dom";
 import { HomeActive, Menu } from "../../../../svg";
@@ -14,7 +14,6 @@ const LeftNav = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { user, profile } = useSelector((state) => ({ ...state }));
   // const { user } = useSelector((state) => ({ ...state }));
-
 
   const [homeIsActive, setHomeIsActive] = useState(true);
   // console.log("in left nav", user);
@@ -38,6 +37,12 @@ const LeftNav = () => {
     setHomeIsActive(true);
     // console.log("name", i);
   };
+
+  useEffect(() => {
+    if (profile?.visit) {
+      setHomeIsActive(false);
+    }
+  }, []);
   const leftNavigation = [
     {
       name: "Home",
