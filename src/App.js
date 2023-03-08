@@ -1,7 +1,7 @@
 import React from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Layout, { loader as getUserData } from "./pages/Layout";
-import Profile from "./pages/profile";
+import Profile, { loader as getProfileData } from "./pages/profile";
 import Auth, { action as login } from "./pages/Auth";
 import AuthError from "./pages/Auth/AuthError";
 import Home, { loader as getAllPosts } from "./pages/Home/Home";
@@ -31,7 +31,7 @@ function App() {
               element: userToken && <Home />,
               loader: getAllPosts,
             },
-            { path: "/:name", element: <Profile /> },
+            { path: "/:name", element: <Profile />, loader: getProfileData },
           ],
         }
       : {

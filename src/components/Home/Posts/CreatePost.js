@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import { Feeling, LiveVideo, Photo } from "../../../svg";
 import Status from "./Status";
 
-const CreatePost = () => {
+const CreatePost = ({ section }) => {
   const { user } = useSelector((state) => ({ ...state }));
   const [openForm, setOpenForm] = useState(false);
   const [isUpload, setIsUpload] = useState(false);
@@ -48,8 +48,8 @@ const CreatePost = () => {
             <span>Photo/video</span>
           </div>
           <div className="post_options hidden mobile:flex">
-            <Feeling color="#ECBD4D" />
-            <span>Feeling/activity</span>
+            {section ? section.icon : <Feeling color="#ECBD4D" />}
+            <span>{section ? section.name : "Feeling/activity"}</span>
           </div>
         </div>
       </div>

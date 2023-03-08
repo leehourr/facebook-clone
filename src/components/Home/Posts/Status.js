@@ -8,7 +8,7 @@ import { useRef } from "react";
 import UploadImage from "./UploadImage";
 import PulseLoader from "react-spinners/PulseLoader";
 import { createPost, uploadImages } from "../../../utils/api-call";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 const Status = ({ onToggleForm, user, isUpload, onClose }) => {
   const [text, setText] = useState("");
@@ -23,6 +23,7 @@ const Status = ({ onToggleForm, user, isUpload, onClose }) => {
   const [toggleBg, setToggleBg] = useState(false);
   const [hasBg, setHasBg] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const { name } = useParams();
 
   //its already pass from the props why did i bother get the data from redux bruhhhh
   // const { user } = useSelector((state) => ({ ...state }));
@@ -91,7 +92,10 @@ const Status = ({ onToggleForm, user, isUpload, onClose }) => {
         // console.log(res);
         setIsLoading(false);
         onToggleForm();
-        navigate("/");
+
+        console.log(!name);
+
+        !name ? navigate("/") : navigate(`/${name}`);
       }
 
       if (uploadImage.length !== 0) {
@@ -124,7 +128,7 @@ const Status = ({ onToggleForm, user, isUpload, onClose }) => {
         // console.log("uploadImage", postRes);
         setIsLoading(false);
         onToggleForm();
-        navigate("/");
+        !name ? navigate("/") : navigate(`/${name}`);
       }
     } catch (err) {
       setIsLoading(false);

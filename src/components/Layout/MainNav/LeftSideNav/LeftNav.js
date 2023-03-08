@@ -42,7 +42,7 @@ const LeftNav = () => {
     if (profile?.visit) {
       setHomeIsActive(false);
     }
-  }, []);
+  }, [profile]);
   const leftNavigation = [
     {
       name: "Home",

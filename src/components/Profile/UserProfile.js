@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { NavLink, useParams } from "react-router-dom";
 import { ArrowDown, Dots } from "../../svg";
 import FriendList from "./FriendList";
@@ -7,19 +7,21 @@ import Photo from "./Photo";
 // import Post from "./Post";
 import StickyBox from "react-sticky-box";
 import CreatePost from "../Home/Posts/CreatePost";
-import Feed from "../Home/Feeds/Feed";
+// import Feed from "../Home/Feeds/Feed";
 import { useSelector } from "react-redux";
 import { useScrollTo } from "../../Hooks/ScrollTo";
+import Feed from "../Home/Feeds/Feed";
 
-const UserProfile = () => {
+const UserProfile = ({ userData, children }) => {
   const { name } = useParams();
-  // const top = useRef();
-  const { user, profile } = useSelector((state) => ({ ...state }));
-  const [feedContent, setFeedContent] = useState([]);
-  // console.log("feedData", feedData);
-  useEffect(() => {
-    setFeedContent([...profile.userPost]);
-  }, [profile]);
+  // // const top = useRef();
+  const { user } = useSelector((state) => ({ ...state }));
+  // const [feedContent, setFeedContent] = useState([]);
+  // // console.log("feedData", feedData);
+  // useEffect(() => {
+  //   setFeedContent([...profile.userPost]);
+  // }, [profile]);
+  console.log(user.username);
 
   // const refToTop = useRef < HTMLInputElement > null;
   // console.log("profile", name);
@@ -27,10 +29,11 @@ const UserProfile = () => {
   // useEffect(() => {
   //   refToTop.current && refToTop.current.scrollIntoView();
   // });
+  const isVisitor = user.username !== name;
   return (
     <>
       <header
-        id={`${name}`}
+        // id={`${name}`}
         className="bg-white scroll-smooth shadow-sm shadow-black/20 h-[25.6rem] mobile:h-[32.3rem] lg:h-[36.2rem]  xl:h-[40.8rem] relative w-[86%] transition-all duration-100 flex flex-col   mobile:w-[96%] xxl:w-full"
       >
         <div className="relative w-full rounded-b-lg transition-all duration-150 bg-black/30 top-0 h-[8.5rem] max-w-[77rem] mx-auto  mobile:h-[15rem] lg:h-[23rem] xl:h-[28rem]">
@@ -48,7 +51,7 @@ const UserProfile = () => {
                 <div className="relative w-[9.4rem] h-[9.4rem] rounded-full ring-4 ring-white bg-black/40 ">
                   <img
                     className="w-full rounded-full"
-                    src={user.picture}
+                    src={userData.profile.picture}
                     alt=""
                   />
                   <div className="cursor-pointer absolute flex items-center justify-center right-1 bottom-2 bg-[#D8DADF] w-9 h-9 rounded-full ">
@@ -57,7 +60,7 @@ const UserProfile = () => {
                 </div>
 
                 <div className="flex flex-col items-center lg:items-start justify-center">
-                  <h1 className="text-[32px] font-bold">{`${user.first_name} ${user.last_name}`}</h1>
+                  <h1 className="text-[32px] font-bold">{`${userData.profile.first_name} ${userData.profile.last_name}`}</h1>
                   <span className="text-[18px] font-bold text-black/50">
                     202 friends
                   </span>
@@ -132,9 +135,14 @@ const UserProfile = () => {
             </div>
           </StickyBox>
         </div>
-        <div className="flex-grow xl:w-[60%] mx-3 xl:mt-3 xl:mx-auto">
-          <CreatePost />
-          <Feed feedData={feedContent} profile />
+        <div
+          className={`flex-grow xl:w-[60%] mx-3 ${
+            isVisitor ? "xl:mt-0" : "xl:mt-3"
+          } xl:mx-auto`}
+        >
+          {!isVisitor ? <CreatePost section={section} /> : undefined}
+          <PostOption isVisitor={isVisitor} />
+          <Feed feedData={userData.posts} />
         </div>
       </div>
     </>
@@ -142,3 +150,46 @@ const UserProfile = () => {
 };
 
 export default UserProfile;
+
+const PostOption = ({ isVisitor }) => {
+  return (
+    <div className="w-full bg-white  mt-3  rounded-lg pt-3">
+      <div className="flex pb-2 mb-3 items-center justify-between border-b-[1px] border-b-black/10">
+        <h1 className="text-[18px] font-bold mx-4 ">Posts</h1>
+        <div className="flex mr-4 items-center justify-center gap-2">
+          <div className="flex bg-black/10 rounded-md px-3 py-1 items-center gap-2">
+            <i className="equalize_icon"></i>
+            <span>Filters</span>
+          </div>
+          {!isVisitor && (
+            <div className="flex bg-black/10 rounded-md px-3 py-1 items-center justify-center gap-2">
+              <i className="manage_icon"></i>
+              <span>Manage posts</span>
+            </div>
+          )}
+        </div>
+      </div>
+      {!isVisitor && (
+        <section className="flex px-4 items-center justify-between">
+          <NavLink
+            to=""
+            className="w-1/2 flex gap-1 items-center pb-2 justify-center border-b-[3px] border-b-[#1A6ED8]"
+          >
+            <i className="list_icon filter_blue"></i>
+            <span className="text-[#1A6ED8]"> List views</span>
+          </NavLink>
+          <NavLink className="w-1/2 flex gap-1 items-center justify-center">
+            <i className="grid_icon"></i>
+            <span className="text-black/70"> Grid view</span>
+          </NavLink>
+        </section>
+      )}
+    </div>
+  );
+};
+//({ isActive }) => isActive?""
+
+const section = {
+  icon: <i className="microphone_icon"></i>,
+  name: "Life event",
+};

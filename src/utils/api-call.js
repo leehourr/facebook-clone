@@ -82,10 +82,17 @@ export const uploadImages = async (req, path) => {
 };
 
 export const getAllPosts = async () => {
-  await LoadingStimulate(3000);
-  const { data } = await api.get("/getAllPosts");
+  // await LoadingStimulate(3000);
+  const { data } = await api.get(`/getAllPosts`);
   return data;
 };
+
+export const getProfileData = async (name) => {
+  // await LoadingStimulate(3000);
+  const { data } = await api.get(`/${name}`);
+  return data;
+};
+//
 
 export const userProfile = async (param) => {
   const { data } = await api.get(`/${param}`);

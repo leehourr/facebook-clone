@@ -7,6 +7,7 @@ import PopUpReaction from "./PopUpReaction";
 import Emoji from "@emoji-mart/react";
 import useClickOutside from "../../../helpers/clickOutside";
 import Menulist from "./PostMenu/Menulist";
+import ReactDOM from "react-dom";
 
 const FeedItem = ({ post }) => {
   const { user } = useSelector((state) => ({ ...state }));
@@ -139,10 +140,18 @@ const FeedItem = ({ post }) => {
         <span>{post.text}</span>
       </p>
       <div
-        className={`w-full  grid items-center justify-center gap-1 ${
+        className={`w-full cursor-pointer transition-all duration-100 grid items-center justify-center gap-1 ${
           img.length > 1 ? "grid-cols-2" : "grid-cols-1"
         }`}
       >
+        {/* {ReactDOM.createPortal(
+          <div className="fixed z-50 left-1/2 top-0 h-screen">
+            {img.map((i, index) => (
+              <img key={index} className="w-full" src={i} alt="" />
+            ))}
+          </div>,
+          document.getElementById("overlay")
+        )} */}
         {img.map((i, index) => (
           <img key={index} className="w-full" src={i} alt="" />
         ))}
