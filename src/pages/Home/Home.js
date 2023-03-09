@@ -2,7 +2,7 @@ import React from "react";
 import { Suspense } from "react";
 import { Await, defer, useLoaderData } from "react-router-dom";
 import Feed from "../../components/Home/Feeds/Feed";
-import CreatePost from "../../components/Home/Feeds/Posts/CreatePost";
+import CreatePost from "../../components/Home/Posts/CreatePost";
 import Storie from "../../components/Home/Stories/Storie";
 import { getAllPosts } from "../../utils/api-call";
 import ClipLoader from "react-spinners/ClipLoader";

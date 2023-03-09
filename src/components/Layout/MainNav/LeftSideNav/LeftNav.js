@@ -1,7 +1,7 @@
 import React, { useState, useRef, useCallback, useEffect } from "react";
 import { useMediaQuery } from "react-responsive";
-import { NavLink } from "react-router-dom";
-import { HomeActive, Menu } from "../../../../svg";
+import { NavLink, useLocation, useParams } from "react-router-dom";
+import { FriendsActive, HomeActive, Menu } from "../../../../svg";
 import AllMenu from "./AllMenu";
 import ReactDOM from "react-dom";
 // import { modalActions } from "../../../store/modal-slice";
@@ -12,9 +12,12 @@ import { useSelector } from "react-redux";
 
 const LeftNav = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { name } = useParams();
   const { user, profile } = useSelector((state) => ({ ...state }));
+  const [visitFri, setVisitFri] = useState(false);
+  const { pathname } = useLocation();
   // const { user } = useSelector((state) => ({ ...state }));
-
+  // console.log(user.data.username, name);
   const [homeIsActive, setHomeIsActive] = useState(true);
   // console.log("in left nav", user);
   const desktopView = useMediaQuery({
@@ -42,12 +45,21 @@ const LeftNav = () => {
     if (profile?.visit) {
       setHomeIsActive(false);
     }
-  }, [profile]);
+    if (name && user.data?.username !== name) {
+      setVisitFri(true);
+    } else {
+      setVisitFri(false);
+    }
+  }, [profile, name, user]);
   const leftNavigation = [
     {
       name: "Home",
       to: "/",
-      icon: <HomeActive color={homeIsActive ? "#1b74e4" : "black"} />,
+      icon: (
+        <HomeActive
+          color={pathname === "/" || homeIsActive ? "#1b74e4" : "black"}
+        />
+      ),
       hoverState: "Home",
     },
     {
@@ -55,6 +67,12 @@ const LeftNav = () => {
       to: `${user.data?.username}`,
       icon: user.data?.picture,
       hoverState: "Your profile",
+    },
+    visitFri && {
+      name: "Friends",
+      to: `/${name}`,
+      icon: <FriendsActive />,
+      hoverState: "Friends",
     },
     {
       name: "Watch",
@@ -93,10 +111,10 @@ const LeftNav = () => {
       } h-full fixed top-[3.5rem] select-none z-30 `}
     >
       <ul className="w-full">
-        {leftNavigation.slice(0, 2).map((i) => (
+        {leftNavigation.slice(0, 2).map((i, index) => (
           <Navlink
             onActiveHandler={activeHome.bind(null, i.name)}
-            key={i.name}
+            key={index}
             profile={i.profile}
             href={i.to}
             name={i.name}
@@ -114,10 +132,10 @@ const LeftNav = () => {
               : "w-[50%]"
           } leftNav_border`}
         ></div>
-        {leftNavigation.slice(2, 7).map((i) => (
+        {leftNavigation.slice(visitFri ? 2 : 3, 7).map((i, index) => (
           <Navlink
             onActiveHandler={activeHome.bind(null, i.name)}
-            key={i.name}
+            key={index}
             href={i.to}
             name={i.name}
             icon={i.icon}

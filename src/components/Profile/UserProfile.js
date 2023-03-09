@@ -6,7 +6,7 @@ import Intro from "./Intro";
 import Photo from "./Photo";
 // import Post from "./Post";
 import StickyBox from "react-sticky-box";
-import CreatePost from "../Home/Feeds/Posts/CreatePost";
+import CreatePost from "../Home/Posts/CreatePost";
 // import Feed from "../Home/Feeds/Feed";
 import { useSelector } from "react-redux";
 import { useScrollTo } from "../../Hooks/ScrollTo";
@@ -15,7 +15,15 @@ import { createPortal } from "react-dom";
 import { Backdrop } from "../Ui/Backdrop";
 // import Cropper from "./PhotoCropper";
 import PhotoCropper from "./PhotoCropper";
-import { accepFriendReq, addFriend, cancelFriReq } from "../../utils/api-call";
+import {
+  accepFriendReq,
+  addFriend,
+  cancelFriReq,
+  deleteReq,
+  follow,
+  unfollow,
+  unfriend,
+} from "../../utils/api-call";
 import ClipLoader from "react-spinners/ClipLoader";
 import useClickOutside from "../../helpers/clickOutside";
 
@@ -30,7 +38,7 @@ const UserProfile = ({ userData, children }) => {
   const imageRef = useRef();
   const [discard, setDiscard] = useState(false);
   // const [isVisitor, setIsVisitor] = useState(false);
-  // console.log(userData);
+  console.log(userData.friendship);
   const [photo, setPhoto] = useState([]);
   const [isUpdateOpen, setIsUpdateOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -53,6 +61,7 @@ const UserProfile = ({ userData, children }) => {
 
     if (isVisitor) {
       // console.log("in effect");
+      if (photo.length > 0) return;
 
       userData.posts.map((i) => {
         if (i.images) {
@@ -64,6 +73,8 @@ const UserProfile = ({ userData, children }) => {
       });
     } else {
       if (user.posts?.length > 0) {
+        if (photo.length > 0) return;
+
         user.posts?.map((i) => {
           if (i.images) {
             i.images.map((j) => setPhoto((prev) => [...prev, { src: j.url }]));
@@ -74,7 +85,7 @@ const UserProfile = ({ userData, children }) => {
         setPhoto([]);
       }
     }
-  }, [isVisitor, user.data, user.posts, userData, name, pfPics]);
+  }, [isVisitor, user.data, user.posts, userData, name, pfPics,photo]);
 
   useScrollTo(0, 0);
 
@@ -160,6 +171,62 @@ const UserProfile = ({ userData, children }) => {
     }
   };
 
+  const unfriHandler = async () => {
+    try {
+      setIsLoading(true);
+      const res = await unfriend(userData.profile._id);
+      console.log(res);
+      if (res.status === "ok") {
+        navigate(`/${name}`);
+        // setIsLoading(false);
+      }
+    } catch (err) {
+      console.log(err.response);
+    }
+  };
+
+  const unfollowHandler = async () => {
+    try {
+      // setIsLoading(true);
+      const res = await unfollow(userData.profile._id);
+      console.log(res);
+      if (res.status === "ok") {
+        navigate(`/${name}`);
+        // setIsLoading(false);
+      }
+    } catch (err) {
+      console.log(err.response);
+    }
+  };
+
+  const deleteRequest = async () => {
+    try {
+      setIsLoading(true);
+      const res = await deleteReq(userData.profile._id);
+      // console.log(res);
+      if (res.status === "ok") {
+        navigate(`/${name}`);
+        // setIsLoading(false);
+      }
+    } catch (err) {
+      console.log(err.response);
+    }
+  };
+
+  const followHandler = async () => {
+    try {
+      // setIsLoading(true);
+      const res = await follow(userData.profile._id);
+      // console.log(res);
+      if (res.status === "ok") {
+        navigate(`/${name}`);
+        // setIsLoading(false);
+      }
+    } catch (err) {
+      console.log(err.response);
+    }
+  };
+
   let addedFriend =
     !friendShip?.friends &&
     friendShip?.following &&
@@ -171,15 +238,21 @@ const UserProfile = ({ userData, children }) => {
     !friendShip.requestSent &&
     friendShip.requestReceived;
   let notFriend =
-    !friendShip?.friends &&
-    !friendShip?.following &&
+    !friendShip.friends &&
+    (!friendShip.following || friendShip.following) &&
     !friendShip.requestSent &&
     !friendShip.requestReceived;
   let isFriend =
     friendShip?.friends &&
+    (friendShip?.following || !friendShip.following) &&
+    !friendShip.requestSent &&
+    !friendShip.requestReceived;
+  let isFollowed =
+    (!friendShip?.friends || friendShip.friends) &&
     friendShip?.following &&
     !friendShip.requestSent &&
     !friendShip.requestReceived;
+  console.log(isFollowed);
   return (
     <>
       <header
@@ -237,14 +310,14 @@ const UserProfile = ({ userData, children }) => {
                   </>
                 )}
 
-                {isVisitor && notFriend && (
+                {isVisitor && notFriend && !isFollowed && (
                   <>
                     <AddFriBtn
                       isLoading={isLoading}
                       onClick={addFriHandler}
                       notFriend
                     />
-                    <FollowBtn />
+                    <FollowBtn onClick={followHandler} isLoading={isLoading} />
                     <MessageBtn />
                   </>
                 )}
@@ -256,14 +329,35 @@ const UserProfile = ({ userData, children }) => {
                 )}
                 {isVisitor && receivedReq && (
                   <>
-                    <ResponseBtn onClick={accepFriend} isLoading={isLoading} />
+                    <ResponseBtn
+                      onClick={accepFriend}
+                      onDeleteReq={deleteRequest}
+                      isLoading={isLoading}
+                    />
                     <MessageBtn />
                   </>
                 )}
                 {isVisitor && isFriend && (
                   <>
-                    <FriendBtn />
+                    <FriendBtn
+                      isLoading={isLoading}
+                      onUnfri={unfriHandler}
+                      onUnfollow={unfollowHandler}
+                      onFollow={followHandler}
+                      isFollowed={isFollowed}
+                    />
                     <MessageBtn friend />
+                  </>
+                )}
+                {isVisitor && isFollowed && notFriend && (
+                  <>
+                    <AddFriBtn
+                      isLoading={isLoading}
+                      onClick={addFriHandler}
+                      notFriend
+                    />
+                    <UnfollowBtn onUnfollow={unfollowHandler} />
+                    <MessageBtn />
                   </>
                 )}
               </div>
@@ -478,11 +572,122 @@ const AddFriBtn = ({ onClick, notFriend, isLoading }) => {
   );
 };
 
-const FriendBtn = () => {
+const UnfollowBtn = ({ onUnfollow }) => {
+  const [isLoading, setIsLoading] = useState(false);
+  const submit = () => {
+    setIsLoading(true);
+    onUnfollow();
+  };
   return (
-    <div className="bg-black/10 px-5 whitespace-nowrap flex items-center justify-center gap-1 cursor-pointer rounded-lg py-[0.45rem] text-center">
-      <img src="../../../icons/friends.png" alt="" className="" />
-      <span className="text-[17px]  font-medium ">Friends</span>
+    <div
+      // onClick={toggleOption}
+      onClick={submit}
+      className="bg-black/10 px-5  whitespace-nowrap flex items-center justify-center gap-1 cursor-pointer rounded-lg py-[0.45rem] text-center"
+    >
+      {isLoading ? (
+        <ClipLoader size={20} />
+      ) : (
+        <img src="../../../icons/unfollowOutlined.png" alt="" />
+      )}
+      <span
+        // onClick={submit}
+        className=" text-[17px]"
+      >
+        Unfollow
+      </span>
+    </div>
+  );
+};
+
+const FriendBtn = ({
+  isLoading,
+  onUnfri,
+  onUnfollow,
+  onFollow,
+  isFollowed,
+}) => {
+  const [openOptions, setOpenOptions] = useState(false);
+
+  const option = useRef(null);
+  useClickOutside(
+    option,
+    useCallback(() => {
+      setOpenOptions(false);
+    }, [])
+  );
+  const toggleOption = () => {
+    setOpenOptions((prev) => !prev);
+  };
+  const unfri = () => {
+    toggleOption();
+    onUnfri();
+  };
+
+  const unfollow = () => {
+    toggleOption();
+    onUnfollow();
+  };
+
+  const follow = () => {
+    toggleOption();
+    onFollow();
+  };
+  return (
+    <div ref={option} className="relative">
+      <div
+        onClick={toggleOption}
+        className="bg-black/10 px-5 whitespace-nowrap flex items-center justify-center gap-1 cursor-pointer rounded-lg py-[0.45rem] text-center"
+      >
+        {isLoading ? (
+          <ClipLoader size={20} />
+        ) : (
+          <img src="../../../icons/friends.png" alt="" className="" />
+        )}
+        <span className="text-[17px]  font-medium ">Friends</span>
+      </div>
+      {openOptions && (
+        <div className="bg-white z-60 text-black flex flex-col items-start absolute py-4 top-12 shadow-[1px_10px_20px_10px_rgba(0,0,0,0.2)] rounded-lg p-3 w-[20rem]">
+          <div
+            onClick={isFollowed ? unfollow : follow}
+            className="hover:bg-black/10 w-full pl-2 rounded-lg flex items-center justify-start "
+          >
+            {isFollowed ? (
+              <>
+                <img src="../../../icons/unfollowOutlined.png" alt="" />
+                <span
+                  // onClick={submit}
+                  className=" cursor-pointer w-full text-left p-2 rounded-lg"
+                >
+                  Unfollow
+                </span>
+              </>
+            ) : (
+              <>
+                <img src="../../../icons/follow.png" alt="" className="" />
+                <span
+                  // onClick={submit}
+                  className=" cursor-pointer w-full text-left p-2 rounded-lg"
+                >
+                  Follow
+                </span>
+              </>
+            )}
+          </div>
+          <div
+            onClick={unfri}
+            className="hover:bg-black/10 w-full pl-2 rounded-lg flex items-center justify-start "
+          >
+            <img
+              src="../../../icons/cancelRequest.png"
+              alt=""
+              className=" fill-black"
+            />
+            <span className=" cursor-pointer w-full text-left p-2 rounded-lg">
+              Unfriend
+            </span>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
@@ -502,7 +707,8 @@ const CancelBtn = ({ onClick, isLoading }) => {
     </div>
   );
 };
-const ResponseBtn = ({ isLoading, onClick }) => {
+
+const ResponseBtn = ({ isLoading, onClick, onDeleteReq }) => {
   const [openOptions, setOpenOptions] = useState(false);
   const option = useRef(null);
   useClickOutside(
@@ -518,6 +724,11 @@ const ResponseBtn = ({ isLoading, onClick }) => {
     setOpenOptions((prev) => !prev);
     onClick();
   };
+
+  const onDelete = () => {
+    setOpenOptions((prev) => !prev);
+    onDeleteReq();
+  };
   return (
     <div ref={option} className="relative">
       <div
@@ -532,14 +743,17 @@ const ResponseBtn = ({ isLoading, onClick }) => {
         <span className="text-[17px]  font-medium ">Response</span>
       </div>
       {openOptions && (
-        <div className="bg-white  text-black flex flex-col items-start absolute py-4 top-12 shadow-[1px_10px_20px_10px_rgba(0,0,0,0.2)] rounded-lg p-3 w-[20rem]">
+        <div className="bg-white z-60  text-black flex flex-col items-start absolute py-4 top-12 shadow-[1px_10px_20px_10px_rgba(0,0,0,0.2)] rounded-lg p-3 w-[20rem]">
           <span
             onClick={submit}
             className="hover:bg-black/10 cursor-pointer w-full text-left p-2 rounded-lg"
           >
             Confirm
           </span>
-          <span className="hover:bg-black/10 cursor-pointer w-full text-left p-2 rounded-lg">
+          <span
+            onClick={onDelete}
+            className="hover:bg-black/10 cursor-pointer w-full text-left p-2 rounded-lg"
+          >
             Delete request
           </span>
         </div>
@@ -548,14 +762,19 @@ const ResponseBtn = ({ isLoading, onClick }) => {
   );
 };
 
-const FollowBtn = ({ onClick, isLoading }) => {
+const FollowBtn = ({ onClick }) => {
+  const [isLoading, setIsLoading] = useState(false);
+  const submit = () => {
+    setIsLoading(true);
+    onClick();
+  };
   return (
     <div
-      // onClick={onClick}
+      onClick={submit}
       className="bg-[#1A6ED8]  px-5 whitespace-nowrap flex items-center justify-center gap-[0.3rem] cursor-pointer rounded-lg text-white w-1/2 py-[0.45rem] text-center"
     >
       {isLoading ? (
-        <ClipLoader size={20} />
+        <ClipLoader color="white" size={20} />
       ) : (
         <img src="../../../icons/follow.png" alt="" className="invert" />
       )}
@@ -563,6 +782,7 @@ const FollowBtn = ({ onClick, isLoading }) => {
     </div>
   );
 };
+
 const MessageBtn = ({ onClick, isLoading, friend }) => {
   return (
     <div

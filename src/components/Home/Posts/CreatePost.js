@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
-import { Feeling, LiveVideo, Photo } from "../../../../svg";
+import { Feeling, LiveVideo, Photo } from "../../../svg";
 import Status from "./Status";
 
 const CreatePost = ({ section }) => {

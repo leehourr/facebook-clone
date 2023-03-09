@@ -118,6 +118,26 @@ export const cancelFriReq = async (id) => {
   const { data } = await api.put(`/cancelRequest/${id}`);
   return data;
 };
+
+export const unfriend = async (id) => {
+  const { data } = await api.put(`/unfriend/${id}`);
+  return data;
+};
+
+export const follow = async (id) => {
+  const { data } = await api.put(`/follow/${id}`);
+  return data;
+};
+
+export const unfollow = async (id) => {
+  const { data } = await api.put(`/unfollow/${id}`);
+  return data;
+};
+
+export const deleteReq = async (id) => {
+  const { data } = await api.put(`/deleteRequest/${id}`);
+  return data;
+};
 //handle all errors
 function errorHandler(error) {
   if (error.response) {
