@@ -236,7 +236,7 @@ const UserProfile = ({ userData, children }) => {
         )}
       {isUpdateOpen &&
         createPortal(
-          <div className="w-[43.8rem] absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-50 mx-2 text-center bg-white shadow-sm shadow-black/20 rounded-lg">
+          <div className="w-[97%] mobile:w-[43.8rem] absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-50 mx-2 text-center bg-white shadow-sm shadow-black/20 rounded-lg">
             <div className="w-full  pb-6 border-b-[1px] border-b-black/20 relative">
               <h1 className="text-[20px] mt-5 font-bold">
                 Update profile picture
@@ -278,7 +278,7 @@ const UserProfile = ({ userData, children }) => {
                     />
                   </div>
                 </label>
-                <div className="w-[95%] mx-auto flex flex-col items-start mb-5">
+                <div className="w-[95%] h-[20rem] mobile:h-full overflow-y-auto scrollbar-thin mx-auto flex flex-col items-start mb-5">
                   <h1 className="text-left font-bold text-[16px]">
                     Your profile pictures
                   </h1>
@@ -289,7 +289,7 @@ const UserProfile = ({ userData, children }) => {
                         key={i}
                         src={src.src}
                         alt=""
-                        className="w-[8.1rem] h-[8.1rem] rounded-lg hover:blur-sm cursor-pointer"
+                        className="w-[8rem] mobile:w-[8.1rem] h-[8.1rem] rounded-lg hover:blur-sm cursor-pointer"
                       />
                     ))}
                   </div>

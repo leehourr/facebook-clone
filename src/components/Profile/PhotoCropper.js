@@ -199,7 +199,7 @@ const PhotoCropper = ({
       {discard &&
         image.length > 0 &&
         createPortal(
-          <div className="absolute pb-4 text-center rounded-lg shadow-sm shadow-black/20 bg-white top-1/2 -translate-x-1/2 left-1/2 -translate-y-1/2 w-[33rem] z-70">
+          <div className="absolute pb-4 text-center rounded-lg shadow-sm shadow-black/20 bg-white top-1/2 -translate-x-1/2 left-[53%] mobile:left-1/2 -translate-y-1/2 w-[90%] mobile:w-[33rem] z-70">
             <div className="w-full mb-1 mx-auto pb-6 border-b-[1px] border-b-black/20 relative">
               <h1 className="text-[20px] mt-5 font-bold">Discard Changes </h1>
               <div
