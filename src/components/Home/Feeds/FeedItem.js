@@ -82,7 +82,7 @@ const FeedItem = ({ post }) => {
     setIsMenuOpen(false);
   };
   return (
-    <div className="flex flex-col items-center w-full rounded-lg shadow-sm shadow-black/20 bg-white">
+    <div className="flex flex-col relative items-center w-full rounded-lg shadow-sm shadow-black/20 bg-white">
       <header className="w-[95%] h-[3.5rem] mt-2 flex items-center justify-between">
         <div className="flex items-center justify-center gap-2">
           <Link
@@ -101,11 +101,11 @@ const FeedItem = ({ post }) => {
               to={`/${post.user?.username}`}
               className="flex items-center justify-center gap-2"
             >
-              <h1 className="text-[16px]">
+              <h1 className="text-[16px] whitespace-nowrap">
                 {post.user?.first_name + " " + post.user?.last_name}
               </h1>
               {post.type === "profilePicture" && (
-                <span className="text-[13px] text-black/80">{`Updated ${
+                <span className="text-[13px] text-black/80 whitespace-nowrap">{`Updated ${
                   user.data?.gender === "male" ? "his" : "her"
                 } profile picture`}</span>
               )}
@@ -147,11 +147,25 @@ const FeedItem = ({ post }) => {
         <span>{post.text}</span>
       </p>
       <div
-        className={`w-full cursor-pointer transition-all duration-100 grid items-center justify-center gap-1 ${
-          img.length > 1 ? "grid-cols-2" : "grid-cols-1"
+        className={`w-full relative  ${
+          post.type !== "profilePicture"
+            ? "mb-0"
+            : "mb-16 h-[10rem] mobile:h-[13.5rem] sm:h-[16rem] imgBreakpoint:h-[19rem] md:h-[22rem] lg:h-[18rem] lg3:h-[23rem] xl:h-[19rem] 3.5xl:h-[24.8rem]"
         }`}
       >
-        {/* {ReactDOM.createPortal(
+        <div
+          className={`bg-black/10 z-10 ${
+            post.type !== "profilePicture" && "hidden"
+          }  w-full h-[80%] mobile: xl:h-[70%]`}
+        >
+          <img className="w-full " src={post.cover} alt="" />
+        </div>
+        <div
+          className={`w-full  cursor-pointer transition-all duration-100 grid items-center justify-center gap-1 ${
+            img.length > 1 ? "grid-cols-2" : "grid-cols-1"
+          } ${post.type !== "profilePicture" ? "" : "z-20 absolute top-3 imgBreakpoint:top-7"}`}
+        >
+          {/* {ReactDOM.createPortal(
           <div className="fixed z-50 left-1/2 top-0 h-screen">
             {img.map((i, index) => (
               <img key={index} className="w-full" src={i} alt="" />
@@ -159,11 +173,19 @@ const FeedItem = ({ post }) => {
           </div>,
           document.getElementById("overlay")
         )} */}
-        {img.map((i, index) => (
-          <img key={index} className="w-full" src={i} alt="" />
-        ))}
+          {img.map((i, index) => (
+            <img
+              key={index}
+              className={` ${
+                post.type === "profilePicture" &&
+                "rounded-full w-[55%] mx-auto mt-6 ring-4 ring-white"
+              }`}
+              src={i}
+              alt=""
+            />
+          ))}
+        </div>
       </div>
-      <div></div>
       <div
         className={`w-[96%] h-9 mobile:h-12 relative my-1 border-b-[1px] pb-1 border-b-black/20`}
       ></div>

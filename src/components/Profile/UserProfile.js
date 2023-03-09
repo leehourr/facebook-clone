@@ -21,10 +21,11 @@ const UserProfile = ({ userData, children }) => {
   // // const top = useRef();
   const { user } = useSelector((state) => ({ ...state }));
   const [image, setImage] = useState([]);
+  const [pfPics, setPfPic] = useState([]);
+  const [selectedPf, setSelectedPf] = useState(false);
   const imageRef = useRef();
   const [discard, setDiscard] = useState(false);
-
-  // const [feedContent, setFeedContent] = useState([]);
+  const [isVisitor, setIsVisitor] = useState(false);
   // // console.log("feedData", feedData);
   // useEffect(() => {
   //   setFeedContent([...profile.userPost]);
@@ -35,13 +36,24 @@ const UserProfile = ({ userData, children }) => {
   const [isUpdateOpen, setIsUpdateOpen] = useState(false);
   // const [isCroppeOpen, setIsCropperOpen] = useState(false);
 
-  const isVisitor = user.data.username !== name;
   // console.log("post", user.posts);
-  console.log(user.data.username, name);
+  // console.log(user.data.username, name);
+  // console.log("pfPics", pfPics);
+  // console.log("photo", photo);
 
   useEffect(() => {
-    // isVisitor ? setPhoto(userData.posts) : profile.userPost;
-    // console.log(user);
+    if (user.data.username !== name) {
+      setIsVisitor(true);
+    }
+    if (!isVisitor) {
+      if (pfPics.length > 0) return;
+      user.posts.map((i) => {
+        if (i.type === "profilePicture") {
+          i.images.map((j) => setPfPic((prev) => [...prev, { src: j.url }]));
+        }
+      });
+    }
+
     if (isVisitor) {
       // console.log("in effect");
 
@@ -65,7 +77,7 @@ const UserProfile = ({ userData, children }) => {
         setPhoto([]);
       }
     }
-  }, [isVisitor, user, userData]);
+  }, []);
   // console.log(photo);
   // const refToTop = useRef < HTMLInputElement > null;
   // console.log("profile", name);
@@ -109,6 +121,11 @@ const UserProfile = ({ userData, children }) => {
     setDiscard(false);
     setImage([]);
   };
+
+  const selectOldPf = (e) => {
+    setImage(e);
+  };
+
   return (
     <>
       <header
@@ -259,23 +276,41 @@ const UserProfile = ({ userData, children }) => {
                 setDiscard={setDiscard}
               />
             ) : (
-              <label htmlFor="uploadImg" className="cursor-pointer">
-                <div
-                  htmlFor="uploadImg"
-                  onClick={toggleCropper}
-                  className="w-[97%] cursor-pointer mx-auto my-3 bg-[#DBE7F2] rounded-lg px-3 text-[#1A6ED8] text-[16px] font-medium p-[0.3rem] "
-                >
-                  + Upload photo
-                  <input
-                    ref={imageRef}
-                    multiple
-                    hidden
-                    onChange={selectImages}
-                    id="uploadImg"
-                    type="file"
-                  />
+              <div>
+                <label htmlFor="uploadImg" className="cursor-pointer">
+                  <div
+                    htmlFor="uploadImg"
+                    onClick={toggleCropper}
+                    className="w-[97%] cursor-pointer mx-auto my-3 bg-[#DBE7F2] rounded-lg px-3 text-[#1A6ED8] text-[16px] font-medium p-[0.3rem] "
+                  >
+                    + Upload photo
+                    <input
+                      ref={imageRef}
+                      multiple
+                      hidden
+                      onChange={selectImages}
+                      id="uploadImg"
+                      type="file"
+                    />
+                  </div>
+                </label>
+                <div className="w-[95%] mx-auto flex flex-col items-start mb-5">
+                  <h1 className="text-left font-bold text-[16px]">
+                    Your profile pictures
+                  </h1>
+                  <div className="flex items-center justify-start flex-wrap gap-1 ">
+                    {pfPics.map((src, i) => (
+                      <img
+                        onClick={selectOldPf.bind(null, src.src)}
+                        key={i}
+                        src={src.src}
+                        alt=""
+                        className="w-[8.1rem] h-[8.1rem] rounded-lg hover:blur-sm cursor-pointer"
+                      />
+                    ))}
+                  </div>
                 </div>
-              </label>
+              </div>
             )}
           </div>,
           document.getElementById("overlay")
@@ -323,6 +358,10 @@ const PostOption = ({ isVisitor }) => {
   );
 };
 //({ isActive }) => isActive?""
+
+const ProfilePic = () => {
+  return <div></div>;
+};
 
 const section = {
   icon: <i className="microphone_icon"></i>,
