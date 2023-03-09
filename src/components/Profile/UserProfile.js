@@ -22,24 +22,13 @@ const UserProfile = ({ userData, children }) => {
   const { user } = useSelector((state) => ({ ...state }));
   const [image, setImage] = useState([]);
   const [pfPics, setPfPic] = useState([]);
-  const [selectedPf, setSelectedPf] = useState(false);
+  // const [selectedPf, setSelectedPf] = useState(false);
   const imageRef = useRef();
   const [discard, setDiscard] = useState(false);
   const [isVisitor, setIsVisitor] = useState(false);
-  // // console.log("feedData", feedData);
-  // useEffect(() => {
-  //   setFeedContent([...profile.userPost]);
-  // }, [profile]);
-  // console.log(user.posts);
 
   const [photo, setPhoto] = useState([]);
   const [isUpdateOpen, setIsUpdateOpen] = useState(false);
-  // const [isCroppeOpen, setIsCropperOpen] = useState(false);
-
-  // console.log("post", user.posts);
-  // console.log(user.data.username, name);
-  // console.log("pfPics", pfPics);
-  // console.log("photo", photo);
 
   useEffect(() => {
     if (user.data.username !== name) {
@@ -77,14 +66,9 @@ const UserProfile = ({ userData, children }) => {
         setPhoto([]);
       }
     }
-  }, []);
-  // console.log(photo);
-  // const refToTop = useRef < HTMLInputElement > null;
-  // console.log("profile", name);
+  }, [isVisitor, user.data, user.posts, userData, name, pfPics]);
+
   useScrollTo(0, 0);
-  // useEffect(() => {
-  //   refToTop.current && refToTop.current.scrollIntoView();
-  // });
 
   const selectImages = (e) => {
     const files = Array.from(e.target.files);
