@@ -15,6 +15,7 @@ import { createPortal } from "react-dom";
 import { Backdrop } from "../Ui/Backdrop";
 // import Cropper from "./PhotoCropper";
 import PhotoCropper from "./PhotoCropper";
+import { addFriend } from "../../utils/api-call";
 
 const UserProfile = ({ userData, children }) => {
   const { name } = useParams();
@@ -25,15 +26,15 @@ const UserProfile = ({ userData, children }) => {
   // const [selectedPf, setSelectedPf] = useState(false);
   const imageRef = useRef();
   const [discard, setDiscard] = useState(false);
-  const [isVisitor, setIsVisitor] = useState(false);
-
+  // const [isVisitor, setIsVisitor] = useState(false);
+  console.log(userData.friendship);
   const [photo, setPhoto] = useState([]);
   const [isUpdateOpen, setIsUpdateOpen] = useState(false);
+  let friendShip = userData.friendship;
+
+  const isVisitor = user.data.username !== name;
 
   useEffect(() => {
-    if (user.data.username !== name) {
-      setIsVisitor(true);
-    }
     if (!isVisitor) {
       if (pfPics.length > 0) return;
       user.posts.map((i) => {
@@ -110,6 +111,24 @@ const UserProfile = ({ userData, children }) => {
     setImage(e);
   };
 
+  const addFriHandler = async () => {
+    try {
+      const res = await addFriend(userData.profile._id);
+      console.log("res", res);
+      if (res.status === "ok") {
+        friendShip.friends = true;
+        friendShip.following = true;
+      }
+    } catch (err) {
+      console.log(err.response);
+    }
+  };
+
+  let addedFriend =
+    !friendShip?.friends &&
+    friendShip?.following &&
+    friendShip.requestSent &&
+    !friendShip.requestReceived;
   return (
     <>
       <header
@@ -150,16 +169,115 @@ const UserProfile = ({ userData, children }) => {
                   </span>
                 </div>
               </div>
-              <div className="w-[96%]  mobile:w-[16.5rem]  mt-3 flex items-center justify-center gap-2">
-                <div className="bg-[#1A6ED8] cursor-pointer rounded-lg text-white w-1/2 py-[0.45rem] text-center">
-                  <span className="text-[17px]  font-medium ">
-                    + Add to story
-                  </span>
-                </div>
-                <div className="w-1/2 bg-black/10 cursor-pointer flex items-center  justify-center gap-1 rounded-lg text-center py-[0.45rem]">
-                  <i className="edit_icon"></i>
-                  <span className="text-[17px]">Edit profile</span>
-                </div>
+              <div className="mobile:w-[16.5rem]  mt-3 flex items-center justify-center gap-2">
+                {!isVisitor && (
+                  <>
+                    <div className="bg-[#1A6ED8] cursor-pointer rounded-lg text-white w-1/2 py-[0.45rem] text-center">
+                      <span className="text-[17px]  font-medium ">
+                        + Add to story
+                      </span>
+                    </div>
+                    <div className="w-1/2 bg-black/10 cursor-pointer flex items-center  justify-center gap-1 rounded-lg text-center py-[0.45rem]">
+                      <i className="edit_icon"></i>
+                      <span className="text-[17px]">Edit profile</span>
+                    </div>
+                  </>
+                )}
+
+                {isVisitor && (
+                  <>
+                    <div
+                      onClick={addFriHandler}
+                      className={`${
+                        addedFriend
+                          ? "bg-white text-black"
+                          : "bg-[#1A6ED8] text-white"
+                      } px-5 whitespace-nowrap flex items-center justify-center gap-1 cursor-pointer rounded-lg  py-[0.45rem] text-center"`}
+                    >
+                      {/* <img
+                        src="../../../icons/addFriend.png"
+                        alt=""
+                        className="invert"
+                      /> */}
+                      {addedFriend && (
+                        <img
+                          src="../../../icons/cancelRequest.png"
+                          alt=""
+                          className=""
+                        />
+                      )}
+                      <span className="text-[17px]  font-medium ">
+                        {addedFriend && "Cancel request"}
+                      </span>
+                    </div>
+                    <div className="bg-[#1A6ED8] px-5 whitespace-nowrap flex items-center justify-center gap-[0.3rem] cursor-pointer rounded-lg text-white w-1/2 py-[0.45rem] text-center">
+                      <img
+                        src="../../../icons/follow.png"
+                        alt=""
+                        className="invert"
+                      />
+                      <span className="text-[17px]  font-medium ">Follow</span>
+                    </div>
+                    <div className="w-1/2 mr-2 lg1:mr-20 bg-black/10 px-5 cursor-pointer flex items-center  justify-center gap-[0.3rem] rounded-lg text-center py-[0.45rem]">
+                      <img
+                        src="../../../icons/message.png"
+                        alt=""
+                        className=""
+                      />
+                      <span className="text-[17px]">Message</span>
+                    </div>
+                  </>
+                )}
+                {/* {isVisitor && (
+                  <>
+                    <div className="bg-black/10 px-5 whitespace-nowrap flex items-center justify-center gap-1 cursor-pointer rounded-lg py-[0.45rem] text-center">
+                      <img
+                        src="../../../icons/friends.png"
+                        alt=""
+                        className=""
+                      />
+                      <span className="text-[17px]  font-medium ">
+                        Response
+                      </span>
+                    </div>
+                    <div className="bg-[#1A6ED8] px-5 whitespace-nowrap flex items-center justify-center gap-[0.3rem] cursor-pointer rounded-lg text-white w-1/2 py-[0.45rem] text-center">
+                      <img
+                        src="../../../icons/follow.png"
+                        alt=""
+                        className="invert"
+                      />
+                      <span className="text-[17px]  font-medium ">Follow</span>
+                    </div>
+                    <div className="w-1/2 bg-black/10 mr-2 lg1:mr-20 px-5 cursor-pointer flex items-center  justify-center gap-[0.3rem] rounded-lg text-center py-[0.45rem]">
+                      <img
+                        src="../../../icons/message.png"
+                        alt=""
+                        className=""
+                      />
+                      <span className="text-[17px]">Message</span>
+                    </div>
+                  </>
+                )} */}
+                {/* {isVisitor && friendShip?.friends && friendShip?.following && (
+                  <>
+                    <div className="bg-black/10 px-5 whitespace-nowrap flex items-center justify-center gap-1 cursor-pointer rounded-lg py-[0.45rem] text-center">
+                      <img
+                        src="../../../icons/friends.png"
+                        alt=""
+                        className=""
+                      />
+                      <span className="text-[17px]  font-medium ">Friends</span>
+                    </div>
+                    <div className="w-1/2 text-white bg-[#1A6ED8] px-5 cursor-pointer flex items-center  justify-center gap-[0.3rem] rounded-lg text-center py-[0.45rem]">
+                      <img
+                        src="../../../icons/message.png"
+                        alt=""
+                        className="invert"
+                      />
+                      <span className="text-[17px]">Message</span>
+                    </div>
+                  </>
+                )} */}
               </div>
             </div>
 
@@ -223,7 +341,7 @@ const UserProfile = ({ userData, children }) => {
         >
           {!isVisitor ? <CreatePost section={section} /> : undefined}
           <PostOption isVisitor={isVisitor} />
-          <Feed feedData={userData.posts} />
+          <Feed feedData={userData.posts} profile />
         </div>
       </div>
       {isUpdateOpen &&

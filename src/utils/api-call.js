@@ -104,6 +104,11 @@ export const updateProfilePic = async (url) => {
   return data;
 };
 
+export const addFriend = async (id) => {
+  const { data } = await api.put(`/addFriend/${id}`);
+  return data;
+};
+
 //handle all errors
 function errorHandler(error) {
   if (error.response) {

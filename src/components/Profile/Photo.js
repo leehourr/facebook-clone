@@ -12,10 +12,18 @@ const Photo = ({ photos }) => {
 
       <div
         className={`transition-all duration-100 w-[92%] ${
-          photos.length > 0
+          photos.length > 9
             ? "h-[17.5rem] sm:h-[22rem] md:h-[25rem] imgBreakpoint:h-[29rem] xl:h-[23rem]"
+            : photos.length === 1
+            ? "h-[7rem] sm:h-[8.5rem] md:h-[10.5rem] imgBreakpoint:h-[10.5rem] xxl:h-[9rem]"
             : ""
-        } mx-auto grid grid-cols-3 grid-rows-3  gap-1 rounded-xl  overflow-hidden  `}
+        } mx-auto grid grid-cols-3 ${
+          photos.length === 1
+            ? "grid-rows-1"
+            : photos.length === 2
+            ? "grid-rows-2"
+            : "grid-rows-3"
+        }  gap-1 rounded-xl  overflow-hidden  `}
       >
         {photos.slice(0, 9).map((x, i) => (
           <img

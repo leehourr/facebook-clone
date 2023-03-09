@@ -31,7 +31,7 @@ const Feed = ({ feedData, profile, home }) => {
   return (
     <div
       className={`w-full mx-auto ${
-        profile || home ? "ml-0" : "ml-2"
+        profile ? "ml-0" : "mb-0 mobile:ml-2"
       } mt-3 mb-8 flex flex-col gap-5`}
     >
       {feedData.map((i) => (

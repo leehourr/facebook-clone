@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { userActions } from "../../../store/user-slice";
 import store from "../../../store";
 import Cookies from "js-cookie";
@@ -9,7 +9,7 @@ const AccountMenu = () => {
   const [setting, setSetting] = useState("");
   const [isSettingOpen, setIsSettingOpen] = useState(false);
   const { user } = useSelector((state) => ({ ...state }));
-
+  const navigate = useNavigate();
   const toggleSetting = (i) => {
     if (i === 0) {
       setSetting("setting");
@@ -32,7 +32,7 @@ const AccountMenu = () => {
   const logoutHandler = () => {
     store.dispatch(userActions.logout());
     Cookies.set("token", "");
-    window.location.reload(false);
+    navigate("/", { replace: true });
   };
   return (
     <div className="shadow-[1px_1px_20px_5px_rgba(0,0,0,0.1)] w-[22.5rem] select-none rounded-lg bg-white pt-3 pb-4">
