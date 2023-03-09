@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { userActions } from "../../../store/user-slice";
 import store from "../../../store";
 import Cookies from "js-cookie";
@@ -10,6 +10,8 @@ const AccountMenu = () => {
   const [isSettingOpen, setIsSettingOpen] = useState(false);
   const { user } = useSelector((state) => ({ ...state }));
   const navigate = useNavigate();
+  const location = useLocation();
+  console.log(location.pathname !== "/");
   const toggleSetting = (i) => {
     if (i === 0) {
       setSetting("setting");
@@ -30,9 +32,12 @@ const AccountMenu = () => {
   };
 
   const logoutHandler = () => {
-    store.dispatch(userActions.logout());
+    store.dispatch(userActions.logout({ logout: true }));
     Cookies.set("token", "");
-    navigate("/", { replace: true });
+    if (location.pathname !== "/") {
+      navigate("/logout", { replace: true });
+    }
+    window.location.reload(false);
   };
   return (
     <div className="shadow-[1px_1px_20px_5px_rgba(0,0,0,0.1)] w-[22.5rem] select-none rounded-lg bg-white pt-3 pb-4">
@@ -40,7 +45,7 @@ const AccountMenu = () => {
         <>
           <div className="mb-4 shadow-[2px_1px_10px_3px_rgba(0,0,0,0.15)] rounded-xl w-[90%] h-[116px] mx-auto ">
             <Link
-              to={`/${user.data.username}`}
+              to={`/${user.data?.username}`}
               className="w-[92%] flex items-center mx-auto pt-4"
             >
               <div className="bg-black/50 w-10 h-10 flex items-center justify-center overflow-hidden rounded-full">

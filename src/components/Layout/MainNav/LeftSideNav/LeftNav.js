@@ -52,7 +52,7 @@ const LeftNav = () => {
     },
     {
       name: `${user.data?.first_name} ${user.data?.last_name}`,
-      to: `${user.data.username}`,
+      to: `${user.data?.username}`,
       icon: user.data?.picture,
       hoverState: "Your profile",
     },

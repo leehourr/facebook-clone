@@ -12,6 +12,7 @@ const Auth = () => {
     window.location.reload(false);
     return;
   }
+  
 
   const openForm = () => {
     setIsOpen(true);
@@ -38,10 +39,11 @@ export const action = async ({ request, navigate }) => {
   const credential = { email: email, password: password };
   // console.log("credential", credential);
   const res = await login(credential);
-  console.log(res);
+  // console.log(res);
 
   await Cookies.set("token", res.token, {
-    sameSite: "None; Secure",
+    sameSite: "None;",
+    secure: true,
   });
   // console.log(res);
   //window.location.reload(false)

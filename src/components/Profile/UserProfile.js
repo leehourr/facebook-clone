@@ -1,12 +1,12 @@
-import React, { useEffect, useRef, useState } from "react";
-import { NavLink, useParams } from "react-router-dom";
+import React, { useCallback, useEffect, useRef, useState } from "react";
+import { NavLink, useNavigate, useParams } from "react-router-dom";
 import { ArrowDown, Dots } from "../../svg";
 import FriendList from "./FriendList";
 import Intro from "./Intro";
 import Photo from "./Photo";
 // import Post from "./Post";
 import StickyBox from "react-sticky-box";
-import CreatePost from "../Home/Posts/CreatePost";
+import CreatePost from "../Home/Feeds/Posts/CreatePost";
 // import Feed from "../Home/Feeds/Feed";
 import { useSelector } from "react-redux";
 import { useScrollTo } from "../../Hooks/ScrollTo";
@@ -15,7 +15,9 @@ import { createPortal } from "react-dom";
 import { Backdrop } from "../Ui/Backdrop";
 // import Cropper from "./PhotoCropper";
 import PhotoCropper from "./PhotoCropper";
-import { addFriend } from "../../utils/api-call";
+import { accepFriendReq, addFriend, cancelFriReq } from "../../utils/api-call";
+import ClipLoader from "react-spinners/ClipLoader";
+import useClickOutside from "../../helpers/clickOutside";
 
 const UserProfile = ({ userData, children }) => {
   const { name } = useParams();
@@ -23,18 +25,23 @@ const UserProfile = ({ userData, children }) => {
   const { user } = useSelector((state) => ({ ...state }));
   const [image, setImage] = useState([]);
   const [pfPics, setPfPic] = useState([]);
+  const navigate = useNavigate();
   // const [selectedPf, setSelectedPf] = useState(false);
   const imageRef = useRef();
   const [discard, setDiscard] = useState(false);
   // const [isVisitor, setIsVisitor] = useState(false);
-  console.log(userData.friendship);
+  // console.log(userData);
   const [photo, setPhoto] = useState([]);
   const [isUpdateOpen, setIsUpdateOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  // const [friendShip, setFriendShip] = useState(userData.friendship);
   let friendShip = userData.friendship;
 
-  const isVisitor = user.data.username !== name;
+  const isVisitor = user.data?.username !== name;
 
   useEffect(() => {
+    // setFriendShip(userData.friendship)
+    setIsLoading(false);
     if (!isVisitor) {
       if (pfPics.length > 0) return;
       user.posts.map((i) => {
@@ -113,11 +120,40 @@ const UserProfile = ({ userData, children }) => {
 
   const addFriHandler = async () => {
     try {
+      setIsLoading(true);
       const res = await addFriend(userData.profile._id);
-      console.log("res", res);
+      // console.log("res", res);
       if (res.status === "ok") {
-        friendShip.friends = true;
-        friendShip.following = true;
+        // setIsLoading(false);
+        navigate(`/${name}`);
+      }
+    } catch (err) {
+      console.log(err.response);
+    }
+  };
+
+  const cancelReq = async () => {
+    try {
+      setIsLoading(true);
+      const res = await cancelFriReq(userData.profile._id);
+      // console.log("res", res);
+      if (res.status === "ok") {
+        navigate(`/${name}`);
+        // setIsLoading(false);
+      }
+    } catch (err) {
+      console.log(err.response);
+    }
+  };
+
+  const accepFriend = async () => {
+    try {
+      setIsLoading(true);
+      const res = await accepFriendReq(userData.profile._id);
+      console.log(res);
+      if (res.status === "ok") {
+        navigate(`/${name}`);
+        // setIsLoading(false);
       }
     } catch (err) {
       console.log(err.response);
@@ -129,6 +165,21 @@ const UserProfile = ({ userData, children }) => {
     friendShip?.following &&
     friendShip.requestSent &&
     !friendShip.requestReceived;
+  let receivedReq =
+    !friendShip?.friends &&
+    !friendShip?.following &&
+    !friendShip.requestSent &&
+    friendShip.requestReceived;
+  let notFriend =
+    !friendShip?.friends &&
+    !friendShip?.following &&
+    !friendShip.requestSent &&
+    !friendShip.requestReceived;
+  let isFriend =
+    friendShip?.friends &&
+    friendShip?.following &&
+    !friendShip.requestSent &&
+    !friendShip.requestReceived;
   return (
     <>
       <header
@@ -137,12 +188,14 @@ const UserProfile = ({ userData, children }) => {
       >
         <div className="relative w-full rounded-b-lg transition-all duration-150 bg-black/30 top-0 h-[8.5rem] max-w-[77rem] mx-auto  mobile:h-[15rem] lg:h-[23rem] xl:h-[28rem]">
           <img className="w-full" alt="" />
-          <div className="absolute z-10 cursor-pointer p-2 px-3 rounded-lg right-11 xl:right-8 bottom-3 flex items-center gap-2 justify-center bg-white">
-            <i className="camera_filled_icon"></i>
-            <span className="font-semibold hidden lg2:block">
-              Add cover photo
-            </span>
-          </div>
+          {!isVisitor && (
+            <div className="absolute z-10 cursor-pointer p-2 px-3 rounded-lg right-11 xl:right-8 bottom-3 flex items-center gap-2 justify-center bg-white">
+              <i className="camera_filled_icon"></i>
+              <span className="font-semibold hidden lg2:block">
+                Add cover photo
+              </span>
+            </div>
+          )}
 
           <div className="w-full absolute -bottom-[16.3rem] lg:-bottom-[12rem] transition-all duration-100 mx-auto max-w-[77rem] flex flex-col">
             <div className="w-full pb-5 mb-3 border-b-[1px] border-b-black/20 flex flex-col lg2:flex-row items-center lg2:items-end justify-center lg2:justify-between lg2:pr-10 xl:pr-8">
@@ -184,100 +237,35 @@ const UserProfile = ({ userData, children }) => {
                   </>
                 )}
 
-                {isVisitor && (
+                {isVisitor && notFriend && (
                   <>
-                    <div
+                    <AddFriBtn
+                      isLoading={isLoading}
                       onClick={addFriHandler}
-                      className={`${
-                        addedFriend
-                          ? "bg-white text-black"
-                          : "bg-[#1A6ED8] text-white"
-                      } px-5 whitespace-nowrap flex items-center justify-center gap-1 cursor-pointer rounded-lg  py-[0.45rem] text-center"`}
-                    >
-                      {/* <img
-                        src="../../../icons/addFriend.png"
-                        alt=""
-                        className="invert"
-                      /> */}
-                      {addedFriend && (
-                        <img
-                          src="../../../icons/cancelRequest.png"
-                          alt=""
-                          className=""
-                        />
-                      )}
-                      <span className="text-[17px]  font-medium ">
-                        {addedFriend && "Cancel request"}
-                      </span>
-                    </div>
-                    <div className="bg-[#1A6ED8] px-5 whitespace-nowrap flex items-center justify-center gap-[0.3rem] cursor-pointer rounded-lg text-white w-1/2 py-[0.45rem] text-center">
-                      <img
-                        src="../../../icons/follow.png"
-                        alt=""
-                        className="invert"
-                      />
-                      <span className="text-[17px]  font-medium ">Follow</span>
-                    </div>
-                    <div className="w-1/2 mr-2 lg1:mr-20 bg-black/10 px-5 cursor-pointer flex items-center  justify-center gap-[0.3rem] rounded-lg text-center py-[0.45rem]">
-                      <img
-                        src="../../../icons/message.png"
-                        alt=""
-                        className=""
-                      />
-                      <span className="text-[17px]">Message</span>
-                    </div>
+                      notFriend
+                    />
+                    <FollowBtn />
+                    <MessageBtn />
                   </>
                 )}
-                {/* {isVisitor && (
+                {isVisitor && addedFriend && (
                   <>
-                    <div className="bg-black/10 px-5 whitespace-nowrap flex items-center justify-center gap-1 cursor-pointer rounded-lg py-[0.45rem] text-center">
-                      <img
-                        src="../../../icons/friends.png"
-                        alt=""
-                        className=""
-                      />
-                      <span className="text-[17px]  font-medium ">
-                        Response
-                      </span>
-                    </div>
-                    <div className="bg-[#1A6ED8] px-5 whitespace-nowrap flex items-center justify-center gap-[0.3rem] cursor-pointer rounded-lg text-white w-1/2 py-[0.45rem] text-center">
-                      <img
-                        src="../../../icons/follow.png"
-                        alt=""
-                        className="invert"
-                      />
-                      <span className="text-[17px]  font-medium ">Follow</span>
-                    </div>
-                    <div className="w-1/2 bg-black/10 mr-2 lg1:mr-20 px-5 cursor-pointer flex items-center  justify-center gap-[0.3rem] rounded-lg text-center py-[0.45rem]">
-                      <img
-                        src="../../../icons/message.png"
-                        alt=""
-                        className=""
-                      />
-                      <span className="text-[17px]">Message</span>
-                    </div>
+                    <CancelBtn onClick={cancelReq} isLoading={isLoading} />
+                    <MessageBtn />
                   </>
-                )} */}
-                {/* {isVisitor && friendShip?.friends && friendShip?.following && (
+                )}
+                {isVisitor && receivedReq && (
                   <>
-                    <div className="bg-black/10 px-5 whitespace-nowrap flex items-center justify-center gap-1 cursor-pointer rounded-lg py-[0.45rem] text-center">
-                      <img
-                        src="../../../icons/friends.png"
-                        alt=""
-                        className=""
-                      />
-                      <span className="text-[17px]  font-medium ">Friends</span>
-                    </div>
-                    <div className="w-1/2 text-white bg-[#1A6ED8] px-5 cursor-pointer flex items-center  justify-center gap-[0.3rem] rounded-lg text-center py-[0.45rem]">
-                      <img
-                        src="../../../icons/message.png"
-                        alt=""
-                        className="invert"
-                      />
-                      <span className="text-[17px]">Message</span>
-                    </div>
+                    <ResponseBtn onClick={accepFriend} isLoading={isLoading} />
+                    <MessageBtn />
                   </>
-                )} */}
+                )}
+                {isVisitor && isFriend && (
+                  <>
+                    <FriendBtn />
+                    <MessageBtn friend />
+                  </>
+                )}
               </div>
             </div>
 
@@ -461,11 +449,138 @@ const PostOption = ({ isVisitor }) => {
 };
 //({ isActive }) => isActive?""
 
-const ProfilePic = () => {
-  return <div></div>;
-};
-
 const section = {
   icon: <i className="microphone_icon"></i>,
   name: "Life event",
+};
+
+//btns
+const AddFriBtn = ({ onClick, notFriend, isLoading }) => {
+  // console.log("in add btn", isLoading);
+  return (
+    <div
+      onClick={onClick}
+      className={`px-5 ${
+        notFriend ? "bg-[#1A6ED8] text-white" : "bg-black/10"
+      } whitespace-nowrap cursor-pointer flex items-center  justify-center gap-[0.3rem] rounded-lg text-center py-[0.45rem]`}
+    >
+      {isLoading ? (
+        <ClipLoader color="white" size={20} />
+      ) : (
+        <img
+          src="../../../icons/addFriend.png"
+          alt=""
+          className={`${notFriend ? "invert" : ""}`}
+        />
+      )}
+      <span className="text-[17px]">Add friend</span>
+    </div>
+  );
+};
+
+const FriendBtn = () => {
+  return (
+    <div className="bg-black/10 px-5 whitespace-nowrap flex items-center justify-center gap-1 cursor-pointer rounded-lg py-[0.45rem] text-center">
+      <img src="../../../icons/friends.png" alt="" className="" />
+      <span className="text-[17px]  font-medium ">Friends</span>
+    </div>
+  );
+};
+
+const CancelBtn = ({ onClick, isLoading }) => {
+  return (
+    <div
+      onClick={onClick}
+      className="bg-black/10 px-5 whitespace-nowrap flex items-center justify-center gap-1 cursor-pointer rounded-lg py-[0.45rem] text-center"
+    >
+      {isLoading ? (
+        <ClipLoader size={20} />
+      ) : (
+        <img src="../../../icons/cancelRequest.png" alt="" className="" />
+      )}
+      <span className="text-[17px]  font-medium ">Cancel request</span>
+    </div>
+  );
+};
+const ResponseBtn = ({ isLoading, onClick }) => {
+  const [openOptions, setOpenOptions] = useState(false);
+  const option = useRef(null);
+  useClickOutside(
+    option,
+    useCallback(() => {
+      setOpenOptions(false);
+    }, [])
+  );
+  const toggleOption = () => {
+    setOpenOptions((prev) => !prev);
+  };
+  const submit = () => {
+    setOpenOptions((prev) => !prev);
+    onClick();
+  };
+  return (
+    <div ref={option} className="relative">
+      <div
+        onClick={toggleOption}
+        className="bg-[#1A6ED8] px-5  text-white  whitespace-nowrap flex items-center justify-center gap-1 cursor-pointer rounded-lg py-[0.45rem] text-center"
+      >
+        {isLoading ? (
+          <ClipLoader color="white" size={20} />
+        ) : (
+          <img src="../../../icons/friends.png" alt="" className="invert " />
+        )}
+        <span className="text-[17px]  font-medium ">Response</span>
+      </div>
+      {openOptions && (
+        <div className="bg-white  text-black flex flex-col items-start absolute py-4 top-12 shadow-[1px_10px_20px_10px_rgba(0,0,0,0.2)] rounded-lg p-3 w-[20rem]">
+          <span
+            onClick={submit}
+            className="hover:bg-black/10 cursor-pointer w-full text-left p-2 rounded-lg"
+          >
+            Confirm
+          </span>
+          <span className="hover:bg-black/10 cursor-pointer w-full text-left p-2 rounded-lg">
+            Delete request
+          </span>
+        </div>
+      )}
+    </div>
+  );
+};
+
+const FollowBtn = ({ onClick, isLoading }) => {
+  return (
+    <div
+      // onClick={onClick}
+      className="bg-[#1A6ED8]  px-5 whitespace-nowrap flex items-center justify-center gap-[0.3rem] cursor-pointer rounded-lg text-white w-1/2 py-[0.45rem] text-center"
+    >
+      {isLoading ? (
+        <ClipLoader size={20} />
+      ) : (
+        <img src="../../../icons/follow.png" alt="" className="invert" />
+      )}
+      <span className="text-[17px]  font-medium ">Follow</span>
+    </div>
+  );
+};
+const MessageBtn = ({ onClick, isLoading, friend }) => {
+  return (
+    <div
+      onClick={onClick}
+      className={`w-1/2 mr-2 ${
+        friend ? "bg-[#1A6ED8] text-white" : "bg-black/10"
+      } px-5 cursor-pointer flex items-center  justify-center gap-[0.3rem] rounded-lg text-center py-[0.45rem]`}
+    >
+      {isLoading ? (
+        <ClipLoader color="white" size={20} />
+      ) : (
+        <img
+          src="../../../icons/message.png"
+          alt=""
+          className={`${friend ? "invert" : ""}`}
+        />
+      )}
+      <span className="text-[17px]">Message</span>
+    </div>
+  );
 };

@@ -5,6 +5,8 @@ import {
   defer,
   Outlet,
   useLoaderData,
+  useLocation,
+  useNavigate,
   useParams,
 } from "react-router-dom";
 import { getUserData } from "../../utils/api-call";
@@ -16,11 +18,16 @@ import Facebook from "../../svg/Facebook";
 import { userActions } from "../../store/user-slice";
 import store from "../../store";
 import { profileActions } from "../../store/profile-slice";
+import Cookies from "js-cookie";
+// import { useSelector } from "react-redux";
 
 const Layout = () => {
   const useData = useLoaderData();
   const { name } = useParams();
-  // console.log(name);
+  // const { user } = useSelector((state) => ({ ...state }));
+  // console.log(JSON.stringify(user) === "{}");
+  // let location = useNavigate();
+
   useEffect(() => {
     useData.User.then((res) => {
       // console.log(res);

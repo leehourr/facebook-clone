@@ -109,6 +109,15 @@ export const addFriend = async (id) => {
   return data;
 };
 
+export const accepFriendReq = async (id) => {
+  const { data } = await api.put(`/acceptRequest/${id}`);
+  return data;
+};
+
+export const cancelFriReq = async (id) => {
+  const { data } = await api.put(`/cancelRequest/${id}`);
+  return data;
+};
 //handle all errors
 function errorHandler(error) {
   if (error.response) {

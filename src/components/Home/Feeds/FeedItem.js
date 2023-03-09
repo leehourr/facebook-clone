@@ -106,7 +106,7 @@ const FeedItem = ({ post }) => {
               </h1>
               {post.type === "profilePicture" && (
                 <span className="text-[13px] text-black/80 whitespace-nowrap">{`Updated ${
-                  user.data?.gender === "male" ? "his" : "her"
+                  user?.data?.gender === "male" ? "his" : "her"
                 } profile picture`}</span>
               )}
             </Link>
@@ -130,7 +130,7 @@ const FeedItem = ({ post }) => {
             {isMenuOpen && (
               <Menulist
                 postUserId={post.user?._id}
-                userId={user.data._id}
+                userId={user?.data?._id}
                 imagesLength={post.images !== null}
               />
             )}
@@ -208,7 +208,7 @@ const FeedItem = ({ post }) => {
         </div>
       </div>
       <div className="w-[96%] mb-3 flex items-center justify-center gap-2">
-        <img src={user.data.picture} alt="" className="w-9 h-9 rounded-full " />
+        <img src={user?.data?.picture} alt="" className="w-9 h-9 rounded-full " />
 
         <div ref={emoji} className="flex-grow relative">
           <input

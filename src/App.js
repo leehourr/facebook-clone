@@ -1,5 +1,9 @@
-import React from "react";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import React, { useEffect } from "react";
+import {
+  createBrowserRouter,
+  RouterProvider,
+  useLocation,
+} from "react-router-dom";
 import Layout, { loader as getUserData } from "./pages/Layout";
 import Profile, { loader as getProfileData } from "./pages/profile";
 import Auth, { action as login } from "./pages/Auth";
@@ -14,11 +18,24 @@ import ResetPass from "./components/Auth/ResetPass/ResetPass";
 import { EnterCode } from "./components/Auth/ResetPass/EnterCode";
 import ChooseNewPass from "./components/Auth/ResetPass/ChooseNewPass";
 import InvalidLink from "./components/Auth/ResetPass/InvalidLink";
+import { useSelector } from "react-redux";
+import Logout from "./pages/Auth/Logout";
 
 function App() {
-  // const { user } ((state) => ({ ...state }));
+  // const location = useLocation();
+  // const { user } = useSelector((state) => ({ ...state }));
   const userToken = Cookies.get("token");
+  // console.log(userToken, user);
+  // if(user.logout)
+  // {
+  //   window.location.reload(false)
+  // }
+  // useEffect(() => {
+  //   console.log(user);
+  // }, []);
 
+  //   window.location.reload(false);
+  // }
   const router = createBrowserRouter([
     userToken
       ? {
@@ -54,6 +71,10 @@ function App() {
         { path: "/recover/newpassword/:email", element: <ChooseNewPass /> },
         { path: "/recover/*", element: <InvalidLink /> },
       ],
+    },
+    {
+      path: "/logout",
+      element: <Logout />,
     },
   ]);
   return <RouterProvider router={router} />;

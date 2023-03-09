@@ -12,7 +12,7 @@ const userSlice = createSlice({
       return action.payload;
     },
     logout(state, action) {
-      return {};
+      return { ...action.payload };
     },
   },
 });

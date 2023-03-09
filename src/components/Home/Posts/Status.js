@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import ReactDOM from "react-dom";
-import { Dots, Feeling, Photo } from "../../../svg";
-import { Backdrop } from "../../Ui/Backdrop";
+import { Dots, Feeling, Photo } from "../../../../svg";
+import { Backdrop } from "../../../Ui/Backdrop";
 import Emoji from "@emoji-mart/react";
 import { useEffect } from "react";
 import { useRef } from "react";
 import UploadImage from "./UploadImage";
 import PulseLoader from "react-spinners/PulseLoader";
-import { createPost, uploadImages } from "../../../utils/api-call";
+import { createPost, uploadImages } from "../../../../utils/api-call";
 import { useNavigate, useParams } from "react-router-dom";
 
 const Status = ({ onToggleForm, user, isUpload, onClose }) => {
