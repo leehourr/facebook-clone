@@ -20,6 +20,10 @@ import ChooseNewPass from "./components/Auth/ResetPass/ChooseNewPass";
 import InvalidLink from "./components/Auth/ResetPass/InvalidLink";
 import { useSelector } from "react-redux";
 import Logout from "./pages/Auth/Logout";
+import Gaming from "./pages/Layout/Gaming";
+import Watch from "./pages/Layout/Watch";
+import MarketPlace from "./pages/Layout/MarketPlace";
+import Groups from "./pages/Layout/Groups";
 
 function App() {
   // const location = useLocation();
@@ -49,6 +53,22 @@ function App() {
               loader: getAllPosts,
             },
             { path: "/:name", element: <Profile />, loader: getProfileData },
+            {
+              path: "/gaming",
+              element: <Gaming />,
+            },
+            {
+              path: "/watch",
+              element: <Watch />,
+            },
+            {
+              path: "/marketplace",
+              element: <MarketPlace />,
+            },
+            {
+              path: "/groups",
+              element: <Groups />,
+            },
           ],
         }
       : {
@@ -72,6 +92,7 @@ function App() {
         { path: "/recover/*", element: <InvalidLink /> },
       ],
     },
+
     {
       path: "/logout",
       element: <Logout />,

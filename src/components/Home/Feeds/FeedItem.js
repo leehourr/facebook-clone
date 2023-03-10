@@ -19,11 +19,14 @@ const FeedItem = ({ post }) => {
   const emoji = useRef();
   const menu = useRef();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isReact, setIsReact] = useState(false);
+  const [reaction, setReaction] = useState("");
 
   const textBg = useRef();
   const uploadedImg = post.images || null;
 
   // console.log(img);
+  console.log("overall", reaction);
 
   useEffect(() => {
     if (post.background) {
@@ -80,6 +83,16 @@ const FeedItem = ({ post }) => {
   };
   const closeMenu = () => {
     setIsMenuOpen(false);
+  };
+
+  const bindReaction = (e) => {
+    console.log("reaction", e);
+    reaction === e ? setReaction("") : setReaction(e);
+  };
+
+  const likeClick = () => {
+    console.log("in like", reaction);
+    setReaction("Like");
   };
   return (
     <div className="flex flex-col relative items-center w-full rounded-lg shadow-sm shadow-black/20 bg-white">
@@ -163,7 +176,11 @@ const FeedItem = ({ post }) => {
         <div
           className={`w-full  cursor-pointer transition-all duration-100 grid items-center justify-center gap-1 ${
             img.length > 1 ? "grid-cols-2" : "grid-cols-1"
-          } ${post.type !== "profilePicture" ? "" : "z-20 absolute top-3 imgBreakpoint:top-7"}`}
+          } ${
+            post.type !== "profilePicture"
+              ? ""
+              : "z-10 absolute top-3 imgBreakpoint:top-7"
+          }`}
         >
           {/* {ReactDOM.createPortal(
           <div className="fixed z-50 left-1/2 top-0 h-screen">
@@ -187,13 +204,25 @@ const FeedItem = ({ post }) => {
         </div>
       </div>
       <div
-        className={`w-[96%] h-9 mobile:h-12 relative my-1 border-b-[1px] pb-1 border-b-black/20`}
-      ></div>
+        className={`w-[96%] h-9 mobile:h-10 relative my-1 border-b-[1px]  border-b-black/20`}
+      >
+        xzc
+      </div>
 
       <div className="w-[96%] border-b-[1px] border-b-black/20 pb-3 mb-3 flex items-center justify-around">
-        <div className="post_interaction group relative">
-          <div className="absolute left-1 mobile:left-0 transition-all duration-300 group-hover:-translate-y-10 group-hover:z-10 group-hover:opacity-100 group-hover:visible invisible opacity-0 -z-10 bg-white shadow-sm shadow-black/20 p-1 px-2 rounded-3xl w-[40vw]  mobile:w-[14rem] lg:w-[17rem]">
-            <PopUpReaction />
+        <div
+          onClick={reaction === "" ? likeClick : undefined}
+          onMouseOver={() => {
+            setIsReact(true);
+          }}
+          className="post_interaction group relative"
+        >
+          <div
+            className={`absolute left-1 mobile:left-0 transition-all duration-300 group-hover:-translate-y-10 group-hover:z-10 group-hover:opacity-100 ${
+              isReact && "group-hover:visible"
+            } invisible opacity-0 -z-10 bg-white shadow-sm shadow-black/20 p-1 px-2 rounded-3xl w-[40vw]  mobile:w-[14rem] lg:w-[17rem]`}
+          >
+            <PopUpReaction onHover={setIsReact} setReaction={bindReaction} />
           </div>
           <i className="like_icon"></i>
           <span>Like</span>
@@ -208,7 +237,11 @@ const FeedItem = ({ post }) => {
         </div>
       </div>
       <div className="w-[96%] mb-3 flex items-center justify-center gap-2">
-        <img src={user?.data?.picture} alt="" className="w-9 h-9 rounded-full " />
+        <img
+          src={user?.data?.picture}
+          alt=""
+          className="w-9 h-9 rounded-full "
+        />
 
         <div ref={emoji} className="flex-grow relative">
           <input

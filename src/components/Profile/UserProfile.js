@@ -38,7 +38,7 @@ const UserProfile = ({ userData, children }) => {
   const imageRef = useRef();
   const [discard, setDiscard] = useState(false);
   // const [isVisitor, setIsVisitor] = useState(false);
-  console.log(userData.friendship);
+  // console.log(userData.friendship);
   const [photo, setPhoto] = useState([]);
   const [isUpdateOpen, setIsUpdateOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -252,7 +252,7 @@ const UserProfile = ({ userData, children }) => {
     friendShip?.following &&
     !friendShip.requestSent &&
     !friendShip.requestReceived;
-  console.log(isFollowed);
+  // console.log(isFollowed);
   return (
     <>
       <header
