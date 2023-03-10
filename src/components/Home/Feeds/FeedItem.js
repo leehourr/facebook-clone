@@ -26,7 +26,7 @@ const FeedItem = ({ post }) => {
   const uploadedImg = post.images || null;
 
   // console.log(img);
-  console.log("overall", reaction);
+  // console.log("overall", reaction);
 
   useEffect(() => {
     if (post.background) {
@@ -91,8 +91,14 @@ const FeedItem = ({ post }) => {
   };
 
   const likeClick = () => {
-    console.log("in like", reaction);
-    setReaction("Like");
+    // console.log("in like", reaction);
+    if (reaction !== "Like" || reaction === "Like") {
+      setReaction("");
+    }
+    if (reaction === "") {
+      setReaction("Like");
+    }
+    // bindReaction("Like");
   };
   return (
     <div className="flex flex-col relative items-center w-full rounded-lg shadow-sm shadow-black/20 bg-white">
@@ -206,17 +212,21 @@ const FeedItem = ({ post }) => {
       <div
         className={`w-[96%] h-9 mobile:h-10 relative my-1 border-b-[1px]  border-b-black/20`}
       >
-        xzc
+        {reaction}
       </div>
 
       <div className="w-[96%] border-b-[1px] border-b-black/20 pb-3 mb-3 flex items-center justify-around">
-        <div
-          onClick={reaction === "" ? likeClick : undefined}
-          onMouseOver={() => {
-            setIsReact(true);
-          }}
-          className="post_interaction group relative"
-        >
+        <div className="post_interaction group relative">
+          <div
+            onClick={likeClick}
+            onMouseOver={() => {
+              setIsReact(true);
+            }}
+            className="post_interaction hover:bg-transparent"
+          >
+            <i className="like_icon"></i>
+            <span>{reaction ? reaction : "Like"}</span>
+          </div>
           <div
             className={`absolute left-1 mobile:left-0 transition-all duration-300 group-hover:-translate-y-10 group-hover:z-10 group-hover:opacity-100 ${
               isReact && "group-hover:visible"
@@ -224,8 +234,6 @@ const FeedItem = ({ post }) => {
           >
             <PopUpReaction onHover={setIsReact} setReaction={bindReaction} />
           </div>
-          <i className="like_icon"></i>
-          <span>Like</span>
         </div>
         <div className="post_interaction">
           <i className="comment_icon"></i>
