@@ -92,7 +92,7 @@ const FeedItem = ({ post }) => {
     setIsMenuOpen(false);
   };
 
-  console.log(reactionData);
+  // console.log(reactionData);
   useEffect(() => {
     const getReactions = async () => {
       const res = await getReaction(post._id);
@@ -301,6 +301,7 @@ const FeedItem = ({ post }) => {
             />
 
             <span className="text-black/60 font-medium">
+
               {user.data?.first_name + " " + user.data?.last_name}
             </span>
           </div>
