@@ -35,8 +35,8 @@ const Feed = ({ feedData, profile, home }) => {
       })
     );
   }, [feedData]);
-  console.log(feedPost);
-  console.log("feedData", feedData);
+  // console.log(feedPost);
+  // console.log("feedData", feedData);
 
   return (
     <div
