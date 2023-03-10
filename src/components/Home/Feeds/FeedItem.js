@@ -7,6 +7,8 @@ import PopUpReaction from "./PopUpReaction";
 import Emoji from "@emoji-mart/react";
 import useClickOutside from "../../../helpers/clickOutside";
 import Menulist from "./PostMenu/Menulist";
+import { getReaction, postReaction } from "../../../utils/api-call";
+import { LoadingStimulate } from "../../../utils/LoadingStimulate";
 // import ReactDOM from "react-dom";
 
 const FeedItem = ({ post }) => {
@@ -21,6 +23,7 @@ const FeedItem = ({ post }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isReact, setIsReact] = useState(false);
   const [reaction, setReaction] = useState("");
+  const [reactionData, setReactionData] = useState();
 
   const textBg = useRef();
   const uploadedImg = post.images || null;
@@ -29,6 +32,9 @@ const FeedItem = ({ post }) => {
   // console.log("overall", reaction);
 
   useEffect(() => {
+    if (reactionData?.check) {
+      setReaction(reactionData.check);
+    }
     if (post.background) {
       textBg.current.style.background = `url(${post.background})`;
     }
@@ -39,7 +45,7 @@ const FeedItem = ({ post }) => {
         })
       );
     }
-  }, [uploadedImg, post.background]);
+  }, [uploadedImg, post.background, reactionData]);
 
   useEffect(() => {
     textRef.current.selectionEnd = cursorPosition;
@@ -85,18 +91,84 @@ const FeedItem = ({ post }) => {
     setIsMenuOpen(false);
   };
 
-  const bindReaction = (e) => {
-    console.log("reaction", e);
-    reaction === e ? setReaction("") : setReaction(e);
+  console.log(reactionData);
+  useEffect(() => {
+    const getReactions = async () => {
+      const res = await getReaction(post._id);
+      if (res.status === "ok") {
+        setReactionData(res);
+      }
+      // if (res.reactionData?.check) {
+      //   setReaction(reactionData.check);
+      // }
+    };
+    getReactions().catch((err) => {
+      console.log(err);
+    });
+  }, [post._id]);
+
+  console.log(reaction);
+  // let hasUrReaction = reactionData?.check;
+
+  const postReact = async (req) => {
+    try {
+      const res = await postReaction(req);
+      if (res.status !== "ok") {
+        setReaction("");
+        return;
+      }
+      console.log(res);
+    } catch (err) {}
   };
 
-  const likeClick = () => {
-    // console.log("in like", reaction);
-    if (reaction !== "Like" || reaction === "Like") {
+  const bindReaction = async (e) => {
+    // console.log("reaction", e, "on post", post);
+    const req = { postId: post._id, react: e };
+    if (reaction === e) {
       setReaction("");
+      await postReact(req);
+      return;
+    }
+    setReaction(e);
+    await postReact(req);
+  };
+
+  const likeClick = async () => {
+    // console.log("in like", reaction);
+    if (reaction !== "Like") {
+      setReaction("");
+      const req = { postId: post._id, react: reaction };
+
+      const res = await postReact(req).catch((e) => {});
+      if (res?.status !== "ok") {
+        setTimeout(() => {
+          setReaction("");
+        }, 1500);
+      }
+    }
+    if (reaction === "Like") {
+      setReaction("");
+      const req = { postId: post._id, react: "Like" };
+
+      const res = await postReact(req);
+      console.log(res);
+      if (res?.status !== "ok") {
+        setTimeout(() => {
+          setReaction("");
+        }, 1500);
+      }
     }
     if (reaction === "") {
       setReaction("Like");
+      const req = { postId: post._id, react: "Like" };
+
+      const res = await postReact(req);
+      console.log(res);
+      if (res?.status !== "ok") {
+        setTimeout(() => {
+          setReaction("");
+        }, 1500);
+      }
     }
     // bindReaction("Like");
   };
@@ -210,9 +282,11 @@ const FeedItem = ({ post }) => {
         </div>
       </div>
       <div
-        className={`w-[96%] h-9 mobile:h-10 relative my-1 border-b-[1px]  border-b-black/20`}
+        className={`w-[96%] relative ${
+          reaction !== "" && "py-2"
+        } border-b-[1px] h-9   border-b-black/20`}
       >
-        {reaction}
+        {/* {reactionData.reacts.length>=1&&react} */}
       </div>
 
       <div className="w-[96%] border-b-[1px] border-b-black/20 pb-3 mb-3 flex items-center justify-around">
@@ -222,10 +296,31 @@ const FeedItem = ({ post }) => {
             onMouseOver={() => {
               setIsReact(true);
             }}
-            className="post_interaction hover:bg-transparent"
+            className="post_interaction w-full group hover:bg-transparent"
           >
-            <i className="like_icon"></i>
-            <span>{reaction ? reaction : "Like"}</span>
+            {reaction === "" && <i className="like_icon"></i>}
+            {reaction !== "" && (
+              <img
+                src={`../../../reacts/${reaction.toLowerCase()}.svg`}
+                alt=""
+                className="w-[1.3rem] group-active:scale-150 transition-all duration-300 "
+              />
+            )}
+            <span
+              className={`${
+                reaction === "Like"
+                  ? "text-[#056ADB]"
+                  : reaction === "Angry"
+                  ? "text-[#DF7B2A]"
+                  : reaction === "Love"
+                  ? "text-[#E73B54]"
+                  : reaction === ""
+                  ? "text-black"
+                  : "text-[#ECB954]"
+              } text-[16px] font-medium`}
+            >
+              {reaction ? reaction : "Like"}
+            </span>
           </div>
           <div
             className={`absolute left-1 mobile:left-0 transition-all duration-300 group-hover:-translate-y-10 group-hover:z-10 group-hover:opacity-100 ${

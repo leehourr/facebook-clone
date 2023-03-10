@@ -138,6 +138,16 @@ export const deleteReq = async (id) => {
   const { data } = await api.put(`/deleteRequest/${id}`);
   return data;
 };
+
+export const postReaction = async (req) => {
+  const { data } = await api.put(`/reactPost`, req);
+  return data;
+};
+
+export const getReaction = async (id) => {
+  const { data } = await api.get(`/getReacts/${id}`);
+  return data;
+};
 //handle all errors
 function errorHandler(error) {
   if (error.response) {

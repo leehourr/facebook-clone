@@ -69,10 +69,10 @@ const LeftNav = () => {
       hoverState: "Your profile",
     },
     visitFri && {
-      name: "Friends",
+      name: "Others",
       to: `/${name}`,
       icon: <FriendsActive />,
-      hoverState: "Friends",
+      hoverState: "Others",
     },
     {
       name: "Watch",

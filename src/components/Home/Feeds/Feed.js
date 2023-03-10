@@ -27,6 +27,16 @@ const Feed = ({ feedData, profile, home }) => {
   //   posts: [],
   //   error: "",
   // });
+  const [feedPost, setFeedPost] = useState();
+  useEffect(() => {
+    setFeedPost(
+      feedData.map((i) => {
+        return i;
+      })
+    );
+  }, [feedData]);
+  console.log(feedPost);
+  console.log("feedData", feedData);
 
   return (
     <div
@@ -34,7 +44,7 @@ const Feed = ({ feedData, profile, home }) => {
         profile ? "ml-0" : "mb-0 xl:ml-2"
       } mt-3 mb-8 flex flex-col gap-5`}
     >
-      {feedData.map((i) => (
+      {feedPost?.map((i) => (
         <FeedItem key={i._id} post={i} />
       ))}
     </div>
