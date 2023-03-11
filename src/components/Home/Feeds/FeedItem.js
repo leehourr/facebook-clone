@@ -26,29 +26,25 @@ const FeedItem = ({ post }) => {
   const [reactionData, setReactionData] = useState([]);
   const [totalReacts, setTotalReacts] = useState(0);
   const [reactIcons, setReactIcons] = useState([]);
-  const [reactionList, setReactionList] = useState([]);
+  // const [reactList, setReactList] = useState([]);
+  const [reactBy, setReactBy] = useState([]);
+  let isTwoPpl = totalReacts - 1;
 
   const textBg = useRef();
   const uploadedImg = post.images || null;
 
+  // console.log(reactList);
+  console.log(reactionData.length);
   // console.log("overall", reaction);
-  console.log("reaction list", reactionList);
   useEffect(() => {
-    setReactionList(
-      reactionData.map((i) => {
+    if (reactionData.length === 1) {
+      reactionData.forEach((i) => {
         for (const j in i) {
-          // console.log("react  by", i[j][0].reactBy.first_name);
-          return {
-            first_name: i[j][0].reactBy.first_name,
-            last_name: i[j][0].reactBy.last_name,
-          };
+          setReactBy(i[j][0].reactBy);
         }
-      })
-    );
-    // console.log("outside loop  by", reactionData);
-
-    // console.log("reaction", reactIcons);
-    reactionData.map((i) => {
+      });
+    }
+    reactionData.slice(0, 3).map((i) => {
       if (reactIcons.length > 0) return reactIcons;
       for (const j in i) {
         setReactIcons((prev) => [j, ...prev]);
@@ -139,14 +135,39 @@ const FeedItem = ({ post }) => {
   // console.log(reaction);
   // let hasUrReaction = reactionData?.check;
 
+  const checkIfBosKe = (e) => {
+    let check;
+    for (const i of reactionData) {
+      // console.log("in bos ke func", i);
+      for (const j in i) {
+        if (j === e && i[j].length > 1) {
+          // console.log("bos ke", e, j);
+          check = true;
+        }
+      }
+    }
+    return check;
+  };
+
+  // console.log("total reacts", totalReacts);
+  // console.log("total lenght", reactIcons.length);
+  // console.log("reactionICon", reactIcons);
+
   const bindReaction = async (e) => {
     // console.log("reaction", e, "on post", post);
     const req = { postId: post._id, react: e };
-    console.log(" reaction", reaction);
-    console.log(" from click", e);
+    // console.log(" reaction", reaction);
+    // console.log(" from click", e);
+    const bosKe = await checkIfBosKe(e);
+    // console.log("bosKe", bosKe);
+
+    // console.log("already have", e);
 
     if (reaction === e) {
-      if (reactIcons.length === totalReacts) {
+      // reactIcons.map((i) => {
+      //   if (i === e) console.log(reactIcons[i].length);
+      // });
+      if (!bosKe) {
         setReactIcons((prev) => {
           const newReact = prev.filter(
             (i) => i !== reactIcons[reactIcons.length - 1]
@@ -155,10 +176,13 @@ const FeedItem = ({ post }) => {
         });
       } else {
         setReactIcons((prev) => {
-          // const newReact = prev.filter(
-          //   (i) => i !== reactIcons[reactIcons.length - 1]
-          // );
-          return [...prev];
+          if (bosKe) {
+            return [...prev];
+          }
+          const newReact = prev.filter(
+            (i) => i !== reactIcons[reactIcons.length - 1]
+          );
+          return [...newReact];
         });
       }
 
@@ -175,7 +199,7 @@ const FeedItem = ({ post }) => {
       return;
     }
 
-    if (reaction !== "" && reactIcons.includes(e)) {
+    if (reaction !== "" && reactIcons.includes(e) && reaction !== e) {
       setReactIcons((prev) => {
         const newReact = prev.filter(
           (i) => i !== reactIcons[reactIcons.length - 1]
@@ -184,32 +208,38 @@ const FeedItem = ({ post }) => {
       });
     }
 
-    if (
-      reaction !== "" &&
-      !reactIcons.includes(e) &&
-      reactIcons.length === totalReacts
-    ) {
-      console.log("diff one");
-      setReactIcons((prev) => {
-        const newReact = prev.filter((i) => {
-          return i !== reactIcons[reactIcons.length - 1];
+    // if (
+    //   reaction !== "" &&
+    //   !reactIcons.includes(e) &&
+    //   reactIcons.length === totalReacts
+    // ) {
+    //   console.log("diff one lenght equal");
+    //   setReactIcons((prev) => {
+    //     const newReact = prev.filter((i) => {
+    //       return i !== reactIcons[reactIcons.length - 1];
+    //     });
+    //     return [...newReact, e];
+    //   });
+    // }
+    if (reaction !== "" && !reactIcons.includes(e)) {
+      // console.log("diff one");
+      if (!bosKe && reactIcons.length === 2) {
+        // console.log("kng bos ke ");
+        setReactIcons((prev) => {
+          return [...prev, e];
         });
-        return [...newReact, e];
-      });
+      } else {
+        // console.log(" men kng bos ke ");
+        setReactIcons((prev) => {
+          const newReact = prev.filter((i) => {
+            return i !== reactIcons[reactIcons.length - 1];
+          });
+          return [...newReact, e];
+        });
+      }
     }
-    if (
-      reaction !== "" &&
-      !reactIcons.includes(e) &&
-      reactIcons.length < totalReacts
-    ) {
-      console.log("diff one");
-      setReactIcons((prev) => {
-        // const newReact = prev.filter((i) => {
-        //   return i !== reactIcons[reactIcons.length - 1];
-        // });
-        return [...prev, e];
-      });
-    }
+    // console.log("icon length", reactIcons.length);
+    // console.log("total reacts", totalReacts);
 
     if (reaction === "" && !reactIcons.includes(e)) {
       setReactIcons((prev) => [...prev, e]);
@@ -241,14 +271,18 @@ const FeedItem = ({ post }) => {
   };
 
   const likeClick = async () => {
-    console.log("in like", reaction);
+    // console.log("in like", reaction);
     if (reaction !== "Like" && reaction !== "") {
+      const bosKe = await checkIfBosKe(reaction);
       setReaction("");
-
       setReactIcons((prev) => {
-        if (prev.includes(reaction) && reactIcons.length === totalReacts)
+        if (
+          prev.includes(reaction) &&
+          reactIcons.length < totalReacts &&
+          !bosKe
+        )
           return prev.filter((i) => i !== reaction);
-        if (prev.includes(reaction) && reactIcons.length < totalReacts)
+        if (prev.includes(reaction) && reactIcons.length === totalReacts)
           return [...prev];
 
         return [...prev];
@@ -282,7 +316,7 @@ const FeedItem = ({ post }) => {
       const res = await postReaction(req).catch((e) => {
         console.log(e);
       });
-      console.log(res);
+      // console.log(res);
       if (res?.status !== "ok") {
         setTimeout(() => {
           setReaction("");
@@ -299,7 +333,7 @@ const FeedItem = ({ post }) => {
       const res = await postReaction(req).catch((e) => {
         console.log(e);
       });
-      console.log(res);
+      // console.log(res);
       if (res?.status !== "ok") {
         setTimeout(() => {
           setReaction("");
@@ -419,9 +453,9 @@ const FeedItem = ({ post }) => {
       <div
         className={`w-[96%] relative ${
           reaction !== "" && "py-2"
-        } border-b-[1px] h-9   border-b-black/20 cursor-pointer`}
+        } border-b-[1px] mt-2 h-9 cursor-pointer border-b-black/20`}
       >
-        {totalReacts >= 1 && reaction && (
+        {totalReacts > 1 && reaction && (
           <div className="flex items-center justify-start gap-2 ">
             <div className="flex items-center">
               {reactIcons.slice(0, 3).map((i, index) => {
@@ -436,7 +470,9 @@ const FeedItem = ({ post }) => {
               })}
             </div>
 
-            <span className="text-[15px] text-black/60 font-medium">{`You and ${totalReacts} others`}</span>
+            <span className="text-[15px] text-black/60 font-medium">{`You and ${
+              totalReacts - 1
+            } ${isTwoPpl === 1 ? "other" : "others"}`}</span>
           </div>
         )}
         {totalReacts > 1 && reaction === "" && (
@@ -459,7 +495,7 @@ const FeedItem = ({ post }) => {
         {totalReacts === 1 && reaction === "" && (
           <div className="flex items-center justify-start gap-2 ">
             <div className="flex items-center">
-              {reactIcons.map((i, index) => {
+              {reactIcons.slice(1).map((i, index) => {
                 return (
                   <img
                     key={index}
@@ -470,7 +506,7 @@ const FeedItem = ({ post }) => {
                 );
               })}
             </div>
-            <span className="text-[15px] text-black/60 font-medium">{`${reactionList[0]?.first_name} ${reactionList[0]?.last_name}`}</span>
+            <span className="text-[15px] text-black/60 font-medium">{`${reactBy?.first_name} ${reactBy?.last_name}`}</span>
           </div>
         )}
         {totalReacts === 1 && reaction && (
@@ -490,6 +526,24 @@ const FeedItem = ({ post }) => {
             <span className="text-[15px] text-black/60 font-medium">{`${user.data?.first_name} ${user.data?.last_name}`}</span>
           </div>
         )}
+        {/* {totalReacts >= 3 && !reaction && (
+          <div className="flex items-center justify-start gap-2 ">
+            <div className="flex items-center">
+              {reactIcons.map((i, index) => {
+                return (
+                  <img
+                    key={index}
+                    src={`../../../reacts/${i.toLowerCase()}.svg`}
+                    alt=""
+                    className="w-[1.3rem] group-active:scale-150 transition-all duration-300 "
+                  />
+                );
+              })}
+            </div>
+
+            <span className="text-[15px] text-black/60 font-medium">{`${totalReacts}`}</span>
+          </div>
+        )} */}
       </div>
 
       <div className="w-[96%] border-b-[1px] pt-2 border-b-black/20 pb-3 mb-3 flex items-center justify-around">
