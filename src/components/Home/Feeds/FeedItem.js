@@ -26,6 +26,7 @@ const FeedItem = ({ post }) => {
   const [reactionData, setReactionData] = useState([]);
   const [totalReacts, setTotalReacts] = useState(0);
   const [reactIcons, setReactIcons] = useState([]);
+  const [zoomPf, setZoomPf] = useState(false);
   // const [reactList, setReactList] = useState([]);
   const [reactBy, setReactBy] = useState([]);
   let isTwoPpl = totalReacts - 1;
@@ -34,16 +35,15 @@ const FeedItem = ({ post }) => {
   const uploadedImg = post.images || null;
 
   // console.log(reactList);
-  console.log(reactionData.length);
+  // console.log(reactionData.length);
   // console.log("overall", reaction);
   useEffect(() => {
-    if (reactionData.length === 1) {
-      reactionData.forEach((i) => {
-        for (const j in i) {
-          setReactBy(i[j][0].reactBy);
-        }
-      });
-    }
+    reactionData.forEach((i) => {
+      for (const j in i) {
+        setReactBy(i[j][0].reactBy);
+      }
+    });
+
     reactionData.slice(0, 3).map((i) => {
       if (reactIcons.length > 0) return reactIcons;
       for (const j in i) {
@@ -154,14 +154,14 @@ const FeedItem = ({ post }) => {
   // console.log("reactionICon", reactIcons);
 
   const bindReaction = async (e) => {
-    // console.log("reaction", e, "on post", post);
+    console.log("reaction", e, "on post", post);
     const req = { postId: post._id, react: e };
-    // console.log(" reaction", reaction);
-    // console.log(" from click", e);
+    console.log(" reaction", reaction);
+    console.log(" from click", e);
     const bosKe = await checkIfBosKe(e);
-    // console.log("bosKe", bosKe);
+    console.log("bosKe", bosKe);
 
-    // console.log("already have", e);
+    console.log("already have", e);
 
     if (reaction === e) {
       // reactIcons.map((i) => {
@@ -200,6 +200,7 @@ const FeedItem = ({ post }) => {
     }
 
     if (reaction !== "" && reactIcons.includes(e) && reaction !== e) {
+      console.log("where err orrc");
       setReactIcons((prev) => {
         const newReact = prev.filter(
           (i) => i !== reactIcons[reactIcons.length - 1]
@@ -222,14 +223,20 @@ const FeedItem = ({ post }) => {
     //   });
     // }
     if (reaction !== "" && !reactIcons.includes(e)) {
-      // console.log("diff one");
-      if (!bosKe && reactIcons.length === 2) {
-        // console.log("kng bos ke ");
+      console.log("diff one");
+      if (bosKe) {
+        console.log("kng bos ke ");
+        setReactIcons((prev) => {
+          return [...prev];
+        });
+      }
+      if (!bosKe && reactIcons.length === 1) {
         setReactIcons((prev) => {
           return [...prev, e];
         });
-      } else {
-        // console.log(" men kng bos ke ");
+      }
+      if (!bosKe && reactIcons.length > 1) {
+        console.log(" men kng bos ke ");
         setReactIcons((prev) => {
           const newReact = prev.filter((i) => {
             return i !== reactIcons[reactIcons.length - 1];
@@ -271,26 +278,27 @@ const FeedItem = ({ post }) => {
   };
 
   const likeClick = async () => {
-    // console.log("in like", reaction);
+    console.log("in like", reaction);
+    const bosKe = await checkIfBosKe(reaction);
+
     if (reaction !== "Like" && reaction !== "") {
-      const bosKe = await checkIfBosKe(reaction);
       setReaction("");
-      setReactIcons((prev) => {
-        if (
-          prev.includes(reaction) &&
-          reactIcons.length < totalReacts &&
-          !bosKe
-        )
-          return prev.filter((i) => i !== reaction);
-        if (prev.includes(reaction) && reactIcons.length === totalReacts)
-          return [...prev];
-
-        return [...prev];
-      });
-
       setTotalReacts((prev) => {
         return prev - 1;
       });
+      if (reactIcons.includes(reaction) && !bosKe) {
+        setReactIcons((prev) => {
+          const newReact = prev.filter((i) => {
+            return i !== reaction;
+          });
+          return [...newReact];
+        });
+      } else {
+        setReactIcons((prev) => {
+          return [...prev];
+        });
+      }
+
       const req = { postId: post._id, react: reaction };
 
       const res = await postReaction(req).catch((e) => {
@@ -307,10 +315,21 @@ const FeedItem = ({ post }) => {
       setTotalReacts((prev) => {
         return prev - 1;
       });
-      setReactIcons((prev) => {
-        if (!prev.includes("Like")) return [...prev, "Like"];
-        return [...prev];
-      });
+      if (!bosKe) {
+        setReactIcons((prev) => {
+          const newReact = prev.filter((i) => {
+            return i !== "Like";
+          });
+          return [...newReact];
+        });
+      } else {
+        setReactIcons((prev) => {
+          // const newReact = prev.filter((i) => {
+          //   return i !== "Like";
+          // });
+          return [...prev];
+        });
+      }
       const req = { postId: post._id, react: "Like" };
 
       const res = await postReaction(req).catch((e) => {
@@ -328,6 +347,10 @@ const FeedItem = ({ post }) => {
       setTotalReacts((prev) => {
         return prev + 1;
       });
+      setReactIcons((prev) => {
+        if (!prev.includes("Like")) return [...prev, "Like"];
+        return [...prev];
+      });
       const req = { postId: post._id, react: "Like" };
 
       const res = await postReaction(req).catch((e) => {
@@ -340,6 +363,11 @@ const FeedItem = ({ post }) => {
         }, 1500);
       }
     }
+  };
+
+  const imgClick = () => {
+    // console.log(post.user?.username);
+    setZoomPf((prev) => !prev);
   };
   return (
     <div className="flex flex-col relative items-center w-full rounded-lg shadow-sm shadow-black/20 bg-white">
@@ -439,11 +467,12 @@ const FeedItem = ({ post }) => {
         )} */}
           {img.map((i, index) => (
             <img
+              onClick={imgClick}
               key={index}
-              className={` ${
+              className={`transition-all duraion-100 ${
                 post.type === "profilePicture" &&
                 "rounded-full w-[55%] mx-auto mt-6 ring-4 ring-white"
-              }`}
+              } `}
               src={i}
               alt=""
             />
@@ -458,7 +487,7 @@ const FeedItem = ({ post }) => {
         {totalReacts > 1 && reaction && (
           <div className="flex items-center justify-start gap-2 ">
             <div className="flex items-center">
-              {reactIcons.slice(0, 3).map((i, index) => {
+              {reactIcons.map((i, index) => {
                 return (
                   <img
                     key={index}
