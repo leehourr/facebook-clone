@@ -298,13 +298,10 @@ const UserProfile = ({ userData, children }) => {
               <div className="mobile:w-[16.5rem]  mt-3 flex items-center justify-center gap-2">
                 {!isVisitor && (
                   <>
-<<<<<<< HEAD
+
                     <div className="bg-[#1A6ED8] px-3 cursor-pointer rounded-lg text-white py-[0.45rem] text-center">
                       <span className="text-[17px] whitespace-nowrap font-medium ">
-=======
-                    <div className="bg-[#1A6ED8] cursor-pointer rounded-lg text-white  py-[0.45rem] text-center">
-                      <span className="text-[17px] whitespace-nowrap px-3  font-medium ">
->>>>>>> 84fe36829d7c4e1afb5b280da353b6aa77afa3a0
+
                         + Add to story
                       </span>
                     </div>

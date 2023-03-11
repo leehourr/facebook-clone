@@ -8,6 +8,9 @@ import Emoji from "@emoji-mart/react";
 import useClickOutside from "../../../helpers/clickOutside";
 import Menulist from "./PostMenu/Menulist";
 import { getReaction, postReaction } from "../../../utils/api-call";
+import { createPortal } from "react-dom";
+import ReactBy from "./ReactBy";
+import { Backdrop } from "../../Ui/Backdrop";
 // import { LoadingStimulate } from "../../../utils/LoadingStimulate";
 // import ReactDOM from "react-dom";
 
@@ -29,6 +32,7 @@ const FeedItem = ({ post }) => {
   // const [zoomPf, setZoomPf] = useState(false);
   // const [reactList, setReactList] = useState([]);
   const [reactBy, setReactBy] = useState([]);
+  const [seeWhoReact, setSeeWhoReact] = useState(false);
   let isTwoPpl = totalReacts - 1;
 
   const textBg = useRef();
@@ -368,6 +372,9 @@ const FeedItem = ({ post }) => {
     }
   };
 
+  const toggleSeeWhoReact = () => {
+    setSeeWhoReact((prev) => !prev);
+  };
   // const imgClick = () => {
   //   // console.log(post.user?.username);
   //   setZoomPf((prev) => !prev);
@@ -475,9 +482,10 @@ const FeedItem = ({ post }) => {
         </div>
       </div>
       <div
+        onClick={toggleSeeWhoReact}
         className={`w-[96%] relative ${
           reaction !== "" && "py-2"
-        } border-b-[1px] mt-2 h-9 cursor-pointer border-b-black/20`}
+        } border-b-[1px] mt-2 h-9 cursor-pointer border-b-black/20 group`}
       >
         {totalReacts > 1 && reaction && (
           <div className="flex items-center justify-start gap-2 ">
@@ -494,7 +502,7 @@ const FeedItem = ({ post }) => {
               })}
             </div>
 
-            <span className="text-[15px] text-black/60 font-medium">{`You and ${
+            <span className="text-[15px] group-hover:underline underline-offset-3 hover:underline text-black/60 font-medium">{`You and ${
               totalReacts - 1
             } ${isTwoPpl === 1 ? "other" : "others"}`}</span>
           </div>
@@ -513,7 +521,7 @@ const FeedItem = ({ post }) => {
                 );
               })}
             </div>
-            <span className="text-[15px] text-black/60 font-medium">{`${totalReacts} others`}</span>
+            <span className="text-[15px] group-hover:underline underline-offset-3 hover:underline group text-black/60 font-medium">{`${totalReacts} others`}</span>
           </div>
         )}
         {totalReacts === 1 && reaction === "" && (
@@ -530,7 +538,7 @@ const FeedItem = ({ post }) => {
                 );
               })}
             </div>
-            <span className="text-[15px] text-black/60 font-medium">{`${reactBy?.first_name} ${reactBy?.last_name}`}</span>
+            <span className="text-[15px] group-hover:underline underline-offset-3 hover:underline text-black/60 font-medium">{`${reactBy?.first_name} ${reactBy?.last_name}`}</span>
           </div>
         )}
         {totalReacts === 1 && reaction && (
@@ -547,7 +555,7 @@ const FeedItem = ({ post }) => {
                 );
               })}
             </div>
-            <span className="text-[15px] text-black/60 font-medium">{`${user.data?.first_name} ${user.data?.last_name}`}</span>
+            <span className="text-[15px] group-hover:underline underline-offset-3 hover:underline text-black/60 font-medium">{`${user.data?.first_name} ${user.data?.last_name}`}</span>
           </div>
         )}
         {/* {totalReacts >= 3 && !reaction && (
@@ -662,6 +670,16 @@ const FeedItem = ({ post }) => {
           )}
         </div>
       </div>
+      {seeWhoReact &&
+        createPortal(
+          <ReactBy reactLists={reactionData} reactIcons={reactIcons} />,
+          document.getElementById("overlay")
+        )}
+      {seeWhoReact &&
+        createPortal(
+          <Backdrop onClick={toggleSeeWhoReact} className="bg-black/50 z-60" />,
+          document.getElementById("overlay")
+        )}
     </div>
   );
 };
