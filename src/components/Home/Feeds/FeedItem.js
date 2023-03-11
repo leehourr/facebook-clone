@@ -495,7 +495,7 @@ const FeedItem = ({ post }) => {
         {totalReacts === 1 && reaction === "" && (
           <div className="flex items-center justify-start gap-2 ">
             <div className="flex items-center">
-              {reactIcons.slice(1).map((i, index) => {
+              {reactIcons.map((i, index) => {
                 return (
                   <img
                     key={index}
