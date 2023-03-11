@@ -5,8 +5,6 @@ import {
   defer,
   Outlet,
   useLoaderData,
-  useLocation,
-  useNavigate,
   useParams,
 } from "react-router-dom";
 import { getUserData } from "../../utils/api-call";
@@ -18,7 +16,7 @@ import Facebook from "../../svg/Facebook";
 import { userActions } from "../../store/user-slice";
 import store from "../../store";
 import { profileActions } from "../../store/profile-slice";
-import Cookies from "js-cookie";
+
 // import { useSelector } from "react-redux";
 
 const Layout = () => {
@@ -28,26 +26,24 @@ const Layout = () => {
   // console.log(JSON.stringify(user) === "{}");
   // let location = useNavigate();
 
-  useEffect(() => {
-    useData.User.then((res) => {
-      // console.log(res);
-      const data = res.user_data;
-      const posts = res.posts;
-      if (data) {
-        store.dispatch(userActions.login({ data, posts }));
-        // console.log(posts);
-      }
-      if (!name) {
-        store.dispatch(
-          profileActions.userProfile({ userPost: [...posts], visit: false })
-        );
-      } else {
-        store.dispatch(
-          profileActions.userProfile({ userPost: [...posts], visit: true })
-        );
-      }
-    });
-  }, [useData, name]);
+  useData.User.then((res) => {
+    // console.log(res);
+    const data = res.user_data;
+    const posts = res.posts;
+    if (data) {
+      store.dispatch(userActions.login({ data, posts }));
+      // console.log(posts);
+    }
+    if (!name) {
+      store.dispatch(
+        profileActions.userProfile({ userPost: [...posts], visit: false })
+      );
+    } else {
+      store.dispatch(
+        profileActions.userProfile({ userPost: [...posts], visit: true })
+      );
+    }
+  });
 
   return (
     <Suspense

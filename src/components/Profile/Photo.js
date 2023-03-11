@@ -39,15 +39,3 @@ const Photo = ({ photos }) => {
 };
 
 export default Photo;
-
-const image = [
-  { src: "../../../stories/yoru.jpg" },
-  { src: "../../../stories/yoru.jpeg" },
-  { src: "../../../stories/jett.jpg" },
-  { src: "../../../stories/jett.jpg" },
-  { src: "../../../stories/jett.jpg" },
-  { src: "../../../stories/jett.jpg" },
-  { src: "../../../stories/jett.jpg" },
-  { src: "../../../stories/jett3.png" },
-  { src: "../../../stories/jett.jpg" },
-];

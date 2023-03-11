@@ -26,10 +26,16 @@ const reactsArray = [
     image: "../../../reacts/angry.gif",
   },
 ];
-export default function PopUpReaction({ onHover, closeReaction, setReaction }) {
+export default function PopUpReaction({
+  selectReact,
+  onHover,
+  closeReaction,
+  setReaction,
+}) {
   const reactionPostHandler = (e) => {
-    // console.log(e);
+    console.log("react sent");
     setReaction(e);
+    selectReact(e);
   };
   return (
     <div

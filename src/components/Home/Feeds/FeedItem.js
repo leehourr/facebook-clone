@@ -8,7 +8,7 @@ import Emoji from "@emoji-mart/react";
 import useClickOutside from "../../../helpers/clickOutside";
 import Menulist from "./PostMenu/Menulist";
 import { getReaction, postReaction } from "../../../utils/api-call";
-import { LoadingStimulate } from "../../../utils/LoadingStimulate";
+// import { LoadingStimulate } from "../../../utils/LoadingStimulate";
 // import ReactDOM from "react-dom";
 
 const FeedItem = ({ post }) => {
@@ -23,18 +23,37 @@ const FeedItem = ({ post }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isReact, setIsReact] = useState(false);
   const [reaction, setReaction] = useState("");
-  const [reactionData, setReactionData] = useState();
+  const [reactionData, setReactionData] = useState([]);
+  const [totalReacts, setTotalReacts] = useState(0);
+  const [reactIcons, setReactIcons] = useState([]);
+  const [reactionList, setReactionList] = useState([]);
 
   const textBg = useRef();
   const uploadedImg = post.images || null;
 
-  // console.log(img);
   // console.log("overall", reaction);
-
+  console.log("reaction list", reactionList);
   useEffect(() => {
-    if (reactionData?.check) {
-      setReaction(reactionData.check);
-    }
+    setReactionList(
+      reactionData.map((i) => {
+        for (const j in i) {
+          // console.log("react  by", i[j][0].reactBy.first_name);
+          return {
+            first_name: i[j][0].reactBy.first_name,
+            last_name: i[j][0].reactBy.last_name,
+          };
+        }
+      })
+    );
+    // console.log("outside loop  by", reactionData);
+
+    // console.log("reaction", reactIcons);
+    reactionData.map((i) => {
+      if (reactIcons.length > 0) return reactIcons;
+      for (const j in i) {
+        setReactIcons((prev) => [j, ...prev]);
+      }
+    });
     if (post.background) {
       textBg.current.style.background = `url(${post.background})`;
     }
@@ -45,7 +64,7 @@ const FeedItem = ({ post }) => {
         })
       );
     }
-  }, [uploadedImg, post.background, reactionData]);
+  }, [uploadedImg, post.background, reactionData, totalReacts, reactIcons]);
 
   useEffect(() => {
     textRef.current.selectionEnd = cursorPosition;
@@ -91,66 +110,178 @@ const FeedItem = ({ post }) => {
     setIsMenuOpen(false);
   };
 
-  console.log(reactionData);
   useEffect(() => {
     const getReactions = async () => {
+      let reactionData;
+      let reacts = [];
       const res = await getReaction(post._id);
       if (res.status === "ok") {
-        setReactionData(res);
+        setReaction(res?.check || "");
+        reactionData = res.reacts;
       }
-      // if (res.reactionData?.check) {
-      //   setReaction(reactionData.check);
-      // }
+      let total = 0;
+
+      for (const i in reactionData) {
+        let innerObj = {};
+        innerObj[i] = reactionData[i];
+        total += reactionData[i].length;
+        reacts.push(innerObj);
+      }
+      setTotalReacts(total);
+      // console.log("reactionData", reacts);
+      setReactionData(reacts);
     };
     getReactions().catch((err) => {
       console.log(err);
     });
   }, [post._id]);
 
-  console.log(reaction);
+  // console.log(reaction);
   // let hasUrReaction = reactionData?.check;
-
-  const postReact = async (req) => {
-    try {
-      const res = await postReaction(req);
-      if (res.status !== "ok") {
-        setReaction("");
-        return;
-      }
-      console.log(res);
-    } catch (err) {}
-  };
 
   const bindReaction = async (e) => {
     // console.log("reaction", e, "on post", post);
     const req = { postId: post._id, react: e };
+    console.log(" reaction", reaction);
+    console.log(" from click", e);
+
     if (reaction === e) {
+      if (reactIcons.length === totalReacts) {
+        setReactIcons((prev) => {
+          const newReact = prev.filter(
+            (i) => i !== reactIcons[reactIcons.length - 1]
+          );
+          return [...newReact];
+        });
+      } else {
+        setReactIcons((prev) => {
+          // const newReact = prev.filter(
+          //   (i) => i !== reactIcons[reactIcons.length - 1]
+          // );
+          return [...prev];
+        });
+      }
+
       setReaction("");
-      await postReact(req);
+      setTotalReacts((prev) => {
+        return prev - 1;
+      });
+      const res = await postReaction(req);
+      if (res?.status !== "ok") {
+        setTimeout(() => {
+          setReaction(e);
+        }, 1500);
+      }
       return;
     }
-    setReaction(e);
-    await postReact(req);
+
+    if (reaction !== "" && reactIcons.includes(e)) {
+      setReactIcons((prev) => {
+        const newReact = prev.filter(
+          (i) => i !== reactIcons[reactIcons.length - 1]
+        );
+        return [...newReact];
+      });
+    }
+
+    if (
+      reaction !== "" &&
+      !reactIcons.includes(e) &&
+      reactIcons.length === totalReacts
+    ) {
+      console.log("diff one");
+      setReactIcons((prev) => {
+        const newReact = prev.filter((i) => {
+          return i !== reactIcons[reactIcons.length - 1];
+        });
+        return [...newReact, e];
+      });
+    }
+    if (
+      reaction !== "" &&
+      !reactIcons.includes(e) &&
+      reactIcons.length < totalReacts
+    ) {
+      console.log("diff one");
+      setReactIcons((prev) => {
+        // const newReact = prev.filter((i) => {
+        //   return i !== reactIcons[reactIcons.length - 1];
+        // });
+        return [...prev, e];
+      });
+    }
+
+    if (reaction === "" && !reactIcons.includes(e)) {
+      setReactIcons((prev) => [...prev, e]);
+      setTotalReacts((prev) => {
+        return prev + 1;
+      });
+    }
+
+    if (reaction === "" && reactIcons.includes(e)) {
+      setReactIcons((prev) => [...prev]);
+      setTotalReacts((prev) => {
+        return prev + 1;
+      });
+    }
+    // if (reaction !== "" && reactIcons.includes(reaction)) {
+    //   setReactIcons((prev) => [...prev]);
+    // }
+
+    // setReaction(e);
+
+    const res = await postReaction(req).catch((e) => {
+      console.log(e);
+    });
+    if (res?.status !== "ok") {
+      setTimeout(() => {
+        setReaction("");
+      }, 1500);
+    }
   };
 
   const likeClick = async () => {
-    // console.log("in like", reaction);
-    if (reaction !== "Like") {
+    console.log("in like", reaction);
+    if (reaction !== "Like" && reaction !== "") {
       setReaction("");
+
+      setReactIcons((prev) => {
+        if (prev.includes(reaction) && reactIcons.length === totalReacts)
+          return prev.filter((i) => i !== reaction);
+        if (prev.includes(reaction) && reactIcons.length < totalReacts)
+          return [...prev];
+
+        return [...prev];
+      });
+
+      setTotalReacts((prev) => {
+        return prev - 1;
+      });
       const req = { postId: post._id, react: reaction };
 
-      const res = await postReact(req).catch((e) => {});
+      const res = await postReaction(req).catch((e) => {
+        console.log(e);
+      });
       if (res?.status !== "ok") {
         setTimeout(() => {
-          setReaction("");
+          setReaction(reaction);
         }, 1500);
       }
     }
     if (reaction === "Like") {
       setReaction("");
+      setTotalReacts((prev) => {
+        return prev - 1;
+      });
+      setReactIcons((prev) => {
+        if (!prev.includes("Like")) return [...prev, "Like"];
+        return [...prev];
+      });
       const req = { postId: post._id, react: "Like" };
 
-      const res = await postReact(req);
+      const res = await postReaction(req).catch((e) => {
+        console.log(e);
+      });
       console.log(res);
       if (res?.status !== "ok") {
         setTimeout(() => {
@@ -160,9 +291,14 @@ const FeedItem = ({ post }) => {
     }
     if (reaction === "") {
       setReaction("Like");
+      setTotalReacts((prev) => {
+        return prev + 1;
+      });
       const req = { postId: post._id, react: "Like" };
 
-      const res = await postReact(req);
+      const res = await postReaction(req).catch((e) => {
+        console.log(e);
+      });
       console.log(res);
       if (res?.status !== "ok") {
         setTimeout(() => {
@@ -170,7 +306,6 @@ const FeedItem = ({ post }) => {
         }, 1500);
       }
     }
-    // bindReaction("Like");
   };
   return (
     <div className="flex flex-col relative items-center w-full rounded-lg shadow-sm shadow-black/20 bg-white">
@@ -284,24 +419,92 @@ const FeedItem = ({ post }) => {
       <div
         className={`w-[96%] relative ${
           reaction !== "" && "py-2"
-        } border-b-[1px] h-9   border-b-black/20`}
+        } border-b-[1px] h-9   border-b-black/20 cursor-pointer`}
       >
-        {/* {reactionData.reacts.length>=1&&react} */}
+        {totalReacts >= 1 && reaction && (
+          <div className="flex items-center justify-start gap-2 ">
+            <div className="flex items-center">
+              {reactIcons.slice(0, 3).map((i, index) => {
+                return (
+                  <img
+                    key={index}
+                    src={`../../../reacts/${i.toLowerCase()}.svg`}
+                    alt=""
+                    className="w-[1.3rem] group-active:scale-150 transition-all duration-300 "
+                  />
+                );
+              })}
+            </div>
+
+            <span className="text-[15px] text-black/60 font-medium">{`You and ${totalReacts} others`}</span>
+          </div>
+        )}
+        {totalReacts > 1 && reaction === "" && (
+          <div className="flex items-center justify-start gap-2 ">
+            <div className="flex items-center">
+              {reactIcons.map((i, index) => {
+                return (
+                  <img
+                    key={index}
+                    src={`../../../reacts/${i.toLowerCase()}.svg`}
+                    alt=""
+                    className="w-[1.3rem] group-active:scale-150 transition-all duration-300 "
+                  />
+                );
+              })}
+            </div>
+            <span className="text-[15px] text-black/60 font-medium">{`${totalReacts} others`}</span>
+          </div>
+        )}
+        {totalReacts === 1 && reaction === "" && (
+          <div className="flex items-center justify-start gap-2 ">
+            <div className="flex items-center">
+              {reactIcons.map((i, index) => {
+                return (
+                  <img
+                    key={index}
+                    src={`../../../reacts/${i.toLowerCase()}.svg`}
+                    alt=""
+                    className="w-[1.3rem] group-active:scale-150 transition-all duration-300 "
+                  />
+                );
+              })}
+            </div>
+            <span className="text-[15px] text-black/60 font-medium">{`${reactionList[0]?.first_name} ${reactionList[0]?.last_name}`}</span>
+          </div>
+        )}
+        {totalReacts === 1 && reaction && (
+          <div className="flex items-center justify-start gap-2 ">
+            <div className="flex items-center">
+              {reactIcons.map((i, index) => {
+                return (
+                  <img
+                    key={index}
+                    src={`../../../reacts/${reaction.toLowerCase()}.svg`}
+                    alt=""
+                    className="w-[1.3rem] group-active:scale-150 transition-all duration-300 "
+                  />
+                );
+              })}
+            </div>
+            <span className="text-[15px] text-black/60 font-medium">{`${user.data?.first_name} ${user.data?.last_name}`}</span>
+          </div>
+        )}
       </div>
 
-      <div className="w-[96%] border-b-[1px] border-b-black/20 pb-3 mb-3 flex items-center justify-around">
+      <div className="w-[96%] border-b-[1px] pt-2 border-b-black/20 pb-3 mb-3 flex items-center justify-around">
         <div className="post_interaction group relative">
           <div
             onClick={likeClick}
             onMouseOver={() => {
               setIsReact(true);
             }}
-            className="post_interaction w-full group hover:bg-transparent"
+            className="flex items-center justify-center gap-2 w-full group hover:bg-transparent"
           >
             {reaction === "" && <i className="like_icon"></i>}
             {reaction !== "" && (
               <img
-                src={`../../../reacts/${reaction.toLowerCase()}.svg`}
+                src={`../../../reacts/${reaction?.toLowerCase()}.svg`}
                 alt=""
                 className="w-[1.3rem] group-active:scale-150 transition-all duration-300 "
               />
@@ -327,7 +530,11 @@ const FeedItem = ({ post }) => {
               isReact && "group-hover:visible"
             } invisible opacity-0 -z-10 bg-white shadow-sm shadow-black/20 p-1 px-2 rounded-3xl w-[40vw]  mobile:w-[14rem] lg:w-[17rem]`}
           >
-            <PopUpReaction onHover={setIsReact} setReaction={bindReaction} />
+            <PopUpReaction
+              onHover={setIsReact}
+              selectReact={bindReaction}
+              setReaction={setReaction}
+            />
           </div>
         </div>
         <div className="post_interaction">

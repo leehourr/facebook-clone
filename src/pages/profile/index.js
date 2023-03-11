@@ -1,4 +1,4 @@
-import React, { Suspense} from "react";
+import React, { Suspense } from "react";
 import { Await, defer, useLoaderData } from "react-router-dom";
 // import ClipLoader from "react-spinners/ClipLoader";
 // import Feed from "../../components/Home/Feeds/Feed";
@@ -30,7 +30,7 @@ const Profile = () => {
             </p>
           }
         >
-          {(userData) => <UserProfile userData={userData} />}
+          {(userData) => <UserProfile userData={userData || []} />}
         </Await>
       </Suspense>
     </div>

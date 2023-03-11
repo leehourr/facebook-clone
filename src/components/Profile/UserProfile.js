@@ -85,7 +85,7 @@ const UserProfile = ({ userData, children }) => {
         setPhoto([]);
       }
     }
-  }, [isVisitor, user.data, user.posts, userData, name, pfPics,photo]);
+  }, [isVisitor, pfPics.length, photo.length, userData.posts, user.posts]);
 
   useScrollTo(0, 0);
 
@@ -298,14 +298,16 @@ const UserProfile = ({ userData, children }) => {
               <div className="mobile:w-[16.5rem]  mt-3 flex items-center justify-center gap-2">
                 {!isVisitor && (
                   <>
-                    <div className="bg-[#1A6ED8] cursor-pointer rounded-lg text-white w-1/2 py-[0.45rem] text-center">
-                      <span className="text-[17px]  font-medium ">
+                    <div className="bg-[#1A6ED8] px-3 cursor-pointer rounded-lg text-white py-[0.45rem] text-center">
+                      <span className="text-[17px] whitespace-nowrap font-medium ">
                         + Add to story
                       </span>
                     </div>
-                    <div className="w-1/2 bg-black/10 cursor-pointer flex items-center  justify-center gap-1 rounded-lg text-center py-[0.45rem]">
+                    <div className=" bg-black/10 px-3 cursor-pointer flex items-center  justify-center gap-1 rounded-lg text-center py-[0.45rem]">
                       <i className="edit_icon"></i>
-                      <span className="text-[17px]">Edit profile</span>
+                      <span className="text-[17px] whitespace-nowrap">
+                        Edit profile
+                      </span>
                     </div>
                   </>
                 )}
@@ -423,7 +425,7 @@ const UserProfile = ({ userData, children }) => {
         >
           {!isVisitor ? <CreatePost section={section} /> : undefined}
           <PostOption isVisitor={isVisitor} />
-          <Feed feedData={userData.posts} profile />
+          <Feed feedData={userData.posts || []} profile />
         </div>
       </div>
       {isUpdateOpen &&

@@ -18,7 +18,6 @@ import ResetPass from "./components/Auth/ResetPass/ResetPass";
 import { EnterCode } from "./components/Auth/ResetPass/EnterCode";
 import ChooseNewPass from "./components/Auth/ResetPass/ChooseNewPass";
 import InvalidLink from "./components/Auth/ResetPass/InvalidLink";
-import { useSelector } from "react-redux";
 import Logout from "./pages/Auth/Logout";
 import Gaming from "./pages/Layout/Gaming";
 import Watch from "./pages/Layout/Watch";
