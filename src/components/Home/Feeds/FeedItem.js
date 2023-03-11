@@ -26,7 +26,7 @@ const FeedItem = ({ post }) => {
   const [reactionData, setReactionData] = useState([]);
   const [totalReacts, setTotalReacts] = useState(0);
   const [reactIcons, setReactIcons] = useState([]);
-  const [zoomPf, setZoomPf] = useState(false);
+  // const [zoomPf, setZoomPf] = useState(false);
   // const [reactList, setReactList] = useState([]);
   const [reactBy, setReactBy] = useState([]);
   let isTwoPpl = totalReacts - 1;
@@ -152,7 +152,6 @@ const FeedItem = ({ post }) => {
   // console.log("total reacts", totalReacts);
   // console.log("total lenght", reactIcons.length);
   // console.log("reactionICon", reactIcons);
-
   const bindReaction = async (e) => {
     console.log("reaction", e, "on post", post);
     const req = { postId: post._id, react: e };
@@ -310,7 +309,9 @@ const FeedItem = ({ post }) => {
         }, 1500);
       }
     }
+
     if (reaction === "Like") {
+      setIsReact(false);
       setReaction("");
       setTotalReacts((prev) => {
         return prev - 1;
@@ -338,11 +339,12 @@ const FeedItem = ({ post }) => {
       // console.log(res);
       if (res?.status !== "ok") {
         setTimeout(() => {
-          setReaction("");
+          setReaction("Like");
         }, 1500);
       }
     }
     if (reaction === "") {
+      setIsReact(false);
       setReaction("Like");
       setTotalReacts((prev) => {
         return prev + 1;
@@ -357,6 +359,7 @@ const FeedItem = ({ post }) => {
         console.log(e);
       });
       // console.log(res);
+
       if (res?.status !== "ok") {
         setTimeout(() => {
           setReaction("");
@@ -365,10 +368,10 @@ const FeedItem = ({ post }) => {
     }
   };
 
-  const imgClick = () => {
-    // console.log(post.user?.username);
-    setZoomPf((prev) => !prev);
-  };
+  // const imgClick = () => {
+  //   // console.log(post.user?.username);
+  //   setZoomPf((prev) => !prev);
+  // };
   return (
     <div className="flex flex-col relative items-center w-full rounded-lg shadow-sm shadow-black/20 bg-white">
       <header className="w-[95%] h-[3.5rem] mt-2 flex items-center justify-between">
@@ -457,17 +460,9 @@ const FeedItem = ({ post }) => {
               : "z-10 absolute top-3 imgBreakpoint:top-7"
           }`}
         >
-          {/* {ReactDOM.createPortal(
-          <div className="fixed z-50 left-1/2 top-0 h-screen">
-            {img.map((i, index) => (
-              <img key={index} className="w-full" src={i} alt="" />
-            ))}
-          </div>,
-          document.getElementById("overlay")
-        )} */}
           {img.map((i, index) => (
             <img
-              onClick={imgClick}
+              // onClick={imgClick}
               key={index}
               className={`transition-all duraion-100 ${
                 post.type === "profilePicture" &&
@@ -589,7 +584,7 @@ const FeedItem = ({ post }) => {
               <img
                 src={`../../../reacts/${reaction?.toLowerCase()}.svg`}
                 alt=""
-                className="w-[1.3rem] group-active:scale-150 transition-all duration-300 "
+                className="w-[1.3rem] group-active:scale-150 transition-all duration-100 "
               />
             )}
             <span
