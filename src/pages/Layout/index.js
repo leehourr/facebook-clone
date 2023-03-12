@@ -16,6 +16,7 @@ import Facebook from "../../svg/Facebook";
 import { userActions } from "../../store/user-slice";
 import store from "../../store";
 import { profileActions } from "../../store/profile-slice";
+import { searchActions } from "../../store/searchSlice";
 
 // import { useSelector } from "react-redux";
 
@@ -26,24 +27,27 @@ const Layout = () => {
   // console.log(JSON.stringify(user) === "{}");
   // let location = useNavigate();
 
-  useData.User.then((res) => {
-    // console.log(res);
-    const data = res.user_data;
-    const posts = res.posts;
-    if (data) {
-      store.dispatch(userActions.login({ data, posts }));
-      // console.log(posts);
-    }
-    if (!name) {
-      store.dispatch(
-        profileActions.userProfile({ userPost: [...posts], visit: false })
-      );
-    } else {
-      store.dispatch(
-        profileActions.userProfile({ userPost: [...posts], visit: true })
-      );
-    }
-  });
+  useEffect(() => {
+    useData.User.then((res) => {
+      // console.log("user data", res);
+      const data = res.user_data;
+      const posts = res.posts;
+      const search_history = res.search_history;
+      if (data) {
+        store.dispatch(userActions.login({ data, posts }));
+        store.dispatch(searchActions.saveSearchHistory(search_history.search));
+      }
+      if (!name) {
+        store.dispatch(
+          profileActions.userProfile({ userPost: [...posts], visit: false })
+        );
+      } else {
+        store.dispatch(
+          profileActions.userProfile({ userPost: [...posts], visit: true })
+        );
+      }
+    });
+  }, [useData, name]);
 
   return (
     <Suspense

@@ -44,6 +44,7 @@ const UserProfile = ({ userData, children }) => {
   const [isLoading, setIsLoading] = useState(false);
   // const [friendShip, setFriendShip] = useState(userData.friendship);
   let friendShip = userData.friendship;
+  // console.log(userData);
 
   const isVisitor = user.data?.username !== name;
 
@@ -298,10 +299,8 @@ const UserProfile = ({ userData, children }) => {
               <div className="mobile:w-[16.5rem]  mt-3 flex items-center justify-center gap-2">
                 {!isVisitor && (
                   <>
-
                     <div className="bg-[#1A6ED8] px-3 cursor-pointer rounded-lg text-white py-[0.45rem] text-center">
                       <span className="text-[17px] whitespace-nowrap font-medium ">
-
                         + Add to story
                       </span>
                     </div>
@@ -410,7 +409,7 @@ const UserProfile = ({ userData, children }) => {
         <div className="xl:w-[40%]">
           <StickyBox offsetTop={70} offsetBottom={40}>
             <div className="profile_section">
-              <Intro />
+              <Intro isVisitor={isVisitor} />
             </div>
             <div className="profile_section">
               <Photo photos={photo} />

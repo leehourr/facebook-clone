@@ -154,6 +154,25 @@ export const postComment = async (req) => {
   return data;
 };
 
+export const searchAcc = async (searchTerm) => {
+  const { data } = await api.post(`/search/${searchTerm}`);
+  return data;
+};
+
+export const addToSearchHistory = async (searchUser) => {
+  const { data } = await api.put(`/addToSearchHistory`, searchUser);
+  return data;
+};
+
+export const getSearchHistory = async () => {
+  const { data } = await api.get("/getSearchHistory");
+  return data;
+};
+
+export const removeSearchHistory = async (req) => {
+  const { data } = await api.put("/removeFromSearch", req);
+  return data;
+};
 //handle all errors
 function errorHandler(error) {
   if (error.response) {

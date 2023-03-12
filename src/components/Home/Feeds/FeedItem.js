@@ -46,6 +46,7 @@ const FeedItem = ({ post, id }) => {
   const [posting, setPosting] = useState(false);
   // const [isNewCmt, setIsNewCmt] = useState(false);
   const [hasImg, setHasImg] = useState(false);
+  const [countCmt, setCountCmt] = useState(1);
 
   // const imageRef = useRef(null);
 
@@ -54,7 +55,7 @@ const FeedItem = ({ post, id }) => {
   const textBg = useRef();
   const uploadedImg = post.images || null;
 
-  console.log(comment);
+  // console.log(comment);
   // console.log(reactionData.length);
   // console.log("overall", reaction);
   useEffect(() => {
@@ -440,8 +441,8 @@ const FeedItem = ({ post, id }) => {
       try {
         setPosting(true);
         // setIsNewCmt(true);
+        setCountCmt((prev) => prev + 1);
         setComment((prev) => [
-          ...prev,
           {
             _id: Math.random(),
             comment: text,
@@ -454,6 +455,7 @@ const FeedItem = ({ post, id }) => {
               isNew: true,
             },
           },
+          ...prev,
         ]);
         setText("");
         if (uploadImage.length !== 0) {
@@ -515,6 +517,9 @@ const FeedItem = ({ post, id }) => {
     console.log(post.user.username);
   };
 
+  const viewmoreCmt = () => {
+    setCountCmt((prev) => prev + 3);
+  };
   return (
     <div className="flex flex-col relative items-center w-full rounded-lg shadow-sm shadow-black/20 bg-white">
       <header className="w-[95%] h-[3.5rem] mt-2 flex items-center justify-between">
@@ -752,41 +757,7 @@ const FeedItem = ({ post, id }) => {
       </div>
 
       {/* //comment */}
-      {comment.length > 0 &&
-        comment.map((i, id) => (
-          <div
-            key={i._id}
-            className="w-[95%] mb-3 flex items-startF justify-start gap-1"
-          >
-            <img
-              className="w-9 h-9 rounded-full"
-              src={i.commentBy.picture}
-              alt=""
-            />
-            <div className="flex flex-col gap-1 items-start justify-start">
-              <div className="p-2 bg-black/5 rounded-xl">
-                <Link to={`/${i.commentBy.username}`} className="font-semibold">
-                  {i.commentBy.first_name + "" + i.commentBy.last_name}
-                </Link>
-                <p>{i.comment}</p>
-              </div>
-              <img src={i.image} className="w-36 rounded-lg" alt="" />
-              {posting && i.isNew ? (
-                <span className="text-[12px] font-medium">Posting...</span>
-              ) : (
-                <div className="flex items-center gap-2 justify-center">
-                  <span className="text-[12px] font-medium">Like</span>
-                  <span className="text-[12px] font-medium">Reply</span>
-                  <div className="text-[12px]">
-                    <Moment fromNow interval={3}>
-                      {i.commentAt || Date.now()}
-                    </Moment>
-                  </div>
-                </div>
-              )}
-            </div>
-          </div>
-        ))}
+
       <div className="w-[96%] mb-3 flex items-center justify-center gap-2">
         <img
           src={user?.data?.picture}
@@ -848,6 +819,59 @@ const FeedItem = ({ post, id }) => {
           image={image}
         />
       )}
+      <div className="w-[96%] flex flex-col gap-3 items-start my-2">
+        {comment.length > 0 &&
+          comment
+            .sort((a, b) => {
+              return new Date(b.commentAt) - new Date(a.commentAt);
+            })
+            .slice(0, countCmt)
+            .map((i, id) => (
+              <div
+                key={i._id}
+                className="w-full flex items-start justify-start gap-1"
+              >
+                <img
+                  className="w-9 h-9 rounded-full"
+                  src={i.commentBy.picture}
+                  alt=""
+                />
+                <div className="flex flex-col gap-1 items-start justify-start">
+                  <div className="p-2 bg-black/5 rounded-xl">
+                    <Link
+                      to={`/${i.commentBy.username}`}
+                      className="font-semibold"
+                    >
+                      {i.commentBy.first_name + "" + i.commentBy.last_name}
+                    </Link>
+                    <p>{i.comment}</p>
+                  </div>
+                  <img src={i.image} className="w-36 rounded-lg" alt="" />
+                  {posting && i.isNew ? (
+                    <span className="text-[12px] font-medium">Posting...</span>
+                  ) : (
+                    <div className="flex items-center gap-2 justify-center">
+                      <span className="text-[12px] font-medium">Like</span>
+                      <span className="text-[12px] font-medium">Reply</span>
+                      <div className="text-[12px]">
+                        <Moment fromNow interval={3}>
+                          {i.commentAt || Date.now()}
+                        </Moment>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
+            ))}
+        {countCmt < comment.length ? (
+          <span
+            onClick={viewmoreCmt}
+            className="mt-1 font-semibold text-black/70 cursor-pointer"
+          >
+            View more comments
+          </span>
+        ) : undefined}
+      </div>
 
       {seeWhoReact &&
         createPortal(
