@@ -59,7 +59,7 @@ const Navigation = () => {
   const breakpoint1 = !showFbSearch && desktopView2;
   const breakpoint2 = (!showFbSearch || showFbSearch) && !desktopView2;
   return (
-    <header className="fixed z-30 top-0 h-14 w-full bg-white shadow-sm py-[5px] px-[1rem] shadow-black/10 flex items-center justify-between">
+    <header className="fixed z-30 top-0 h-14 w-full bg-white dark:bg-[#242526] border-b-[2px] dark:border-b-[#3A3C3E] shadow-sm py-[5px] px-[1rem] shadow-black/10 flex items-center justify-between">
       <Link to="/" className="header_logo">
         <div className="w-[40px] h-[40px] rounded-[50%] cursor-pointer flex items-center justify-center">
           <Logo />
@@ -71,7 +71,7 @@ const Navigation = () => {
           profile?.visit
             ? "w-full ml-2"
             : "xl:ml-24 xl:w-[47%] 3xl:w-[46.5%] 4xl:w-[39%] 4xl:ml-28 lg3:ml-20 w-full lg3:w-[50%] pl-[0.4rem]"
-        } rounded-3xl bg-[#f0f2f5]`}
+        } rounded-3xl bg-[#f0f2f5] dark:bg-[#3A3C3E]`}
       >
         {!desktopView || profile?.visit ? (
           <div
@@ -81,7 +81,7 @@ const Navigation = () => {
               showFbSearch
                 ? "w-full sm:w-[312px] rounded-3xl pl-4 active:cursor-default"
                 : "w-10 rounded-[50%] hover:bg-black/20 cursor-pointer"
-            } flex items-center justify-center bg-[#e4e6eb]`}
+            } flex items-center justify-center bg-[#e4e6eb] dark:bg-[#3A3C3E]`}
           >
             <Search color="#65676b" />
             {showFbSearch && (
@@ -89,7 +89,7 @@ const Navigation = () => {
                 showFbSearch={searchBar}
                 // onFocus={openSearchBar}
                 //  onBlurCapture={closeSeachBar}
-                className="py-[10px] pr-[32px] pl-2 outline-none w-full rounded-3xl  border-none bg-transparent text-[15px]"
+                className="py-[10px]  pr-[32px] pl-2 outline-none w-full rounded-3xl  border-none bg-transparent text-[15px]"
               />
             )}
           </div>
@@ -109,10 +109,10 @@ const Navigation = () => {
       </div>
       {(breakpoint1 || breakpoint2) && (
         <div className="flex">
-          <div className="relative hover:bg-black/20 h-10 w-10 rounded-[50%] flex items-center justify-center mr-[8px] bg-[#e4e6eb] cursor-pointer">
-            <Messenger />
+          <div className="relative hover:bg-black/20 h-10 w-10 rounded-[50%] flex items-center justify-center mr-[8px] bg-[#e4e6eb] dark:bg-[#3A3C3E] cursor-pointer">
+            <Messenger color="dark:fill-white" />
           </div>
-          <div className="relative h-10 hover:bg-black/20 w-10 rounded-[50%] flex items-center justify-center mr-[8px] bg-[#e4e6eb] cursor-pointer">
+          <div className="relative h-10 hover:bg-black/20 w-10 rounded-[50%] flex items-center justify-center mr-[8px] bg-[#e4e6eb] dark:bg-[#3A3C3E] cursor-pointer">
             <Notifications />
             <div className="absolute -top-[0.45rem] -right-1 bg-[#FF0000] text-white text-[13px] w-[1.3rem] h-[1.3rem] rounded-full text-center  ">
               5
@@ -130,7 +130,7 @@ const Navigation = () => {
             />
             <img
               onClick={openMenu}
-              className="absolute top-[1.6rem] right-0 outline-[2px] outline-double outline-white w-[0.8rem] h-[0.8rem]  rounded-full bg-[#e4e6eb] "
+              className="absolute top-[1.6rem] right-0 outline-[2px] outline-double outline-white w-[0.8rem] h-[0.8rem]  rounded-full bg-[#e4e6eb] dark:bg-[#3A3C3E]"
               src={arrowDown}
               alt=""
             />

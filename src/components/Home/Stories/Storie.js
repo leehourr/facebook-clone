@@ -31,7 +31,7 @@ const Storie = () => {
         onClick={toStories}
         onMouseOver={() => setIsHovering(true)}
         onMouseOut={() => setIsHovering(false)}
-        className="absolute cursor-pointer hover:bg-slate-100 -right-5 w-10 h-10 flex items-center justify-center rounded-full bg-white shadow-md shadow-black/10"
+        className="absolute cursor-pointer hover:bg-slate-100 -right-5 w-10 h-10 flex items-center justify-center rounded-full bg-white dark:bg-[#242526] shadow-md shadow-black/10"
       >
         <ArrowRight color="#65676b" />
       </div>

@@ -4,10 +4,10 @@
 
 @layer base {
   body {
-    @apply bg-[#F0F2F5] bg-no-repeat overflow-x-hidden;
+    @apply bg-[#F0F2F5] dark:bg-[#18191A] bg-no-repeat overflow-x-hidden;
   }
   .leftNav_border {
-    @apply mx-auto border-b-[1px] border-b-black/10;
+    @apply mx-auto border-b-[1px] border-b-black/10 dark:border-b-[#242526];
   }
 
   .home_page {
@@ -34,7 +34,7 @@
   }
 
   .post_options {
-    @apply w-full gap-2 flex items-center justify-center cursor-pointer py-2 hover:bg-black/5 rounded-lg;
+    @apply w-full gap-2 flex items-center justify-center cursor-pointer py-2 hover:bg-black/5 dark:hover:bg-[#3A3C3E] rounded-lg;
   }
 
   .post_interaction {
@@ -42,7 +42,7 @@
   }
 
   .intro_setting {
-    @apply font-semibold text-[17px] text-black/80 bg-black/10 hover:bg-black/20 w-[95%] py-2 rounded-lg cursor-pointer;
+    @apply font-semibold text-[17px] text-black/80 dark:text-white/90 bg-black/10 dark:bg-white/5 hover:bg-black/20 w-[95%] py-2 rounded-lg cursor-pointer;
   }
 
   .profile_section {

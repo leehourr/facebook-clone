@@ -49,6 +49,14 @@ const Layout = () => {
     });
   }, [useData, name]);
 
+  useEffect(() => {
+    if (localStorage.getItem("darkTheme")) {
+      window.document.documentElement.classList.add("dark");
+    } else {
+      window.document.documentElement.classList.remove("dark");
+    }
+  }, []);
+
   return (
     <Suspense
       fallback={
@@ -72,7 +80,7 @@ const Layout = () => {
         }
       >
         {(useData) => (
-          <div className="bg-[#F0F2F5] w-full h-screen">
+          <div className="w-full h-screen">
             <Navigation />
             <LeftNav />
             <Outlet />

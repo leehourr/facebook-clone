@@ -105,10 +105,10 @@ const LeftNav = () => {
       className={`${
         desktopView
           ? desktopView && (isMenuOpen || profile?.visit)
-            ? "w-[4rem] bg-white"
+            ? "w-[4rem] bg-white dark:bg-[#242526]"
             : "4xl:w-[20rem] xl:w-[19rem] bg-transparent"
-          : "w-[4rem] bg-white"
-      } h-full fixed top-[3.5rem] select-none z-30 `}
+          : "w-[4rem] bg-white dark:bg-[#242526]"
+      } h-full fixed top-[3.5rem] select-none z-30 dark:text-white `}
     >
       <ul className="w-full">
         {leftNavigation.slice(0, 2).map((i, index) => (
@@ -290,7 +290,7 @@ const SeeAllButton = ({ openMenu, closeMenu, onActiveHandler }) => {
               : "w-[80%] justify-center"
           } hover:bg-black/20 relative p-2 flex items-center mx-auto rounded-lg`}
         >
-          <div className="w-7 flex items-center justify-center bg-[#dbe1e8] p-2 rounded-full">
+          <div className="w-7 flex items-center justify-center bg-[#dbe1e8] dark:bg-[#242526] p-2 rounded-full">
             <Menu />
           </div>
           {mobileView || isMenuOpen || profile?.visit ? null : (
@@ -308,7 +308,7 @@ const SeeAllButton = ({ openMenu, closeMenu, onActiveHandler }) => {
       {isMenuOpen && <AllMenu />}
       {isMenuOpen &&
         ReactDOM.createPortal(
-          <Backdrop className="bg-white/70 left-24 " />,
+          <Backdrop className="bg-white/70 dark:bg-black/60 blur-sm left-24 " />,
           document.getElementById("backdrop")
         )}
     </li>

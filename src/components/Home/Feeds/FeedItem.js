@@ -521,7 +521,7 @@ const FeedItem = ({ post, id }) => {
     setCountCmt((prev) => prev + 3);
   };
   return (
-    <div className="flex flex-col relative items-center w-full rounded-lg shadow-sm shadow-black/20 bg-white">
+    <div className="flex flex-col relative items-center w-full rounded-lg shadow-sm shadow-black/20 bg-white dark:bg-[#242526] dark:text-white">
       <header className="w-[95%] h-[3.5rem] mt-2 flex items-center justify-between">
         <div className="flex items-center justify-center gap-2">
           <Link
@@ -544,13 +544,13 @@ const FeedItem = ({ post, id }) => {
                 {post.user?.first_name + " " + post.user?.last_name}
               </h1>
               {post.type === "profilePicture" && (
-                <span className="text-[13px] text-black/80 whitespace-nowrap">{`Updated ${
+                <span className="text-[13px] text-black/80 dark:text-white/70 whitespace-nowrap">{`Updated ${
                   user?.data?.gender === "male" ? "his" : "her"
                 } profile picture`}</span>
               )}
             </Link>
 
-            <div className="flex items-center text-[14px] leading-4 justify-center gap-1">
+            <div className="flex items-center text-[14px] dark:text-white/70 leading-4 justify-center gap-1">
               <Moment fromNow interval={30}>
                 {post.createdAt}
               </Moment>
@@ -561,11 +561,11 @@ const FeedItem = ({ post, id }) => {
         <div
           ref={menu}
           onClick={openMenu}
-          className="relative cursor-pointer w-8 h-8 rounded-full hover:bg-black/5 flex items-center justify-center"
+          className="relative cursor-pointer w-8 h-8 rounded-full hover:bg-black/5 dark:hover:bg-white/10 flex items-center justify-center"
         >
           <Dots />
 
-          <div className="absolute z-30 top-7 w-[19.5rem] bg-white shadow-md -right-0 shadow-black/20 rounded-lg ">
+          <div className="absolute z-30 top-7 w-[19.5rem] bg-white dark:bg-[#242526] shadow-mds -right-0 shadow-black/20 rounded-lg ">
             {isMenuOpen && (
               <Menulist
                 postUserId={post.user?._id}
@@ -614,7 +614,7 @@ const FeedItem = ({ post, id }) => {
               key={index}
               className={`transition-all duraion-100 ${
                 post.type === "profilePicture" &&
-                "rounded-full w-[55%] mx-auto mt-6 ring-4 ring-white"
+                "rounded-full w-[55%] mx-auto mt-6 ring-4 ring-white dark:ring-white/10"
               } `}
               src={i}
               alt=""
@@ -626,7 +626,7 @@ const FeedItem = ({ post, id }) => {
         onClick={toggleSeeWhoReact}
         className={`w-[96%] relative ${
           reaction !== "" && "py-2"
-        } border-b-[1px] mt-2 h-9 cursor-pointer border-b-black/20 group`}
+        } border-b-[1px] mt-2 h-9 cursor-pointer border-b-black/20 dark:border-b-[#3A3C3E] group`}
       >
         {totalReacts > 1 && reaction && (
           <div className="flex items-center justify-start gap-2 ">
@@ -643,7 +643,7 @@ const FeedItem = ({ post, id }) => {
               })}
             </div>
 
-            <span className="text-[15px] group-hover:underline underline-offset-3 hover:underline text-black/60 font-medium">{`You and ${
+            <span className="text-[15px] group-hover:underline underline-offset-3 hover:underline text-black/60 dark:text-white/70 font-medium">{`You and ${
               totalReacts - 1
             } ${totalReacts - 1 === 1 ? "other" : "others"}`}</span>
           </div>
@@ -662,7 +662,7 @@ const FeedItem = ({ post, id }) => {
                 );
               })}
             </div>
-            <span className="text-[15px] group-hover:underline underline-offset-3 hover:underline group text-black/60 font-medium">{`${totalReacts} others`}</span>
+            <span className="text-[15px] group-hover:underline underline-offset-3 hover:underline group text-black/60 dark:text-white/70 font-medium">{`${totalReacts} others`}</span>
           </div>
         )}
         {totalReacts === 1 && reaction === "" && (
@@ -679,7 +679,7 @@ const FeedItem = ({ post, id }) => {
                 );
               })}
             </div>
-            <span className="text-[15px] group-hover:underline underline-offset-3 hover:underline text-black/60 font-medium">{`${reactBy?.first_name} ${reactBy?.last_name}`}</span>
+            <span className="text-[15px] group-hover:underline underline-offset-3 hover:underline text-black/60 dark:text-white/70 font-medium">{`${reactBy?.first_name} ${reactBy?.last_name}`}</span>
           </div>
         )}
         {totalReacts === 1 && reaction && (
@@ -696,12 +696,12 @@ const FeedItem = ({ post, id }) => {
                 );
               })}
             </div>
-            <span className="text-[15px] group-hover:underline underline-offset-3 hover:underline text-black/60 font-medium">{`${user.data?.first_name} ${user.data?.last_name}`}</span>
+            <span className="text-[15px] group-hover:underline underline-offset-3 hover:underline text-black/60 dark:text-white/70 font-medium">{`${user.data?.first_name} ${user.data?.last_name}`}</span>
           </div>
         )}
       </div>
 
-      <div className="w-[96%] border-b-[1px] pt-2 border-b-black/20 pb-3 mb-3 flex items-center justify-around">
+      <div className="w-[96%] border-b-[1px] pt-2 border-b-black/20 dark:border-b-[#3A3C3E] pb-3 mb-3 flex items-center justify-around">
         <div className="post_interaction group relative">
           <div
             onClick={likeClick}
@@ -727,7 +727,7 @@ const FeedItem = ({ post, id }) => {
                   : reaction === "Love"
                   ? "text-[#E73B54]"
                   : reaction === ""
-                  ? "text-black"
+                  ? "text-black dark:text-white/70"
                   : "text-[#ECB954]"
               } text-[16px] font-medium`}
             >
@@ -746,11 +746,14 @@ const FeedItem = ({ post, id }) => {
             />
           </div>
         </div>
-        <div onClick={commentHandler} className="post_interaction">
+        <div
+          onClick={commentHandler}
+          className="post_interaction dark:text-white/70"
+        >
           <i className="comment_icon"></i>
           <span>Comment</span>
         </div>
-        <div className="post_interaction">
+        <div className="post_interaction dark:text-white/70">
           <i className="share_icon"></i>
           <span>Share</span>
         </div>
@@ -771,7 +774,7 @@ const FeedItem = ({ post, id }) => {
             value={text}
             onKeyDown={submitComment}
             onChange={(e) => setText(e.target.value)}
-            className="bg-black/5 caret-black w-full outline-none p-2 px-2 rounded-xl"
+            className="bg-black/5 dark:bg-[#3A3B3C] caret-black w-full outline-none p-2 px-2 rounded-xl"
             type="text"
             placeholder="Write a comment..."
           />
@@ -801,7 +804,7 @@ const FeedItem = ({ post, id }) => {
                 searchPosition="none"
                 navPosition="bottom"
                 set="facebook"
-                theme="light"
+                theme={localStorage.getItem("darkTheme") ? "dark" : "light"}
                 maxFrequentRows="5"
                 onEmojiSelect={selectEmoji}
                 //  onClickOutside={toggleEmoji}
@@ -836,8 +839,8 @@ const FeedItem = ({ post, id }) => {
                   src={i.commentBy.picture}
                   alt=""
                 />
-                <div className="flex flex-col gap-1 items-start justify-start">
-                  <div className="p-2 bg-black/5 rounded-xl">
+                <div className="flex flex-col gap-1 dark:text-white/80 items-start justify-start">
+                  <div className="p-2 bg-black/5 dark:bg-[#3A3B3C] rounded-xl">
                     <Link
                       to={`/${i.commentBy.username}`}
                       className="font-semibold"
@@ -866,7 +869,7 @@ const FeedItem = ({ post, id }) => {
         {countCmt < comment.length ? (
           <span
             onClick={viewmoreCmt}
-            className="mt-1 font-semibold text-black/70 cursor-pointer"
+            className="mt-1 font-semibold text-black/70 dark:text-white/70 cursor-pointer"
           >
             View more comments
           </span>

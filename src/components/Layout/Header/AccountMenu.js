@@ -11,17 +11,17 @@ const AccountMenu = () => {
   const { user } = useSelector((state) => ({ ...state }));
   const navigate = useNavigate();
   const location = useLocation();
-  console.log(location.pathname !== "/");
+  // console.log(location.pathname !== "/");
   const toggleSetting = (i) => {
     if (i === 0) {
       setSetting("setting");
     }
     if (i === 1) {
-      console.log("support");
+      // console.log("support");
       setSetting("help&support");
     }
     if (i === 2) {
-      console.log("support");
+      // console.log("support");
       setSetting("displayMode");
     }
     if (!isSettingOpen) {
@@ -40,7 +40,9 @@ const AccountMenu = () => {
     window.location.reload(false);
   };
   return (
-    <div className="shadow-[1px_1px_20px_5px_rgba(0,0,0,0.1)] w-[22.5rem] select-none rounded-lg bg-white pt-3 pb-4">
+    <div
+      className={`shadow-[1px_1px_20px_5px_rgba(0,0,0,0.1)] w-[22.5rem] select-none rounded-lg bg-white dark:bg-[#242526]  pt-3 pb-4`}
+    >
       {!isSettingOpen && (
         <>
           <div className="mb-4 shadow-[2px_1px_10px_3px_rgba(0,0,0,0.15)] rounded-xl w-[90%] h-[116px] mx-auto ">
@@ -55,7 +57,7 @@ const AccountMenu = () => {
                   alt=""
                 />
               </div>
-              <span className="font-semibold ml-2">{`${user.data?.first_name} ${user.data?.last_name}`}</span>
+              <span className="font-semibold ml-2 dark:text-white ">{`${user.data?.first_name} ${user.data?.last_name}`}</span>
             </Link>
             <div className="w-[92%] mt-4 mx-auto border-b-[1px] border-b-black/20"></div>
             <div className="w-[97%] flex items-center   justify-between pb-1 px-2 rounded-lg hover:bg-black/[0.05] h-[30%] mt-1 mx-auto">
@@ -69,36 +71,36 @@ const AccountMenu = () => {
             <div
               key={i.id}
               onClick={toggleSetting.bind(null, i.id)}
-              className="w-[94%] hover:bg-[#F2F2F2]  flex items-center pl-2 mx-auto h-[3.55rem] rounded-lg"
+              className="w-[94%] hover:bg-[#F2F2F2] dark:hover:bg-[#3A3B3C]  flex items-center pl-2 mx-auto h-[3.55rem] rounded-lg"
             >
-              <div className="bg-[#dcdcdc] w-9 h-9 rounded-full flex items-center justify-center">
-                <i className={`${i.icon}`} />
+              <div className="bg-[#dcdcdc] dark:bg-[#3A3B3C] w-9 h-9 rounded-full flex items-center justify-center">
+                <i className={`${i.icon} dark:invert`} />
               </div>
-              <span className="pl-2">{i.name}</span>
+              <span className="pl-2 dark:text-white">{i.name}</span>
               <i className="right_icon ml-auto" />
             </div>
           ))}
           {settings.slice(3, 4).map((i) => (
             <div
               key={i.id}
-              className="w-[94%] hover:bg-[#F2F2F2]  flex items-center pl-2 mx-auto h-[3.55rem] rounded-lg"
+              className="w-[94%] hover:bg-[#F2F2F2] dark:hover:bg-[#3A3B3C]  flex items-center pl-2 mx-auto h-[3.55rem] rounded-lg"
             >
-              <div className="bg-[#dcdcdc] w-9 h-9 rounded-full flex items-center justify-center">
+              <div className="bg-[#dcdcdc] dark:bg-[#3A3B3C] w-9 h-9 rounded-full flex items-center justify-center">
                 <i className={`${i.icon}`} />
               </div>
-              <span className="pl-2">{i.name}</span>
+              <span className="pl-2 dark:text-white">{i.name}</span>
             </div>
           ))}
           <div
             onClick={logoutHandler}
-            className="w-[94%] hover:bg-[#F2F2F2]  flex items-center pl-2 mx-auto h-[3.55rem] rounded-lg"
+            className="w-[94%] hover:bg-[#F2F2F2]  dark:hover:bg-[#3A3B3C]  flex items-center pl-2 mx-auto h-[3.55rem] rounded-lg"
           >
-            <div className="bg-[#dcdcdc] w-9 h-9 rounded-full flex items-center justify-center">
-              <i className="logout_filled_icon" />
+            <div className="bg-[#dcdcdc] dark:bg-[#3A3B3C] w-9 h-9 rounded-full flex items-center justify-center">
+              <i className="logout_filled_icon dark:invert" />
             </div>
-            <span className="pl-2">Log Out</span>
+            <span className="pl-2 dark:text-white">Log Out</span>
           </div>
-          <footer className="text-[13px] text-[#65676B] flex gap-x-3 flex-wrap child-after: child-hover:underline w-[88%] mx-auto">
+          <footer className="text-[13px] text-[#65676B] dark:text-white flex gap-x-3 flex-wrap child-after: child-hover:underline w-[88%] mx-auto">
             <Link to="/">Privacy</Link>
             <Link to="/">Term</Link>
             <Link to="/">Advertising</Link>
@@ -141,32 +143,32 @@ const Settings = ({ title, settingLists, onClick, displayMode }) => {
       <div className="flex items-center gap-4 ml-[1rem] mt-2 mb-4">
         <div
           onClick={onClick}
-          className="hover:bg-[#dcdcdc] w-9 h-9 rounded-full flex items-center justify-center"
+          className="hover:bg-[#dcdcdc] dark:hover:bg-[#3A3B3C] w-9 h-9 rounded-full flex items-center justify-center"
         >
-          <i className="arrow_back_icon" />
+          <i className="arrow_back_icon dark:invert" />
         </div>
-        <h1 className="text-[24px] font-bold ">{title}</h1>
+        <h1 className="text-[24px] font-bold dark:text-white">{title}</h1>
       </div>
       {!displayMode &&
         settingLists.map((i) => {
           return (
             <div
               key={i.name}
-              className="w-[94%] hover:bg-[#F2F2F2]  flex items-center pl-2 mx-auto h-[3.55rem] rounded-lg"
+              className="w-[94%] hover:bg-[#F2F2F2] dark:hover:bg-[#3A3B3C]   flex items-center pl-2 mx-auto h-[3.55rem] rounded-lg"
             >
-              <div className="bg-[#dcdcdc] w-9 h-9 rounded-full flex items-center justify-center">
-                <i className={`${i.icon}`} />
+              <div className="bg-[#dcdcdc] dark:bg-[#3A3B3C] w-9 h-9 rounded-full flex items-center justify-center">
+                <i className={`${i.icon} dark:invert`} />
               </div>
-              <span className="pl-2">{i.name}</span>
+              <span className="pl-2 dark:text-white">{i.name}</span>
             </div>
           );
         })}
       {displayMode && (
         <div className="w-[94%] flex items-start pl-2 mx-auto h-fit py-2 rounded-lg">
-          <div className="bg-[#dcdcdc] w-9 h-9 rounded-full flex items-center justify-center">
-            <i className="dark_filled_icon" />
+          <div className="bg-[#dcdcdc] dark:bg-[#3A3B3C] w-9 h-9 rounded-full flex items-center justify-center">
+            <i className="dark_filled_icon dark:invert" />
           </div>
-          <div className="pl-4 w-[86%]">
+          <div className="pl-4 w-[86%] dark:text-white">
             <span className="font-semibold block">Dark Mode</span>
             <span className="text-[15px] block">
               Adjust the appearance of Facebook to reduce glare and give your
@@ -174,31 +176,35 @@ const Settings = ({ title, settingLists, onClick, displayMode }) => {
             </span>
             <label
               htmlFor="darkOff"
-              className="hover:bg-[#F2F2F2] px-1 rounded-lg py-2 cursor-pointer flex justify-between  my-2"
+              className="hover:bg-[#F2F2F2] dark:hover:bg-[#3A3B3C] px-1 rounded-lg py-2 cursor-pointer flex justify-between  my-2"
             >
               <span>Off</span>
               <input
                 onClick={(e) => {
-                  console.log(e.target.value);
+                  localStorage.removeItem("darkTheme");
+                  window.document.documentElement.classList.remove("dark");
                 }}
                 type="radio"
+                defaultChecked={!localStorage.getItem("darkTheme")}
                 name="dark"
                 id="darkOff"
                 value="off"
-                className="w-5"
+                className="w-5 dark:bg-[#3A3B3C]"
               />
             </label>
             <label
               htmlFor="darkOn"
-              className="hover:bg-[#F2F2F2] px-1 rounded-lg py-2 cursor-pointer flex justify-between"
+              className="hover:bg-[#F2F2F2] dark:hover:bg-[#3A3B3C] px-1 rounded-lg py-2 cursor-pointer flex justify-between"
             >
               <span>On</span>
               <input
                 onClick={(e) => {
-                  console.log(e.target.value);
+                  localStorage.setItem("darkTheme", "true");
+                  window.document.documentElement.classList.add("dark");
                 }}
                 type="radio"
                 name="dark"
+                defaultChecked={localStorage.getItem("darkTheme") === "true"}
                 id="darkOn"
                 value="on"
                 className="w-5"

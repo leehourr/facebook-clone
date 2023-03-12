@@ -14,9 +14,9 @@ const RightNav = () => {
     <div
       className={` hidden ${
         profile?.visit ? "4lg:hidden" : "4lg:block"
-      }  lg3:w-[15rem] xl:w-[18rem] 3xl:w-[18rem]  bg-transparent h-full fixed top-[3.5rem] right-0 overflow-y-auto scrollbar-thin scrollbar-track-neutral-300 scrollbar-corner-rounded-2xl scrollbar-w-3 scrollbar-thumb-rounded-2xl`}
+      }  lg3:w-[15rem] xl:w-[18rem] 3xl:w-[18rem]  bg-transparent h-full dark:text-white fixed top-[3.5rem] right-0 overflow-y-auto scrollbar-thin scrollbar-track-neutral-300 scrollbar-corner-rounded-2xl scrollbar-w-3 scrollbar-thumb-rounded-2xl`}
     >
-      <h1 className="ml-2 tracking-wide font-semibold mt-5 mb-2 text-[17px] text-[#65676B] ">
+      <h1 className="ml-2 tracking-wide font-semibold mt-5 mb-2 text-[17px] text-[#65676B] dark:text-white ">
         Sponsored
       </h1>
       <Sponsor name="LoremIpsum" link="LoremIpsum.com" />

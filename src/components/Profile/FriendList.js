@@ -2,9 +2,9 @@ import React from "react";
 
 const FriendList = () => {
   return (
-    <div className="bg-white shadow-sm shadow-black/20 w-full pb-4 pt-3 rounded-lg">
+    <div className="bg-white dark:bg-[#242526] shadow-sm shadow-black/20 w-full pb-4 pt-3 rounded-lg">
       <div className="flex items-center justify-between pr-2 mb-2">
-        <h1 className="text-[20px] pl-2 font-bold">Friends</h1>
+        <h1 className="text-[20px] dark:text-white/70 pl-2 font-bold">Friends</h1>
         <h2 className="text-[#1A6ED8] cursor-pointer">See all friends</h2>
       </div>
       {/* images can be map here  */}

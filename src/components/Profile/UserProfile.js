@@ -258,7 +258,7 @@ const UserProfile = ({ userData, children }) => {
     <>
       <header
         // id={`${name}`}
-        className="bg-white scroll-smooth shadow-sm shadow-black/20 h-[25.6rem] mobile:h-[32.3rem] lg:h-[36.2rem]  xl:h-[40.8rem] relative w-[86%] transition-all duration-100 flex flex-col   mobile:w-[96%] xxl:w-full"
+        className="bg-white dark:bg-[#242526] scroll-smooth shadow-sm shadow-black/20 h-[25.6rem] mobile:h-[32.3rem] lg:h-[36.2rem]  xl:h-[40.8rem] relative w-[86%] transition-all duration-100 flex flex-col   mobile:w-[96%] xxl:w-full"
       >
         <div className="relative w-full rounded-b-lg transition-all duration-150 bg-black/30 top-0 h-[8.5rem] max-w-[77rem] mx-auto  mobile:h-[15rem] lg:h-[23rem] xl:h-[28rem]">
           <img className="w-full" alt="" />
@@ -274,7 +274,7 @@ const UserProfile = ({ userData, children }) => {
           <div className="w-full absolute -bottom-[16.3rem] lg:-bottom-[12rem] transition-all duration-100 mx-auto max-w-[77rem] flex flex-col">
             <div className="w-full pb-5 mb-3 border-b-[1px] border-b-black/20 flex flex-col lg2:flex-row items-center lg2:items-end justify-center lg2:justify-between lg2:pr-10 xl:pr-8">
               <div className=" w-[97%] lg2:w-[50%] flex flex-col lg2:flex-row items-center lg2:items-end justify-center gap-1 lg2:gap-2 ">
-                <div className="relative w-[9.4rem] h-[9.4rem] rounded-full ring-4 ring-white bg-black/40 ">
+                <div className="relative w-[9.4rem] h-[9.4rem] rounded-full ring-4 ring-white dark:ring-white/60 bg-black/40 ">
                   <img
                     className="w-full rounded-full"
                     src={userData.profile.picture}
@@ -289,9 +289,9 @@ const UserProfile = ({ userData, children }) => {
                     </div>
                   )}
                 </div>
-                <div className="flex flex-col items-center lg:items-start justify-center">
+                <div className="flex flex-col items-center lg:items-start justify-center dark:text-white/90">
                   <h1 className="text-[32px] font-bold">{`${userData.profile.first_name} ${userData.profile.last_name}`}</h1>
-                  <span className="text-[18px] font-bold text-black/50">
+                  <span className="text-[18px] font-bold text-black/50 dark:text-white/60">
                     202 friends
                   </span>
                 </div>
@@ -304,9 +304,9 @@ const UserProfile = ({ userData, children }) => {
                         + Add to story
                       </span>
                     </div>
-                    <div className=" bg-black/10 px-3 cursor-pointer flex items-center  justify-center gap-1 rounded-lg text-center py-[0.45rem]">
-                      <i className="edit_icon"></i>
-                      <span className="text-[17px] whitespace-nowrap">
+                    <div className=" bg-black/10 dark:bg-white/10 px-3 cursor-pointer flex items-center  justify-center gap-1 rounded-lg text-center py-[0.45rem]">
+                      <i className="edit_icon dark:invert"></i>
+                      <span className="text-[17px] dark:text-white/70 whitespace-nowrap">
                         Edit profile
                       </span>
                     </div>
@@ -367,7 +367,7 @@ const UserProfile = ({ userData, children }) => {
             </div>
 
             <div className="w-[96%] mx-auto max-w-[77rem] flex items-center justify-between xl:pr-1 gap-3">
-              <div className="w-fit flex  items-center font-semibold text-black/60">
+              <div className="w-fit flex  items-center font-semibold text-black/60 dark:text-white/60">
                 <div className="b-black/50 h-full flex items-start">
                   <NavLink
                     to={`/${name}`}
@@ -394,11 +394,11 @@ const UserProfile = ({ userData, children }) => {
                 <div className="w-[5rem] mr-full z-20 hover:bg-black/10 cursor-pointer py-2 px-3 rounded-lg flex items-center">
                   <button className="w-full">More</button>
                   <div className="pt-1">
-                    <ArrowDown color={"rgb(0 0 0 / 0.6)"} />
+                    <ArrowDown color={"rgb(0 0 0 / 0.6) dark:fill-white"} />
                   </div>
                 </div>
               </div>
-              <div className="p-2 cursor-pointer w-[3rem] px-[0.8rem] bg-black/5 rounded-lg">
+              <div className="p-2 cursor-pointer w-[3rem] px-[0.8rem] bg-black/5 dark:bg-white/10 rounded-lg">
                 <Dots />
               </div>
             </div>
@@ -510,17 +510,17 @@ export default UserProfile;
 
 const PostOption = ({ isVisitor }) => {
   return (
-    <div className="w-full bg-white  mt-3  rounded-lg pt-3">
+    <div className="w-full bg-white dark:bg-[#242526] dark:text-white/70 mt-3  rounded-lg pt-3">
       <div className="flex pb-2 mb-3 items-center justify-between border-b-[1px] border-b-black/10">
-        <h1 className="text-[18px] font-bold mx-4 ">Posts</h1>
+        <h1 className="text-[18px] font-bold mx-4 dark:text-white/70">Posts</h1>
         <div className="flex mr-4 items-center justify-center gap-2">
-          <div className="flex bg-black/10 rounded-md px-3 py-1 items-center gap-2">
-            <i className="equalize_icon"></i>
+          <div className="flex bg-black/10 dark:bg-white/10 rounded-md px-3 py-1 items-center gap-2">
+            <i className="equalize_icon dark:invert"></i>
             <span>Filters</span>
           </div>
           {!isVisitor && (
-            <div className="flex bg-black/10 rounded-md px-3 py-1 items-center justify-center gap-2">
-              <i className="manage_icon"></i>
+            <div className="flex bg-black/10 dark:bg-white/10 rounded-md px-3 py-1 items-center justify-center gap-2">
+              <i className="manage_icon dark:invert"></i>
               <span>Manage posts</span>
             </div>
           )}
@@ -532,12 +532,12 @@ const PostOption = ({ isVisitor }) => {
             to=""
             className="w-1/2 flex gap-1 items-center pb-2 justify-center border-b-[3px] border-b-[#1A6ED8]"
           >
-            <i className="list_icon filter_blue"></i>
+            <i className="list_icon filter_blue dark:invert"></i>
             <span className="text-[#1A6ED8]"> List views</span>
           </NavLink>
           <NavLink className="w-1/2 flex gap-1 items-center justify-center">
-            <i className="grid_icon"></i>
-            <span className="text-black/70"> Grid view</span>
+            <i className="grid_icon dark:invert"></i>
+            <span className="text-black/70 dark:text-white/70"> Grid view</span>
           </NavLink>
         </section>
       )}
