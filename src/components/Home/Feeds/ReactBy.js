@@ -1,15 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { Link, Navigate, useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 
-const ReactBy = ({ reactLists, reac }) => {
+const ReactBy = ({ reactLists, id }) => {
   const [data, setData] = useState([]);
-  const { name } = useParams();
+  //   const { name } = useParams();
 
   useEffect(() => {
-    if (name) {
-      console.log("has Params");
-    }
-    // if (data.length > 0) return;
+    if (data.length > 0) return;
     const react = reactLists.map((i) => {
       for (const j in i) {
         // let innerObj = {};
@@ -22,7 +19,32 @@ const ReactBy = ({ reactLists, reac }) => {
       //   console.log(react);
     });
     setData(react);
-  }, [reactLists, data.length, name]);
+
+    // const getReactions = async () => {
+    //   let reactionData;
+    //   let reacts = [];
+    //   const res = await getReactions(id);
+    //   if (res.status === "ok") {
+    //     //   setReaction(res?.check || "");
+    //     reactionData = res.reacts;
+    //   }
+    //   //   let total = 0;
+
+    //   for (const i in reactionData) {
+    //     let innerObj = {};
+    //     innerObj[i] = reactionData[i];
+    //     //   total += reactionData[i].length;
+    //     reacts.push(innerObj);
+    //   }
+    //   // setTotalReacts(total);
+    //   // console.log("reactionData", reacts);
+    //   setData((current) => current.concat(reacts));
+    // };
+    // const reactData = getReactions().catch((err) => {
+    //   console.log(err);
+    // });
+    // console.log(reactData);
+  }, [data.length, reactLists]);
 
   console.log("react", data);
   data.forEach((i, index) => {
@@ -31,15 +53,16 @@ const ReactBy = ({ reactLists, reac }) => {
 
   return (
     <div className="w-[25rem] md:w-[35rem]  shadow-md shadow-black/20 rounded-lg fixed z-70 top-1/2 -translate-x-1/2 left-1/2 -translate-y-1/2 h-[50vh] bg-white">
+      (this need to be reload if u do || undo the reaction cuz the data pass
+      down from the props. The data can be fetched in its own componenet but
+      there will be another work so ill just leave it here, peace)
       <h1 className="ml-3 my-3 text-[18px] pb-2 font-semibold w-[93%] border-b-[1px] border-b-black/20">
         All
       </h1>
       {data.map((i) =>
         i.map((j, index) => (
           <Link
-            to={`${
-              !name ? j.reactBy.username : name?.replace(j.reactBy.username)
-            }`}
+            to={`/${j.reactBy.username}`}
             key={index}
             className="flex group items-center justify-start w-[93%] mx-2 my-2 gap-2"
           >

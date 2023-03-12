@@ -46,7 +46,7 @@ const Feed = ({ feedData, profile, home }) => {
       } mt-3 mb-8 flex flex-col gap-5`}
     >
       {feedPost?.map((i) => (
-        <FeedItem key={i._id} post={i} />
+        <FeedItem key={i._id} id={i._id} post={i} />
       ))}
     </div>
   );

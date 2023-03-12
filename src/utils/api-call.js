@@ -148,6 +148,12 @@ export const getReaction = async (id) => {
   const { data } = await api.get(`/getReacts/${id}`);
   return data;
 };
+
+export const postComment = async (req) => {
+  const { data } = await api.put("/comment", req);
+  return data;
+};
+
 //handle all errors
 function errorHandler(error) {
   if (error.response) {

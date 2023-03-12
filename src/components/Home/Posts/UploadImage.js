@@ -9,13 +9,14 @@ const UploadImage = ({ onClose, close, onGetImage }) => {
     close();
   };
 
+  console.log(image);
   // useEffect(() => {
   //   // onGetImage(image);
   // }, [image, onGetImage]);
 
   const selectImages = (e) => {
     const files = Array.from(e.target.files);
-    console.log("files", files);
+    // console.log("files", files);
     onGetImage(files); // console.log(files);
     files.forEach((img) => {
       const reader = new FileReader();

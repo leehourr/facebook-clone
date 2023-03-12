@@ -7,14 +7,21 @@ import PopUpReaction from "./PopUpReaction";
 import Emoji from "@emoji-mart/react";
 import useClickOutside from "../../../helpers/clickOutside";
 import Menulist from "./PostMenu/Menulist";
-import { getReaction, postReaction } from "../../../utils/api-call";
+import {
+  getReaction,
+  postComment,
+  postReaction,
+  uploadImages,
+} from "../../../utils/api-call";
 import { createPortal } from "react-dom";
 import ReactBy from "./ReactBy";
 import { Backdrop } from "../../Ui/Backdrop";
+import { LoadingStimulate } from "../../../utils/LoadingStimulate";
+// import { useScrollTo } from "../../../Hooks/ScrollTo";
 // import { LoadingStimulate } from "../../../utils/LoadingStimulate";
 // import ReactDOM from "react-dom";
 
-const FeedItem = ({ post }) => {
+const FeedItem = ({ post, id }) => {
   const { user } = useSelector((state) => ({ ...state }));
   const [img, setImg] = useState([]);
   const [openEmoji, setOpenEmoji] = useState(false);
@@ -33,15 +40,30 @@ const FeedItem = ({ post }) => {
   // const [reactList, setReactList] = useState([]);
   const [reactBy, setReactBy] = useState([]);
   const [seeWhoReact, setSeeWhoReact] = useState(false);
-  let isTwoPpl = totalReacts - 1;
+  const [image, setImage] = useState([]);
+  const [uploadImage, setUploadImage] = useState([]);
+  const [comment, setComment] = useState([]);
+  const [posting, setPosting] = useState(false);
+  // const [isNewCmt, setIsNewCmt] = useState(false);
+  const [hasImg, setHasImg] = useState(false);
+
+  // const imageRef = useRef(null);
+
+  // let isTwoPpl = totalReacts - 1;
 
   const textBg = useRef();
   const uploadedImg = post.images || null;
 
-  // console.log(reactList);
+  console.log(comment);
   // console.log(reactionData.length);
   // console.log("overall", reaction);
   useEffect(() => {
+    setComment(
+      (current) =>
+        (current = post.comments.map((i) => {
+          return i;
+        }))
+    );
     reactionData.forEach((i) => {
       for (const j in i) {
         setReactBy(i[j][0].reactBy);
@@ -64,7 +86,14 @@ const FeedItem = ({ post }) => {
         })
       );
     }
-  }, [uploadedImg, post.background, reactionData, totalReacts, reactIcons]);
+  }, [
+    uploadedImg,
+    post.background,
+    reactionData,
+    totalReacts,
+    reactIcons,
+    post.comments,
+  ]);
 
   useEffect(() => {
     textRef.current.selectionEnd = cursorPosition;
@@ -379,6 +408,113 @@ const FeedItem = ({ post }) => {
   //   // console.log(post.user?.username);
   //   setZoomPf((prev) => !prev);
   // };
+  const commentHandler = () => {
+    textRef.current.focus();
+    textRef.current.scrollIntoView({ behavior: "smooth", block: "center" });
+  };
+
+  const getImage = (img) => {
+    img.map((i) => setUploadImage((prev) => [...prev, i]));
+    // setUploadImage([img]);
+  };
+
+  const selectImages = (e) => {
+    setHasImg(true);
+    console.log("from", post._id);
+    const files = Array.from(e.target.files);
+    console.log("files", files);
+    getImage(files); // console.log(files);
+    files.forEach((img) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(img);
+      reader.onload = (readEvent) => {
+        setImage((imgs) => [...imgs, readEvent.target.result]);
+      };
+    });
+  };
+
+  // console.log("image", image);
+  const submitComment = async (e) => {
+    if (e.key === "Enter") {
+      setHasImg(false);
+      try {
+        setPosting(true);
+        // setIsNewCmt(true);
+        setComment((prev) => [
+          ...prev,
+          {
+            _id: Math.random(),
+            comment: text,
+            image: image[0] || "",
+            commentBy: {
+              picture: user.data?.picture,
+              first_name: user.data?.first_name,
+              last_name: user.data?.last_name,
+              username: user.data?.username,
+              isNew: true,
+            },
+          },
+        ]);
+        setText("");
+        if (uploadImage.length !== 0) {
+          // console.log("in upload", uploadImage);
+          // setIsLoading(true);
+          // const img = URL.createObjectURL(uploadImage[0]);
+          // const postImages = uploadImage.map((img) => {
+          //   return URL.createObjectURL(img);
+          // });
+          // console.log("postImages", postImages);
+
+          const path = `${user.username}/post_images/${post._id}`;
+          let formData = new FormData();
+          formData.append("path", path);
+          uploadImage.map((i) => {
+            return formData.append("file", i);
+          });
+
+          console.log(uploadImage);
+          console.log(formData);
+          const res = await uploadImages(formData, path);
+          // console.log("res", res);
+          // const date = new Date();
+          await LoadingStimulate(2000);
+          await postComment({
+            comment: text,
+            image: res[0].url,
+            postId: post._id,
+          });
+          setPosting(false);
+          // setIsNewCmt(false);
+          // console.log("post cmt", cmt);
+        } else {
+          await LoadingStimulate(2000);
+          await postComment({
+            comment: text,
+            image: "",
+            postId: post._id,
+          });
+          // console.log("post cmt", post._id);
+          comment.forEach((e) => (e.isNew = false));
+          setPosting(false);
+          // setIsNewCmt(false);
+        }
+      } catch (err) {
+        setTimeout(() => {
+          setPosting(false);
+          // setIsNewCmt(false);
+          setComment((prev) => {
+            return prev.filter((i) => i !== prev[prev.length - 1]);
+          });
+        }, [2000]);
+        console.log(err);
+      }
+    }
+  };
+
+  const test = () => {
+    console.log(post.user.username);
+  };
+
   return (
     <div className="flex flex-col relative items-center w-full rounded-lg shadow-sm shadow-black/20 bg-white">
       <header className="w-[95%] h-[3.5rem] mt-2 flex items-center justify-between">
@@ -504,7 +640,7 @@ const FeedItem = ({ post }) => {
 
             <span className="text-[15px] group-hover:underline underline-offset-3 hover:underline text-black/60 font-medium">{`You and ${
               totalReacts - 1
-            } ${isTwoPpl === 1 ? "other" : "others"}`}</span>
+            } ${totalReacts - 1 === 1 ? "other" : "others"}`}</span>
           </div>
         )}
         {totalReacts > 1 && reaction === "" && (
@@ -558,24 +694,6 @@ const FeedItem = ({ post }) => {
             <span className="text-[15px] group-hover:underline underline-offset-3 hover:underline text-black/60 font-medium">{`${user.data?.first_name} ${user.data?.last_name}`}</span>
           </div>
         )}
-        {/* {totalReacts >= 3 && !reaction && (
-          <div className="flex items-center justify-start gap-2 ">
-            <div className="flex items-center">
-              {reactIcons.map((i, index) => {
-                return (
-                  <img
-                    key={index}
-                    src={`../../../reacts/${i.toLowerCase()}.svg`}
-                    alt=""
-                    className="w-[1.3rem] group-active:scale-150 transition-all duration-300 "
-                  />
-                );
-              })}
-            </div>
-
-            <span className="text-[15px] text-black/60 font-medium">{`${totalReacts}`}</span>
-          </div>
-        )} */}
       </div>
 
       <div className="w-[96%] border-b-[1px] pt-2 border-b-black/20 pb-3 mb-3 flex items-center justify-around">
@@ -623,7 +741,7 @@ const FeedItem = ({ post }) => {
             />
           </div>
         </div>
-        <div className="post_interaction">
+        <div onClick={commentHandler} className="post_interaction">
           <i className="comment_icon"></i>
           <span>Comment</span>
         </div>
@@ -632,6 +750,43 @@ const FeedItem = ({ post }) => {
           <span>Share</span>
         </div>
       </div>
+
+      {/* //comment */}
+      {comment.length > 0 &&
+        comment.map((i, id) => (
+          <div
+            key={i._id}
+            className="w-[95%] mb-3 flex items-startF justify-start gap-1"
+          >
+            <img
+              className="w-9 h-9 rounded-full"
+              src={i.commentBy.picture}
+              alt=""
+            />
+            <div className="flex flex-col gap-1 items-start justify-start">
+              <div className="p-2 bg-black/5 rounded-xl">
+                <Link to={`/${i.commentBy.username}`} className="font-semibold">
+                  {i.commentBy.first_name + "" + i.commentBy.last_name}
+                </Link>
+                <p>{i.comment}</p>
+              </div>
+              <img src={i.image} className="w-36 rounded-lg" alt="" />
+              {posting && i.isNew ? (
+                <span className="text-[12px] font-medium">Posting...</span>
+              ) : (
+                <div className="flex items-center gap-2 justify-center">
+                  <span className="text-[12px] font-medium">Like</span>
+                  <span className="text-[12px] font-medium">Reply</span>
+                  <div className="text-[12px]">
+                    <Moment fromNow interval={3}>
+                      {i.commentAt || Date.now()}
+                    </Moment>
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+        ))}
       <div className="w-[96%] mb-3 flex items-center justify-center gap-2">
         <img
           src={user?.data?.picture}
@@ -643,14 +798,28 @@ const FeedItem = ({ post }) => {
           <input
             ref={textRef}
             value={text}
+            onKeyDown={submitComment}
             onChange={(e) => setText(e.target.value)}
-            className="bg-black/10 w-full outline-none p-2 px-2 rounded-xl"
+            className="bg-black/5 caret-black w-full outline-none p-2 px-2 rounded-xl"
             type="text"
             placeholder="Write a comment..."
           />
           <div className="absolute top-3 right-2 flex items-center justify-center gap-2 child:cursor-pointer">
             <i onClick={toggleEmoji} className="emoji_icon"></i>
-            <i className="camera_icon"></i>
+            <label
+              // htmlFor="cmt"
+              // onClick={openUploadImage}
+              className="camera_icon self-center"
+            >
+              <input
+                // ref={imageRef}
+                // id="cmt"
+                hidden
+                accepts="image/*"
+                onChange={selectImages}
+                type="file"
+              />
+            </label>
             <i className="gif_icon"></i>
             <i className="sticker_icon"></i>
           </div>
@@ -670,9 +839,23 @@ const FeedItem = ({ post }) => {
           )}
         </div>
       </div>
+      {image.length > 0 && hasImg && (
+        <Comment
+          test={test}
+          setImage={setImage}
+          id={id}
+          text={text}
+          image={image}
+        />
+      )}
+
       {seeWhoReact &&
         createPortal(
-          <ReactBy reactLists={reactionData} reactIcons={reactIcons} />,
+          <ReactBy
+            id={post._id}
+            reactLists={reactionData}
+            reactIcons={reactIcons}
+          />,
           document.getElementById("overlay")
         )}
       {seeWhoReact &&
@@ -685,3 +868,32 @@ const FeedItem = ({ post }) => {
 };
 
 export default FeedItem;
+
+const Comment = ({ test, text, id, setImage, image }) => {
+  return (
+    <div onClick={test} className="w-[96%]  flex items-start justify-between">
+      {image.map((i) => (
+        <img
+          key={id}
+          className="w-32 mr-auto ml-3 mb-3 rounded-lg"
+          src={i}
+          alt=""
+        />
+      ))}
+
+      {/* <img
+      className="w-32 mr-auto ml-3 mb-3 rounded-lg"
+      src={image}
+      alt=""
+    /> */}
+      <div
+        onClick={() => {
+          setImage([]);
+        }}
+        className="z-40 cursor-pointer bg-white hover:bg-white/80 w-8 h-9 flex items-center justify-center rounded-full "
+      >
+        <i className="exit_icon"></i>
+      </div>
+    </div>
+  );
+};
