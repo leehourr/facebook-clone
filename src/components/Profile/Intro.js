@@ -5,9 +5,9 @@ const Intro = ({ isVisitor }) => {
   return (
     <div className="bg-white dark:bg-[#242526] shadow-sm shadow-black/20 w-full pb-4 pt-3 rounded-lg  flex flex-col gap-4 items-center text-center dark:text-white/70 justify-center">
       <h1 className="text-[20px] pl-2 font-bold self-start">Intro</h1>
-      {!isVisitor && <span className="intro_setting">Add bio</span>}
+      {!isVisitor && <span className="intro_setting ">Add bio</span>}
       <div className="flex gap-3">
-        <img src={link} className="w-5" alt="" />
+        <img src={link} className="w-5 dark:invert" alt="" />
         <a
           href="https://youtu.be/E44kFkyl_Y8"
           target="_blank"

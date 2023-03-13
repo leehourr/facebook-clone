@@ -89,7 +89,7 @@ const Navigation = () => {
                 showFbSearch={searchBar}
                 // onFocus={openSearchBar}
                 //  onBlurCapture={closeSeachBar}
-                className="py-[10px]  pr-[32px] pl-2 outline-none w-full rounded-3xl  border-none bg-transparent text-[15px]"
+                className="py-[10px]  pr-[32px] pl-2 outline-none dark:text-white/70 w-full rounded-3xl  border-none bg-transparent text-[15px]"
               />
             )}
           </div>

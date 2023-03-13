@@ -791,7 +791,7 @@ const MessageBtn = ({ onClick, isLoading, friend }) => {
     <div
       onClick={onClick}
       className={`w-1/2 mr-2 ${
-        friend ? "bg-[#1A6ED8] text-white" : "bg-black/10"
+        friend ? "bg-[#1A6ED8] text-white" : "bg-black/10 dark:bg-white/5 dark:text-white/70"
       } px-5 cursor-pointer flex items-center  justify-center gap-[0.3rem] rounded-lg text-center py-[0.45rem]`}
     >
       {isLoading ? (
@@ -800,7 +800,7 @@ const MessageBtn = ({ onClick, isLoading, friend }) => {
         <img
           src="../../../icons/message.png"
           alt=""
-          className={`${friend ? "invert" : ""}`}
+          className={`${friend ? "invert" : ""} dark:invert`}
         />
       )}
       <span className="text-[17px]">Message</span>
