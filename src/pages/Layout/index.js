@@ -65,7 +65,7 @@ const Layout = () => {
           <div>
             <Facebook />
           </div>
-          <footer className="text-[0.9rem] mb-6 text-gray-800 sm:text-[1rem]">
+          <footer className="text-[0.9rem] mb-6 text-gray-800 dark:text-white/70 sm:text-[1rem]">
             © 2023, Facebook clone built by Leang Lyhour
           </footer>
         </div>
