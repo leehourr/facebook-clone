@@ -53,7 +53,7 @@ const UserProfile = ({ userData, children }) => {
     setIsLoading(false);
     if (!isVisitor) {
       if (pfPics.length > 0) return;
-      user.posts.map((i) => {
+      user.posts.forEach((i) => {
         if (i.type === "profilePicture") {
           i.images.map((j) => setPfPic((prev) => [...prev, { src: j.url }]));
         }
@@ -64,7 +64,7 @@ const UserProfile = ({ userData, children }) => {
       // console.log("in effect");
       if (photo.length > 0) return;
 
-      userData.posts.map((i) => {
+      userData.posts.forEach((i) => {
         if (i.images) {
           // console.log(i.images);
 
@@ -76,7 +76,7 @@ const UserProfile = ({ userData, children }) => {
       if (user.posts?.length > 0) {
         if (photo.length > 0) return;
 
-        user.posts?.map((i) => {
+        user.posts?.forEach((i) => {
           if (i.images) {
             i.images.map((j) => setPhoto((prev) => [...prev, { src: j.url }]));
           }

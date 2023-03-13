@@ -7,18 +7,19 @@ const ReactBy = ({ reactLists, id }) => {
 
   useEffect(() => {
     if (data.length > 0) return;
-    const react = reactLists.map((i) => {
-      for (const j in i) {
-        // let innerObj = {};
-        // innerObj[j] = i[j];
-        // react.push(i[j]);
-        // setData(i[j]);
-        return i[j];
+    reactLists.forEach(
+      (i) => {
+        for (const j in i) {
+          // let innerObj = {};
+          // innerObj[j] = i[j];
+          // react.push(i[j]);
+          // setData(i[j]);
+          setData(i[j]);
+        }
       }
-
       //   console.log(react);
-    });
-    setData(react);
+    );
+    // setData(react);
 
     // const getReactions = async () => {
     //   let reactionData;

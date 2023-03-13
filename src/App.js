@@ -1,9 +1,5 @@
-import React, { useEffect } from "react";
-import {
-  createBrowserRouter,
-  RouterProvider,
-  useLocation,
-} from "react-router-dom";
+import React from "react";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Layout, { loader as getUserData } from "./pages/Layout";
 import Profile, { loader as getProfileData } from "./pages/profile";
 import Auth, { action as login } from "./pages/Auth";

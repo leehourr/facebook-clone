@@ -71,7 +71,7 @@ const FeedItem = ({ post, id }) => {
       }
     });
 
-    reactionData.slice(0, 3).map((i) => {
+    reactionData.slice(0, 3).forEach((i) => {
       if (reactIcons.length > 0) return reactIcons;
       for (const j in i) {
         setReactIcons((prev) => [j, ...prev]);
