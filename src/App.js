@@ -1,24 +1,46 @@
-import React from "react";
+import React, { lazy } from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Layout, { loader as getUserData } from "./pages/Layout";
 import Profile, { loader as getProfileData } from "./pages/profile";
 import Auth, { action as login } from "./pages/Auth";
 import AuthError from "./pages/Auth/AuthError";
 import Home, { loader as getAllPosts } from "./pages/Home/Home";
-import Story from "./pages/Home/StoryPage";
+// import Story from "./pages/Home/StoryPage";
 // import { useSelector } from "react-redux";
 import Cookies from "js-cookie";
-import ForgetPass from "./pages/Auth/ForgetPass";
-import FindAccount from "./components/Auth/ResetPass/FindAccount";
-import ResetPass from "./components/Auth/ResetPass/ResetPass";
+// import ForgetPass from "./pages/Auth/ForgetPass";
+// import FindAccount from "./components/Auth/ResetPass/FindAccount";
+// import ResetPass from "./components/Auth/ResetPass/ResetPass";
 import { EnterCode } from "./components/Auth/ResetPass/EnterCode";
-import ChooseNewPass from "./components/Auth/ResetPass/ChooseNewPass";
-import InvalidLink from "./components/Auth/ResetPass/InvalidLink";
-import Logout from "./pages/Auth/Logout";
+// import ChooseNewPass from "./components/Auth/ResetPass/ChooseNewPass";
+// import InvalidLink from "./components/Auth/ResetPass/InvalidLink";
+// import Logout from "./pages/Auth/Logout";
 import Gaming from "./pages/Layout/Gaming";
 import Watch from "./pages/Layout/Watch";
 import MarketPlace from "./pages/Layout/MarketPlace";
-import Groups from "./pages/Layout/Groups";
+// import Groups from "./pages/Layout/Groups";
+const Groups = lazy(() => import("./pages/Layout/Groups"));
+const ChooseNewPass = lazy(() =>
+  import("./components/Auth/ResetPass/ChooseNewPass")
+);
+const InvalidLink = lazy(() => {
+  import("./components/Auth/ResetPass/InvalidLink");
+});
+const Logout = lazy(() => {
+  import("./pages/Auth/Logout");
+});
+const ForgetPass = lazy(() => {
+  import("./pages/Auth/ForgetPass");
+});
+const ResetPass = lazy(() => {
+  import("./components/Auth/ResetPass/ResetPass");
+});
+const FindAccount = lazy(() => {
+  import("./components/Auth/ResetPass/FindAccount");
+});
+const Story = lazy(() => {
+  import("./pages/Home/StoryPage");
+});
 
 function App() {
   // const location = useLocation();
